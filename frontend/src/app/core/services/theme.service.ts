@@ -20,7 +20,7 @@ export class ThemeService {
   readonly themes: ThemeOption[] = [
     {
       id: 'theme-default',
-      name: 'Obsidian & Gold',
+      name: 'Black & Gold',
       mode: 'dark',
       primaryColor: '#1d4ed8',
       accentColor: '#d4af37',
@@ -29,7 +29,7 @@ export class ThemeService {
     },
     {
       id: 'theme-dark',
-      name: 'Titanium & Sapphire',
+      name: 'Dark Blue',
       mode: 'dark',
       primaryColor: '#0284c7',
       accentColor: '#38bdf8',
@@ -38,7 +38,7 @@ export class ThemeService {
     },
     {
       id: 'theme-light',
-      name: 'Pearl White',
+      name: 'White',
       mode: 'light',
       primaryColor: '#1d4ed8',
       accentColor: '#b45309',
@@ -47,7 +47,7 @@ export class ThemeService {
     },
     {
       id: 'theme-green',
-      name: 'Racing Emerald',
+      name: 'Dark Green',
       mode: 'dark',
       primaryColor: '#047857',
       accentColor: '#d4af37',
@@ -56,7 +56,7 @@ export class ThemeService {
     },
     {
       id: 'theme-purple',
-      name: 'Imperial Sapphire',
+      name: 'Royal Purple',
       mode: 'dark',
       primaryColor: '#4338ca',
       accentColor: '#d4af37',
@@ -65,7 +65,7 @@ export class ThemeService {
     },
     {
       id: 'theme-orange',
-      name: 'Cognac & Bronze',
+      name: 'Warm Bronze',
       mode: 'dark',
       primaryColor: '#c2410c',
       accentColor: '#d4af37',
