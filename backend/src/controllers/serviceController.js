@@ -7,7 +7,7 @@ const defaultServices = [
     title: 'Local City Travel',
     description: 'Flexible 4-hour and 8-hour city packages for shopping, temple visits, meetings, and family sightseeing.',
     icon: 'location_city',
-    features: ['8 Hours / 80 KMs Packages', 'Clean Air Conditioned Fleet', 'Experienced Local Chauffeurs', 'Zero Toll Confusion'],
+    features: ['8 Hours / 80 KMs Packages', 'Clean Air-Conditioned Cars', 'Experienced Local Drivers', 'No Toll Confusion'],
     priceRange: 'Starting from ₹2,200 / day',
     isActive: true,
     order: 1
@@ -15,9 +15,9 @@ const defaultServices = [
   {
     _id: 'srv-outstation',
     title: 'Outstation Trips',
-    description: 'Round-trip and one-way outstation cab services across Maharashtra and all major Indian destinations.',
+    description: 'Round-trip and one-way outstation cab services across Maharashtra and all major tourist destinations.',
     icon: 'travel_explore',
-    features: ['Per KM Transparent Billing', 'Night Charges Included Options', 'Highway-Trained Drivers', 'Toll & State Tax Assistance'],
+    features: ['Per KM Transparent Billing', 'Night Charges Included Options', 'Highway-Experienced Drivers', 'Toll & State Tax Assistance'],
     priceRange: 'Starting from ₹13 / KM',
     isActive: true,
     order: 2
@@ -25,9 +25,9 @@ const defaultServices = [
   {
     _id: 'srv-airport',
     title: 'Airport Pickup & Drop (24/7)',
-    description: 'Guaranteed on-time airport transfers with flight tracking and polite meet & greet assistance.',
+    description: 'Guaranteed on-time airport pickup and drop with flight delay tracking and luggage assistance.',
     icon: 'flight_takeoff',
-    features: ['24/7 Availability', 'Flight Delay Monitoring', 'Luggage Handling Assistance', 'Fixed Flat Rates'],
+    features: ['24/7 Availability', 'Flight Delay Tracking', 'Help with Heavy Luggage', 'Fixed Flat Rates'],
     priceRange: 'Starting from ₹1,500 Flat',
     isActive: true,
     order: 3
@@ -35,9 +35,9 @@ const defaultServices = [
   {
     _id: 'srv-corporate',
     title: 'Corporate Travel',
-    description: 'Executive car rentals and monthly cab dispatch solutions tailored for business leaders and corporate delegations.',
+    description: 'Professional car rentals and monthly cab service for company meetings, airport pickups, and office staff.',
     icon: 'business_center',
-    features: ['GST Invoicing Available', 'Premium Innova Crysta Fleet', 'Priority Support Desk', 'Monthly Billing Cycles'],
+    features: ['GST Invoicing Available', 'Clean Innova Crysta Cars', '24/7 Support Desk', 'Monthly Billing Cycles'],
     priceRange: 'Custom Corporate Packages',
     isActive: true,
     order: 4
@@ -45,9 +45,9 @@ const defaultServices = [
   {
     _id: 'srv-wedding',
     title: 'Wedding & Event Rentals',
-    description: 'Luxury fleet coordination and decorative guest convoys for unforgettable wedding celebrations and VIP guests.',
+    description: 'Clean and decorated cars for wedding celebrations, family functions, and comfortable guest pickup.',
     icon: 'celebration',
-    features: ['Decorated Vehicle Options', 'Fleet Dispatch Manager', 'Punctual Convoy Coordination', 'Uniformed Chauffeurs'],
+    features: ['Decorated Car Options', 'Fleet Dispatch Manager', 'On-Time Guest Pickup', 'Well-Dressed Drivers'],
     priceRange: 'Custom Event Quotes',
     isActive: true,
     order: 5
@@ -55,9 +55,9 @@ const defaultServices = [
   {
     _id: 'srv-longterm',
     title: 'Long-Term Car Rental',
-    description: 'Cost-effective weekly, monthly, and seasonal dedicated vehicle leases with or without professional drivers.',
+    description: 'Affordable weekly and monthly car rentals with dedicated, experienced drivers for families and companies.',
     icon: 'calendar_month',
-    features: ['Zero Maintenance Headaches', 'Replacement Vehicle Guarantee', 'Dedicated Driver Assignment', 'Flexible Contract Terms'],
+    features: ['No Maintenance Headaches', 'Quick Replacement Car if Needed', 'Dedicated Regular Driver', 'Flexible Monthly Terms'],
     priceRange: 'From ₹45,000 / month',
     isActive: true,
     order: 6

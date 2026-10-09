@@ -2,9 +2,9 @@ const Fleet = require('../models/Fleet');
 
 const defaultFleet = {
   title: 'Toyota Innova Crysta',
-  tagline: 'Flagship Chauffeur Fleet • Since 2005',
+  tagline: 'Comfortable & Reliable Fleet • Since 2005',
   rating: '4.9/5 Customer Rating',
-  description: 'Renowned worldwide for supreme ride stability, whisper-quiet cabin, and plush seating ambiance. Engineered to turn long highway tours, airport commutes, and family vacations into effortless relaxation.',
+  description: 'Toyota Innova Crysta is famous for its smooth ride, quiet cabin, and comfortable pushback seats. Perfect for long outstation tours, airport pickup-drop, and family holidays.',
   photos: [
     {
       url: '/uploads/photo-1791458143672-606816611.jpeg',
@@ -29,26 +29,26 @@ const defaultFleet = {
   ],
   features: [
     {
-      title: 'Ultra-Plush Captain Recliners',
-      description: 'Individual armrests and adjustable recline angles for first-class comfort.',
+      title: 'Comfortable Captain Recliners',
+      description: 'Soft pushback seats with armrests for a relaxing journey.',
       icon: 'airline_seat_recline_extra',
       color: 'amber'
     },
     {
-      title: 'Multi-Zone Dual Climate Control',
-      description: 'Dedicated roof air-conditioning vents for 2nd and 3rd-row passengers.',
+      title: 'Dual Powerful AC',
+      description: 'Individual roof AC vents for 2nd and 3rd row seats so everyone stays cool.',
       icon: 'ac_unit',
       color: 'blue'
     },
     {
-      title: 'Massive Luggage Capacity',
-      description: 'Ample boot space with folding rear seats to fit 4 to 5 large suitcases easily.',
+      title: 'Large Luggage Space',
+      description: 'Big boot space that easily fits 4 to 5 large suitcases and travel bags.',
       icon: 'luggage',
       color: 'emerald'
     },
     {
-      title: 'Advanced Safety & Airbags',
-      description: '7 SRS airbags, ABS with EBD, and robust high-tensile crash safety frame.',
+      title: 'Safe & Secure Ride',
+      description: 'Equipped with airbags, ABS brakes, and strong body structure for total safety.',
       icon: 'security',
       color: 'purple'
     }

@@ -1,6 +1,6 @@
 <app-breadcrumb 
-  pageTitle="Premium Car Rental Services" 
-  subtitle="Tailored mobility solutions for individual travelers, families, and enterprise clients • Since 2005" 
+  pageTitle="Our Car Rental Services" 
+  subtitle="Affordable and comfortable car rentals for families, outstation tours, and airport transfers • Since 2005" 
   [items]="breadcrumbItems">
 </app-breadcrumb>
 
@@ -11,8 +11,8 @@
     <!-- Quick Contact Strip Header -->
     <div class="mb-14 flex flex-col md:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-3xl glass-panel border border-white/10">
       <div>
-        <h3 class="text-xl sm:text-2xl font-black text-white">Need an Instant Custom Tour Quote?</h3>
-        <p class="text-sm sm:text-base text-slate-300 font-light mt-1">Our dispatch team is available 24/7 on direct phone and WhatsApp.</p>
+        <h3 class="text-xl sm:text-2xl font-black text-white">Need a Quick Price or Custom Tour?</h3>
+        <p class="text-sm sm:text-base text-slate-300 font-light mt-1">Call or WhatsApp us anytime — we are available 24/7 to help you plan your trip.</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-3.5">
@@ -108,9 +108,9 @@
     </button>
 
     <div class="mb-6">
-      <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400">Quick Reservation Desk</span>
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400">Quick Booking</span>
       <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">{{ activeServiceForBooking()?.title }}</h3>
-      <p class="text-sm text-slate-300 mt-1 font-light">Fill in your requirements and our team will get in touch with you immediately.</p>
+      <p class="text-sm text-slate-300 mt-1 font-light">Enter your details below and we will contact you right away with the best price.</p>
     </div>
 
     <form (ngSubmit)="submitServiceBooking()" class="space-y-5">

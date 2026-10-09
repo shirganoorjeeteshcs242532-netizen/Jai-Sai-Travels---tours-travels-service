@@ -29,10 +29,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Typing animation properties with initial default text
   typedText = signal<string>('Luxury Toyota Innova Crysta');
   private typingPhrases = [
-    'Luxury Toyota Innova Crysta',
+    'Toyota Innova Crysta Fleet',
     'Outstation & Holiday Trips',
     '24/7 Airport Pickup & Drop',
-    'Corporate & Wedding Rentals'
+    'Wedding & Family Events'
   ];
   private currentPhraseIndex = 0;
   private charIndex = 0;

@@ -54,53 +54,53 @@ export class AboutComponent implements OnInit, OnDestroy {
   timelineEvents = [
     {
       year: '2005',
-      title: 'Humble Beginnings',
-      description: 'Founded in 2005 with a vision to provide honest, punctual, and comfortable intercity road travel across Maharashtra.'
+      title: 'Our Beginning',
+      description: 'Started in 2005 with a clear goal: provide safe, on-time, and comfortable travel for families across Maharashtra.'
     },
     {
       year: '2012',
-      title: 'Fleet Modernization',
-      description: 'Expanded into a specialized Toyota Innova fleet and established 24/7 dedicated Pune-Mumbai airport transfer corridors.'
+      title: 'Expanding Our Fleet',
+      description: 'Added dedicated Toyota Innova cars and started 24/7 on-time Mumbai and Pune airport pickup and drop services.'
     },
     {
       year: '2019',
-      title: 'Corporate & Wedding Convoy Alliances',
-      description: 'Partnered with leading corporate firms and luxury wedding planners for executive transit and VIP guest logistics.'
+      title: 'Corporate & Wedding Travel',
+      description: 'Started specialized car rental services for corporate business trips, marriage events, and VIP family travel.'
     },
     {
       year: '2026',
-      title: '21+ Years of Road Travel Excellence',
-      description: 'Serving over 50,000 happy families, corporate executives, and pilgrims with a state-of-the-art Toyota Innova Crysta fleet and dedicated 24/7 customer support.'
+      title: '21+ Years of Happy Journeys',
+      description: 'Completed over 50,000 successful trips with our well-maintained Toyota Innova Crysta cars and caring 24/7 customer support.'
     }
   ];
 
   teamMembers = signal<TeamMember[]>([
     {
       name: 'Jaykumar Sharma',
-      role: 'Founder & Managing Director',
+      role: 'Founder & Director',
       experience: '21+ Years Experience (Since 2005)',
-      bio: 'Visionary founder behind Jai Sai Travels, devoted to setting the highest industry standards for passenger safety, vehicle hygiene, and hospitality.',
+      bio: 'Started Jai Sai Travels in 2005. Passionate about customer safety, clean cars, and making every journey comfortable and memorable.',
       image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
     },
     {
       name: 'Sangeeta Jaykumar',
-      role: 'Operations & Customer Relations Head',
+      role: 'Head of Customer Relations',
       experience: '16+ Years Experience',
-      bio: 'Directs seamless daily dispatch operations, flight schedule tracking, and ensures 24/7 passenger comfort and customer delight.',
+      bio: 'Manages daily bookings and customer support to ensure our cars arrive on time and every guest enjoys a hassle-free trip.',
       image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'
     },
     {
       name: 'Rajendra Verma',
-      role: 'Fleet Maintenance & Safety Manager',
+      role: 'Fleet & Safety Manager',
       experience: '18+ Years Experience',
-      bio: 'Oversees rigorous Toyota mechanical inspections, preventative upkeep, and cabin sanitization protocols.',
+      bio: 'Inspects every Toyota Innova before and after trips, ensuring regular mechanical servicing, clean interiors, and full passenger safety.',
       image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
     },
     {
       name: 'Sunil Gaikwad',
-      role: 'Senior Chauffeur & Route Strategist',
+      role: 'Senior Driver & Route Expert',
       experience: '15+ Years Experience',
-      bio: 'Lead driver instructor specializing in highway safety, defensive driving protocols, and courteous customer hospitality.',
+      bio: 'Expert highway driver with over 15 years behind the wheel. Known for gentle driving, polite manners, and deep route knowledge.',
       image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80'
     }
   ]);
@@ -199,33 +199,33 @@ export class AboutComponent implements OnInit, OnDestroy {
   whyChoosePoints = [
     {
       icon: 'person_pin',
-      title: 'Courteous & Verified Chauffeurs',
-      desc: 'All chauffeurs undergo extensive background verifications, safety training, and hospitality etiquette coaching.'
+      title: 'Polite & Verified Drivers',
+      desc: 'All our drivers are background-checked, experienced on highways, and trained to be polite and helpful throughout your journey.'
     },
     {
       icon: 'directions_car',
-      title: 'Pristine Innova Crysta Fleet',
-      desc: 'Our flagship Toyota Innova Crysta cars offer supreme comfort, reclining captain seats, and ice-cold dual climate AC.'
+      title: 'Clean Innova Crysta Cars',
+      desc: 'Travel in clean, comfortable Toyota Innova Crysta cars with soft pushback seats and powerful chilled AC.'
     },
     {
       icon: 'access_time',
-      title: 'Strict Punctuality Guarantee',
-      desc: 'Never miss a flight or conference. We guarantee on-time arrivals with drivers reaching 15 minutes before pickup.'
+      title: 'Always On Time',
+      desc: 'Our driver reaches your doorstep 15 minutes before the scheduled time so you never miss a flight, train, or meeting.'
     },
     {
       icon: 'receipt_long',
-      title: 'Crystal Clear Honest Pricing',
-      desc: 'Transparent pricing with zero hidden surge fares, unexpected charges, or cancellation surprises.'
+      title: 'Clear & Honest Pricing',
+      desc: 'Fair, transparent rates with zero hidden charges. What we quote is what you pay.'
     },
     {
       icon: 'support_agent',
-      title: '24/7 Dedicated Operations Desk',
-      desc: 'Our operations center is awake 24 hours every day to assist your bookings, route updates, or special inquiries.'
+      title: '24/7 Helpful Support',
+      desc: 'We are available 24 hours every day on call and WhatsApp to assist you with bookings and route queries.'
     },
     {
       icon: 'workspace_premium',
-      title: '21+ Years of Continuous Trust',
-      desc: 'Proudly serving thousands of happy travelers since 2005 with zero compromise on safety and comfort.'
+      title: '21+ Years of Trust',
+      desc: 'Serving thousands of satisfied families and business travelers since 2005 with a track record of safety and comfort.'
     }
   ];
 }

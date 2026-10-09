@@ -1,6 +1,6 @@
 <app-breadcrumb 
   pageTitle="Contact Jai Sai Travels" 
-  subtitle="We are available 24 hours a day, 7 days a week for inquiries, instant fare quotes, and car bookings • Since 2005" 
+  subtitle="Available 24/7 for booking inquiries, fare quotes, and trip planning • Since 2005" 
   [items]="breadcrumbItems">
 </app-breadcrumb>
 
@@ -17,10 +17,10 @@
         <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
           <span class="material-icons-round text-3xl">phone_in_talk</span>
         </div>
-        <h4 class="text-lg font-bold text-white mb-1">Primary Call Desk</h4>
-        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">Main 24/7 booking helpline</p>
+        <h4 class="text-lg font-bold text-white mb-1">Call Us (Primary)</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">24/7 Direct booking call</p>
         <span class="text-base sm:text-lg font-black text-amber-400">{{ settingsService.settings().contactPhone }}</span>
-        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full">Primary Hotline</span>
+        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full">Primary Number</span>
       </a>
 
       <!-- Card 2: Secondary Call -->
@@ -30,8 +30,8 @@
         <div class="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
           <span class="material-icons-round text-3xl">call</span>
         </div>
-        <h4 class="text-lg font-bold text-white mb-1">Secondary Helpline</h4>
-        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">24/7 Alternate dispatch line</p>
+        <h4 class="text-lg font-bold text-white mb-1">Call Us (Secondary)</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">24/7 Support line</p>
         <span class="text-base sm:text-lg font-black text-blue-400">{{ settingsService.settings().contactPhone2 }}</span>
         <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-blue-300 bg-blue-500/20 px-3 py-1 rounded-full">Secondary Line</span>
       </a>
@@ -72,9 +72,9 @@
       <!-- Contact Form (7 cols) -->
       <div class="lg:col-span-7 glass-card p-8 sm:p-10 border border-white/20 shadow-2xl">
         <div class="mb-8">
-          <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Quick Response Guaranteed</span>
-          <h3 class="text-2xl sm:text-4xl font-black text-white mt-1">Send Us a Direct Message</h3>
-          <p class="text-sm sm:text-base text-slate-300 mt-2 font-light">Fill in your requirements below and our team will revert with exact fare quotes in minutes.</p>
+          <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Quick Response</span>
+          <h3 class="text-2xl sm:text-4xl font-black text-white mt-1">Send Us a Message</h3>
+          <p class="text-sm sm:text-base text-slate-300 mt-2 font-light">Share your trip details below and our team will reply with the best price in minutes.</p>
         </div>
 
         <form (ngSubmit)="submitForm()" class="space-y-5">

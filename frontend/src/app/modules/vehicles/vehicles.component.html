@@ -1,6 +1,6 @@
 <app-breadcrumb 
-  pageTitle="Toyota Innova Crysta Luxury Fleet" 
-  subtitle="The ultimate benchmark of comfort, elegance, and reliability on Indian roads • Since 2005" 
+  pageTitle="Toyota Innova Crysta Fleet" 
+  subtitle="The most comfortable and reliable car for long highway journeys and family trips • Since 2005" 
   [items]="breadcrumbItems">
 </app-breadcrumb>
 
@@ -100,7 +100,7 @@
       <!-- Right Column: Vehicle Key Highlights (5 cols) -->
       <div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
         <div>
-          <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">{{ fleet()?.tagline || 'Flagship Chauffeur Fleet • Since 2005' }}</span>
+          <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">{{ fleet()?.tagline || 'Comfortable & Reliable Fleet • Since 2005' }}</span>
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mt-1">
             {{ fleet()?.title || 'Toyota Innova Crysta' }}
           </h2>
@@ -111,7 +111,7 @@
             <span class="text-xs sm:text-sm text-slate-300 font-semibold">({{ fleet()?.rating || '4.9/5 Customer Rating' }})</span>
           </div>
           <p class="text-sm sm:text-base text-slate-200 mt-5 leading-relaxed font-normal">
-            {{ fleet()?.description || 'Renowned worldwide for supreme ride stability, whisper-quiet cabin, and plush seating ambiance. Engineered to turn long highway tours, airport commutes, and family vacations into effortless relaxation.' }}
+            {{ fleet()?.description || 'Toyota Innova Crysta is famous for its smooth ride, silent cabin, and spacious comfortable seating. Perfect for long outstation trips, airport pickup-drop, and family holidays.' }}
           </p>
         </div>
 
@@ -169,11 +169,11 @@
 <section class="py-20 bg-slate-950/60 border-y border-white/10 relative">
   <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
     <div class="text-center max-w-3xl mx-auto mb-16">
-      <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Technical Specs</span>
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Car Features</span>
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mt-1">
-        Vehicle Features & Amenities
+        Car Features & Comfort
       </h2>
-      <p class="text-base text-slate-300 mt-2 font-light">Every detail designed for superior passenger safety and luxury on highway and city rides.</p>
+      <p class="text-base text-slate-300 mt-2 font-light">Designed to give you and your family a safe, relaxing, and enjoyable journey.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -183,7 +183,7 @@
           <h4 class="font-bold text-white text-lg">Seating Configurations</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          Available in 7-passenger (2+2+3 with Captain Recliners) and 8-passenger (2+3+3 bench) configurations with generous legroom and reclining angles.
+          Available in comfortable 7-seater (with captain pushback chairs) and 8-seater options, with ample legroom and luggage space.
         </p>
       </div>
 
@@ -193,37 +193,37 @@
           <h4 class="font-bold text-white text-lg">Dual Climate Control AC</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          High-performance automatic cooling with individual roof ceiling air vents and individual digital blower controls for all seat rows.
+          Powerful front and rear AC with individual roof vents so every passenger stays cool and fresh.
         </p>
       </div>
 
       <div class="glass-panel p-7 rounded-2xl border border-white/10">
         <div class="flex items-center gap-3.5 mb-3 text-emerald-400">
           <span class="material-icons-round text-3xl">surround_sound</span>
-          <h4 class="font-bold text-white text-lg">Infotainment & Audio</h4>
+          <h4 class="font-bold text-white text-lg">Music & Mobile Charging</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          Touchscreen multimedia console with Bluetooth pairing, AUX, multiple fast USB charging ports, and crisp surround speakers.
+          Touchscreen music system with Bluetooth, fast USB charging ports for your mobile phones, and clear speakers.
         </p>
       </div>
 
       <div class="glass-panel p-7 rounded-2xl border border-white/10">
         <div class="flex items-center gap-3.5 mb-3 text-purple-400">
           <span class="material-icons-round text-3xl">alt_route</span>
-          <h4 class="font-bold text-white text-lg">Highway Suspension Tuning</h4>
+          <h4 class="font-bold text-white text-lg">Smooth Highway Suspension</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          Specially tuned coil-spring suspension that absorbs highway bumps and rough terrain effortlessly for a velvet-smooth ride.
+          Soft, stable suspension that glides over road bumps so you never feel tired on long journeys.
         </p>
       </div>
 
       <div class="glass-panel p-7 rounded-2xl border border-white/10">
         <div class="flex items-center gap-3.5 mb-3 text-rose-400">
           <span class="material-icons-round text-3xl">support_agent</span>
-          <h4 class="font-bold text-white text-lg">24/7 Roadside Assistance & Support</h4>
+          <h4 class="font-bold text-white text-lg">24/7 Roadside Support</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          Round-the-clock roadside breakdown support, immediate replacement vehicle guarantee, and 24/7 helpline assistance for complete peace of mind.
+          24/7 helpline and immediate backup vehicle support across highways for complete peace of mind.
         </p>
       </div>
 
@@ -233,7 +233,7 @@
           <h4 class="font-bold text-white text-lg">Safety & Stability Systems</h4>
         </div>
         <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-          Equipped with Vehicle Stability Control (VSC), Hill Start Assist, ABS + EBD braking, and heavy-duty high-tensile crash protection shell.
+          Equipped with airbags, ABS brakes, and strong body structure for complete family safety.
         </p>
       </div>
     </div>
@@ -245,12 +245,12 @@
   <div class="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="glass-card p-8 sm:p-12 border border-white/20 shadow-2xl">
       <div class="text-center mb-10">
-        <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">Direct Reservation Desk</span>
+        <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">Direct Booking</span>
         <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">
-          Inquire for Toyota Innova Crysta Booking
+          Book Your Toyota Innova Crysta
         </h2>
         <p class="text-sm sm:text-base text-slate-300 mt-2 font-light">
-          Every journey, a premium experience with seasoned chauffeurs. Fill in your details below for instant quotation.
+          Safe and comfortable rides with polite drivers. Fill in your details below to get an instant quote.
         </p>
       </div>
 
