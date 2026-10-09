@@ -1,0 +1,182 @@
+<app-breadcrumb 
+  pageTitle="Premium Car Rental Services" 
+  subtitle="Tailored mobility solutions for individual travelers, families, and enterprise clients • Since 2005" 
+  [items]="breadcrumbItems">
+</app-breadcrumb>
+
+<!-- ==================== SERVICES GRID ==================== -->
+<section class="py-24 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    
+    <!-- Quick Contact Strip Header -->
+    <div class="mb-14 flex flex-col md:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-3xl glass-panel border border-white/10">
+      <div>
+        <h3 class="text-xl sm:text-2xl font-black text-white">Need an Instant Custom Tour Quote?</h3>
+        <p class="text-sm sm:text-base text-slate-300 font-light mt-1">Our dispatch team is available 24/7 on direct phone and WhatsApp.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3.5">
+        <a [href]="'tel:' + settingsService.settings().contactPhone" class="glass-btn glass-btn-accent text-sm sm:text-base font-bold !py-2.5 !px-5 shadow-lg" title="Primary">
+          <span class="material-icons-round text-base">phone_in_talk</span>
+          <span>{{ settingsService.settings().contactPhone }}</span>
+        </a>
+        <a [href]="'tel:' + settingsService.settings().contactPhone2" class="glass-btn glass-btn-outline text-sm sm:text-base font-bold !py-2.5 !px-5 border-amber-400/40" title="Secondary">
+          <span class="material-icons-round text-base text-amber-400">call</span>
+          <span>{{ settingsService.settings().contactPhone2 }}</span>
+        </a>
+        <a 
+          [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="glass-btn glass-btn-whatsapp text-sm sm:text-base font-bold !py-2.5 !px-5 shadow-lg"
+          title="WhatsApp Primary">
+          <span class="material-icons-round text-base">chat</span>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Loading skeleton -->
+    <div *ngIf="isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let s of [1,2,3,4,5,6]" class="glass-card p-8 h-96 skeleton rounded-2xl"></div>
+    </div>
+
+    <!-- Services Cards -->
+    <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div 
+        *ngFor="let s of services()" 
+        class="glass-card p-8 flex flex-col justify-between hover:border-amber-400/50 transition-all duration-300 group shadow-xl">
+        <div>
+          <!-- Icon & Rate Header -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+              <span class="material-icons-round text-3xl">{{ s.icon || 'directions_car' }}</span>
+            </div>
+            <span class="text-xs sm:text-sm font-bold text-amber-400 bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/30">
+              {{ s.priceRange }}
+            </span>
+          </div>
+
+          <h3 class="text-2xl font-black text-white mb-3 group-hover:text-amber-400 transition-colors">
+            {{ s.title }}
+          </h3>
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-light mb-6">
+            {{ s.description }}
+          </p>
+
+          <!-- Feature Bullets -->
+          <div class="space-y-2.5 mb-8">
+            <div *ngFor="let feat of s.features" class="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
+              <span class="material-icons-round text-amber-400 text-base">verified</span>
+              <span>{{ feat }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer Actions -->
+        <div class="pt-6 border-t border-white/10 flex items-center gap-3.5">
+          <button 
+            (click)="openBookingModal(s)"
+            class="glass-btn glass-btn-primary flex-1 text-sm font-bold !py-3">
+            <span class="material-icons-round text-base">car_rental</span>
+            <span>Book Service</span>
+          </button>
+
+          <a 
+            [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=' + ('Inquiry for ' + s.title | encodeUri)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="glass-btn glass-btn-whatsapp !p-3 !rounded-full shadow-md"
+            [title]="'Chat on WhatsApp: ' + settingsService.settings().whatsappPhone">
+            <span class="material-icons-round text-base">chat</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BOOKING MODAL ==================== -->
+<div *ngIf="isModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in">
+  <div class="glass-card max-w-xl w-full p-8 sm:p-10 border border-white/20 relative shadow-2xl">
+    <button 
+      (click)="closeBookingModal()" 
+      class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition-colors"
+      title="Close">
+      <span class="material-icons-round text-xl">close</span>
+    </button>
+
+    <div class="mb-6">
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400">Quick Reservation Desk</span>
+      <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">{{ activeServiceForBooking()?.title }}</h3>
+      <p class="text-sm text-slate-300 mt-1 font-light">Fill in your requirements and our team will get in touch with you immediately.</p>
+    </div>
+
+    <form (ngSubmit)="submitServiceBooking()" class="space-y-5">
+      <div>
+        <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Your Full Name *</label>
+        <input 
+          type="text" 
+          [(ngModel)]="bookingData.name" 
+          name="name" 
+          required 
+          placeholder="e.g. Sunil Deshmukh" 
+          class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Contact Phone *</label>
+          <input 
+            type="tel" 
+            [(ngModel)]="bookingData.phone" 
+            name="phone" 
+            required 
+            placeholder="+91 98765 43210" 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Travel Date *</label>
+          <input 
+            type="date" 
+            [(ngModel)]="bookingData.date" 
+            name="date" 
+            required 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Email (Optional)</label>
+        <input 
+          type="email" 
+          [(ngModel)]="bookingData.email" 
+          name="email" 
+          placeholder="name@example.com" 
+          class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div>
+        <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Trip Details & Route Plan</label>
+        <textarea 
+          [(ngModel)]="bookingData.message" 
+          name="message" 
+          rows="3" 
+          placeholder="e.g. Pune to Shirdi round trip for 5 passengers with Toyota Innova Crysta." 
+          class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+
+      <div class="pt-2">
+        <button 
+          type="submit" 
+          [disabled]="isSubmitting()"
+          class="glass-btn glass-btn-primary w-full py-3.5 text-base font-bold disabled:opacity-50 shadow-2xl">
+          <span *ngIf="!isSubmitting()">Submit Booking Request</span>
+          <span *ngIf="isSubmitting()">Submitting...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

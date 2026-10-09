@@ -1,0 +1,499 @@
+<app-breadcrumb 
+  pageTitle="Toyota Innova Crysta Luxury Fleet" 
+  subtitle="The ultimate benchmark of comfort, elegance, and reliability on Indian roads • Since 2005" 
+  [items]="breadcrumbItems">
+</app-breadcrumb>
+
+<!-- ==================== VEHICLE SHOWCASE & GALLERY ==================== -->
+<section class="py-20 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      
+      <!-- Left Column: Interactive Image Gallery & Zoom (7 cols) -->
+      <div class="lg:col-span-7 space-y-5">
+        <!-- Main Image Preview with Zoom Action & 3s Slideshow -->
+        <div 
+          class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 group cursor-pointer" 
+          (click)="openZoom()"
+          (mouseenter)="onGalleryMouseEnter()"
+          (mouseleave)="onGalleryMouseLeave()">
+          
+          <img 
+            [src]="getActivePhoto().url" 
+            [alt]="getActivePhoto().title" 
+            class="w-full h-88 sm:h-[500px] object-cover transition-all duration-700 ease-out group-hover:scale-105">
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none"></div>
+
+          <!-- Left Prev Button (on hover) -->
+          <button 
+            type="button"
+            (click)="$event.stopPropagation(); prevPhoto()"
+            class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-amber-500 text-white hover:text-slate-950 border border-white/25 hover:border-amber-400 backdrop-blur-md shadow-2xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0"
+            title="Previous Image">
+            <span class="material-icons-round text-2xl">chevron_left</span>
+          </button>
+
+          <!-- Right Next Button (on hover) -->
+          <button 
+            type="button"
+            (click)="$event.stopPropagation(); nextPhoto()"
+            class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-amber-500 text-white hover:text-slate-950 border border-white/25 hover:border-amber-400 backdrop-blur-md shadow-2xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
+            title="Next Image">
+            <span class="material-icons-round text-2xl">chevron_right</span>
+          </button>
+
+          <!-- Top-Right: Zoom hint badge -->
+          <div class="absolute top-5 right-5 z-20 !p-3 !rounded-full bg-slate-950/85 hover:bg-slate-900 text-white hover:text-amber-400 border border-white/25 backdrop-blur-md shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center cursor-pointer group-hover:border-amber-400/50" title="Click to Zoom Image">
+            <span class="material-icons-round text-xl text-white group-hover:text-amber-400">zoom_in</span>
+          </div>
+
+          <!-- Top-Left: Live 3-Second Slideshow Indicator Badge -->
+          <div class="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/30 backdrop-blur-md text-xs font-bold text-amber-400 flex items-center gap-2 shadow-xl select-none">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping inline-block"></span>
+            <span>Auto Slideshow (3s)</span>
+          </div>
+
+          <!-- Bottom Title & Counter -->
+          <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white keep-text-white pointer-events-none">
+            <div>
+              <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/30 backdrop-blur-md">
+                {{ getActivePhoto().category || 'Showcase' }}
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold mt-2 text-white !text-white drop-shadow-md">{{ getActivePhoto().title }}</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs sm:text-sm text-slate-200 font-semibold bg-black/75 px-3 py-1.5 rounded-full backdrop-blur-md !text-white border border-white/10 shadow-lg">
+                {{ activePhotoIndex() + 1 }} / {{ getPhotos().length }}
+              </span>
+              <span class="text-xs sm:text-sm text-slate-300 font-medium hidden sm:inline bg-black/75 px-3 py-1.5 rounded-full backdrop-blur-md !text-white border border-white/10 shadow-lg">
+                Click to Zoom
+              </span>
+            </div>
+          </div>
+
+          <!-- Bottom 3s Animated Progress Line -->
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/15 overflow-hidden">
+            <div 
+              class="h-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-300"
+              [style.width.%]="((activePhotoIndex() + 1) / getPhotos().length) * 100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Thumbnails for existing and newly uploaded photos -->
+        <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none sm:grid sm:grid-flow-col sm:auto-cols-fr">
+          <button 
+            *ngFor="let photo of getPhotos(); let i = index"
+            (click)="selectPhoto(i)"
+            type="button"
+            class="min-w-[85px] sm:min-w-0 rounded-2xl overflow-hidden border-2 transition-all duration-300 h-20 sm:h-24 relative group"
+            [ngClass]="{
+              'border-amber-400 ring-2 ring-amber-400/50 scale-100 shadow-lg shadow-amber-500/20': activePhotoIndex() === i,
+              'border-white/15 opacity-60 hover:opacity-100 hover:border-white/40': activePhotoIndex() !== i
+            }">
+            <img [src]="photo.url" [alt]="photo.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Vehicle Key Highlights (5 cols) -->
+      <div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
+        <div>
+          <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">{{ fleet()?.tagline || 'Flagship Chauffeur Fleet • Since 2005' }}</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mt-1">
+            {{ fleet()?.title || 'Toyota Innova Crysta' }}
+          </h2>
+          <div class="flex items-center gap-3 mt-3">
+            <div class="flex text-amber-400">
+              <span *ngFor="let s of [1,2,3,4,5]" class="material-icons-round text-base">star</span>
+            </div>
+            <span class="text-xs sm:text-sm text-slate-300 font-semibold">({{ fleet()?.rating || '4.9/5 Customer Rating' }})</span>
+          </div>
+          <p class="text-sm sm:text-base text-slate-200 mt-5 leading-relaxed font-normal">
+            {{ fleet()?.description || 'Renowned worldwide for supreme ride stability, whisper-quiet cabin, and plush seating ambiance. Engineered to turn long highway tours, airport commutes, and family vacations into effortless relaxation.' }}
+          </p>
+        </div>
+
+        <!-- Highlights Checklist (Fully Dynamic!) -->
+        <div class="space-y-4 pt-2">
+          <div 
+            *ngFor="let feat of getFeatures()" 
+            class="flex items-start gap-3.5 glass-panel p-3.5 rounded-2xl border border-white/5 hover:border-amber-400/30 transition-all">
+            <div 
+              class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 overflow-hidden select-none"
+              [ngClass]="{
+                'bg-amber-500/20 text-amber-400': feat.color === 'amber',
+                'bg-blue-500/20 text-blue-400': feat.color === 'blue',
+                'bg-emerald-500/20 text-emerald-400': feat.color === 'emerald',
+                'bg-purple-500/20 text-purple-400': feat.color === 'purple',
+                'bg-rose-500/20 text-rose-400': feat.color === 'rose'
+              }">
+              <span class="material-icons-round text-xl leading-none flex items-center justify-center w-full h-full text-center">{{ resolveIcon(feat.icon) }}</span>
+            </div>
+            <div>
+              <div class="text-sm sm:text-base font-bold text-white">{{ feat.title }}</div>
+              <div class="text-xs sm:text-sm text-slate-300 font-light">{{ feat.description }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Contact Actions -->
+        <div class="pt-4 flex flex-wrap items-center gap-3.5">
+          <a [href]="'tel:' + settingsService.settings().contactPhone" class="glass-btn glass-btn-accent text-sm sm:text-base font-bold !py-3 !px-6 shadow-xl" title="Primary">
+            <span class="material-icons-round">phone_in_talk</span>
+            <span>Call: {{ settingsService.settings().contactPhone }}</span>
+          </a>
+
+          <a [href]="'tel:' + settingsService.settings().contactPhone2" class="glass-btn glass-btn-outline text-sm sm:text-base font-bold !py-3 !px-6 border-amber-400/40" title="Secondary">
+            <span class="material-icons-round text-amber-400">call</span>
+            <span>Call: {{ settingsService.settings().contactPhone2 }}</span>
+          </a>
+
+          <a 
+            [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="glass-btn glass-btn-whatsapp text-sm sm:text-base font-bold !py-3 !px-6 shadow-xl"
+            title="WhatsApp Primary">
+            <span class="material-icons-round">chat</span>
+            <span>WhatsApp Booking</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMPLETE SPECIFICATIONS TABLE ==================== -->
+<section class="py-20 bg-slate-950/60 border-y border-white/10 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Technical Specs</span>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mt-1">
+        Vehicle Features & Amenities
+      </h2>
+      <p class="text-base text-slate-300 mt-2 font-light">Every detail designed for superior passenger safety and luxury on highway and city rides.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-amber-400">
+          <span class="material-icons-round text-3xl">event_seat</span>
+          <h4 class="font-bold text-white text-lg">Seating Configurations</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          Available in 7-passenger (2+2+3 with Captain Recliners) and 8-passenger (2+3+3 bench) configurations with generous legroom and reclining angles.
+        </p>
+      </div>
+
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-blue-400">
+          <span class="material-icons-round text-3xl">hvac</span>
+          <h4 class="font-bold text-white text-lg">Dual Climate Control AC</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          High-performance automatic cooling with individual roof ceiling air vents and individual digital blower controls for all seat rows.
+        </p>
+      </div>
+
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-emerald-400">
+          <span class="material-icons-round text-3xl">surround_sound</span>
+          <h4 class="font-bold text-white text-lg">Infotainment & Audio</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          Touchscreen multimedia console with Bluetooth pairing, AUX, multiple fast USB charging ports, and crisp surround speakers.
+        </p>
+      </div>
+
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-purple-400">
+          <span class="material-icons-round text-3xl">alt_route</span>
+          <h4 class="font-bold text-white text-lg">Highway Suspension Tuning</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          Specially tuned coil-spring suspension that absorbs highway bumps and rough terrain effortlessly for a velvet-smooth ride.
+        </p>
+      </div>
+
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-rose-400">
+          <span class="material-icons-round text-3xl">support_agent</span>
+          <h4 class="font-bold text-white text-lg">24/7 Roadside Assistance & Support</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          Round-the-clock roadside breakdown support, immediate replacement vehicle guarantee, and 24/7 helpline assistance for complete peace of mind.
+        </p>
+      </div>
+
+      <div class="glass-panel p-7 rounded-2xl border border-white/10">
+        <div class="flex items-center gap-3.5 mb-3 text-yellow-400">
+          <span class="material-icons-round text-3xl">health_and_safety</span>
+          <h4 class="font-bold text-white text-lg">Safety & Stability Systems</h4>
+        </div>
+        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          Equipped with Vehicle Stability Control (VSC), Hill Start Assist, ABS + EBD braking, and heavy-duty high-tensile crash protection shell.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BOOKING INQUIRY FORM ==================== -->
+<section class="py-20 bg-slate-950/80 border-t border-white/10">
+  <div class="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="glass-card p-8 sm:p-12 border border-white/20 shadow-2xl">
+      <div class="text-center mb-10">
+        <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">Direct Reservation Desk</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">
+          Inquire for Toyota Innova Crysta Booking
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300 mt-2 font-light">
+          Every journey, a premium experience with seasoned chauffeurs. Fill in your details below for instant quotation.
+        </p>
+      </div>
+
+      <form (ngSubmit)="submitBooking()" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Full Name *</label>
+            <input 
+              type="text" 
+              [(ngModel)]="bookingForm.name" 
+              name="name" 
+              placeholder="e.g. Ramesh Kulkarni" 
+              required 
+              class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Mobile Phone *</label>
+            <input 
+              type="tel" 
+              [(ngModel)]="bookingForm.phone" 
+              name="phone" 
+              placeholder="+91 98765 43210" 
+              required 
+              class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Email ID (for notification)</label>
+            <input 
+              type="email" 
+              [(ngModel)]="bookingForm.email" 
+              name="email" 
+              placeholder="e.g. ramesh@example.com" 
+              class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Trip Type</label>
+            <select 
+              [(ngModel)]="bookingForm.serviceType" 
+              name="serviceType" 
+              class="w-full bg-slate-900 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+              <option value="Outstation Tour">Outstation Tour</option>
+              <option value="Airport Pickup / Drop">Airport Pickup / Drop</option>
+              <option value="Local 8Hr/80KM City Ride">Local 8Hr / 80KM Ride</option>
+              <option value="Corporate Executive Rental">Corporate Executive Rental</option>
+              <option value="Wedding & Event Convoy">Wedding & Event Convoy</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Seater Requirement</label>
+            <select 
+              [(ngModel)]="bookingForm.passengers" 
+              name="passengers" 
+              class="w-full bg-slate-900 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+              <option value="7 Seater (Captain Seats)">7 Seater (Captain Seats)</option>
+              <option value="8 Seater (Bench Layout)">8 Seater (Bench Layout)</option>
+              <option value="Multiple Innova Fleet">Multiple Innova Fleet</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Trip Date *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="bookingForm.date" 
+              name="date" 
+              required 
+              class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Trip Requirements (Pickup point, Destination, Duration, Special requests)</label>
+          <textarea 
+            [(ngModel)]="bookingForm.message" 
+            name="message" 
+            rows="4" 
+            placeholder="e.g. Need 7-seater Innova Crysta for 3 days trip to Shirdi & Shani Shingnapur with family." 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400"></textarea>
+        </div>
+
+        <div class="text-center pt-4">
+          <button 
+            type="submit" 
+            [disabled]="isSubmitting()"
+            class="glass-btn glass-btn-primary px-10 py-4 text-base sm:text-lg font-black disabled:opacity-50 shadow-2xl">
+            <span *ngIf="!isSubmitting()" class="material-icons-round text-lg">send</span>
+            <span *ngIf="!isSubmitting()">Confirm Booking Request</span>
+            <span *ngIf="isSubmitting()">Sending Inquiry...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INTERACTIVE VEHICLE ZOOM & PAN MODAL ==================== -->
+<div 
+  *ngIf="isZoomModalOpen()" 
+  class="vehicle-zoom-modal fixed inset-0 z-50 flex flex-col justify-between bg-black/95 backdrop-blur-xl p-3 sm:p-6 animate-in fade-in duration-200 select-none">
+  
+  <!-- Top Bar: Category, Counter & Zoom Controls Toolbar -->
+  <div class="w-full flex items-center justify-between gap-3 text-white z-50 px-2 py-1">
+    <!-- Left: Badge & Counter -->
+    <div class="flex items-center gap-2.5">
+      <span class="bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider shadow-sm">
+        {{ getActivePhoto().category || 'Showcase' }}
+      </span>
+      <span class="text-xs text-slate-300 font-semibold bg-white/10 px-3 py-1 rounded-full border border-white/10">
+        {{ activePhotoIndex() + 1 }} / {{ getPhotos().length }}
+      </span>
+    </div>
+
+    <!-- Right: Interactive Zoom Buttons Toolbar -->
+    <div class="flex items-center gap-2">
+      <!-- Zoom In Button -->
+      <button 
+        (click)="zoomIn()" 
+        type="button"
+        class="glass-btn glass-btn-outline !p-2.5 !rounded-full !bg-white/10 hover:!bg-white/20 !border-white/20 text-white shadow-lg" 
+        title="Zoom In (+ or Mouse Wheel Up)">
+        <span class="material-icons-round text-lg sm:text-xl">zoom_in</span>
+      </button>
+
+      <!-- Zoom Level Indicator Pill -->
+      <span class="text-xs font-extrabold text-amber-300 bg-black/60 border border-amber-400/40 px-3 py-1.5 rounded-full shadow-inner min-w-[58px] text-center">
+        {{ (zoomScale() * 100).toFixed(0) }}%
+      </span>
+
+      <!-- Zoom Out Button -->
+      <button 
+        (click)="zoomOut()" 
+        type="button"
+        class="glass-btn glass-btn-outline !p-2.5 !rounded-full !bg-white/10 hover:!bg-white/20 !border-white/20 text-white shadow-lg" 
+        title="Zoom Out (- or Mouse Wheel Down)">
+        <span class="material-icons-round text-lg sm:text-xl">zoom_out</span>
+      </button>
+
+      <!-- Reset / Fit Button -->
+      <button 
+        *ngIf="zoomScale() !== 1 || panX() !== 0 || panY() !== 0"
+        (click)="resetZoom()" 
+        type="button"
+        class="glass-btn glass-btn-outline !px-3 !py-1.5 !rounded-full text-xs font-bold !bg-amber-500/20 text-amber-300 border-amber-400/40 shadow-md flex items-center gap-1"
+        title="Reset Zoom (0)">
+        <span class="material-icons-round text-sm">fit_screen</span>
+        <span class="hidden sm:inline">Reset</span>
+      </button>
+
+      <!-- Close Button -->
+      <button 
+        (click)="closeZoom()" 
+        type="button"
+        class="glass-btn glass-btn-outline !p-2.5 !rounded-full !bg-rose-500/30 hover:!bg-rose-500/50 !border-rose-400/40 text-rose-200 shadow-xl ml-1" 
+        title="Close (Esc)">
+        <span class="material-icons-round text-lg sm:text-xl">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Interactive Viewer Canvas with Previous / Next Navigation -->
+  <div class="relative w-full flex-1 flex items-center justify-center overflow-hidden my-2">
+    <!-- Prev Arrow Button -->
+    <button 
+      *ngIf="getPhotos().length > 1"
+      (click)="prevPhoto()" 
+      type="button"
+      class="absolute left-2 sm:left-4 z-40 glass-btn glass-btn-outline !p-3 !rounded-full !bg-black/60 hover:!bg-black/90 !border-white/20 text-white shadow-2xl transition-transform hover:scale-110"
+      title="Previous Photo (Left Arrow)">
+      <span class="material-icons-round text-2xl">chevron_left</span>
+    </button>
+
+    <!-- Canvas Container (Wheel Zoom & Drag to Pan) -->
+    <div 
+      class="w-full h-full flex items-center justify-center overflow-hidden"
+      (wheel)="onWheelZoom($event)"
+      (mousedown)="startDrag($event)"
+      (mousemove)="onDrag($event)"
+      (mouseup)="endDrag()"
+      (mouseleave)="endDrag()"
+      (touchstart)="startTouchDrag($event)"
+      (touchmove)="onTouchDrag($event)"
+      (touchend)="endDrag()"
+      (dblclick)="toggleDoubleZoom($event)"
+      [style.cursor]="zoomScale() > 1 ? (isDragging() ? 'grabbing' : 'grab') : 'zoom-in'">
+      
+      <img 
+        [src]="getActivePhoto().url" 
+        [alt]="getActivePhoto().title" 
+        class="max-h-[70vh] sm:max-h-[74vh] max-w-[92vw] object-contain rounded-2xl shadow-2xl border border-white/20 will-change-transform"
+        [style.transform]="'translate(' + panX() + 'px, ' + panY() + 'px) scale(' + zoomScale() + ')'"
+        [style.transition]="isDragging() ? 'none' : 'transform 0.22s cubic-bezier(0.2, 0, 0, 1)'"
+        draggable="false">
+    </div>
+
+    <!-- Next Arrow Button -->
+    <button 
+      *ngIf="getPhotos().length > 1"
+      (click)="nextPhoto()" 
+      type="button"
+      class="absolute right-2 sm:right-4 z-40 glass-btn glass-btn-outline !p-3 !rounded-full !bg-black/60 hover:!bg-black/90 !border-white/20 text-white shadow-2xl transition-transform hover:scale-110"
+      title="Next Photo (Right Arrow)">
+      <span class="material-icons-round text-2xl">chevron_right</span>
+    </button>
+  </div>
+
+  <!-- Bottom Bar: Title, Helper Tips & Thumbnail Strip -->
+  <div class="w-full z-50 text-center pb-2 pt-1 space-y-2">
+    <!-- Photo Title (Guaranteed pure crisp white with drop shadow) -->
+    <h3 class="text-base sm:text-xl font-black text-white !text-white tracking-wide drop-shadow-lg">
+      {{ getActivePhoto().title }}
+    </h3>
+
+    <!-- Helper Guide Badge -->
+    <div class="inline-flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-300 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 shadow-md">
+      <span class="flex items-center gap-1 text-amber-300 font-bold">
+        <span class="material-icons-round text-xs">mouse</span> Scroll wheel to Zoom
+      </span>
+      <span class="hidden sm:inline text-white/30">•</span>
+      <span class="flex items-center gap-1">
+        <span class="material-icons-round text-xs">pan_tool</span> Drag to pan
+      </span>
+      <span class="hidden sm:inline text-white/30">•</span>
+      <span class="flex items-center gap-1">
+        <span class="material-icons-round text-xs">touch_app</span> Double-click to toggle 2.2x
+      </span>
+    </div>
+
+    <!-- Bottom Thumbnail Strip -->
+    <div class="flex items-center justify-center gap-2 pt-1 overflow-x-auto max-w-xl mx-auto">
+      <button 
+        *ngFor="let photo of getPhotos(); let i = index"
+        (click)="selectPhoto(i)"
+        type="button"
+        class="w-12 h-10 sm:w-14 sm:h-11 rounded-lg overflow-hidden border-2 transition-all shrink-0"
+        [ngClass]="activePhotoIndex() === i ? 'border-amber-400 ring-2 ring-amber-400/50 scale-105' : 'border-white/20 opacity-60 hover:opacity-100'">
+        <img [src]="photo.url" [alt]="photo.title" class="w-full h-full object-cover">
+      </button>
+    </div>
+  </div>
+</div>

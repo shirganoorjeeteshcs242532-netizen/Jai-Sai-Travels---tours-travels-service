@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: jai-sai-travels-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://jai-sai-travels.vercel.app
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: ADMIN_NOTIFICATION_EMAIL
+        value: jaisaitravels@rocketmail.com
+      - key: GOOGLE_REVIEW_URL
+        value: https://share.google/Al7nlldXLMbIoH9Ih
+

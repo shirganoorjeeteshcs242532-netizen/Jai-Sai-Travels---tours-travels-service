@@ -1,0 +1,145 @@
+<footer class="bg-slate-950 border-t border-white/10 pt-20 pb-12 relative overflow-hidden">
+  <!-- Glowing Background Orbs -->
+  <div class="absolute -bottom-24 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-3xl pointer-events-none"></div>
+  <div class="absolute -top-24 right-1/4 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <!-- Column 1: Company Profile -->
+      <div class="space-y-5">
+        <div class="flex items-center gap-3.5">
+          <div class="h-14 w-auto bg-white rounded-2xl p-1 shadow-lg shadow-amber-500/20 border border-amber-400/50 flex items-center justify-center">
+            <img src="logo.jpg" alt="Jai Sai Travels Official Logo" class="h-12 w-auto object-contain rounded-xl">
+          </div>
+          <div>
+            <div class="text-2xl font-black tracking-tight text-white flex items-center gap-1.5 leading-none">
+              JAI SAI <span class="gold-gradient-text">TRAVELS</span>
+            </div>
+            <div class="text-xs font-bold text-slate-400 tracking-widest uppercase mt-1">
+              Rent - A - Car • <span class="text-amber-400">Since 2005</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed font-light">
+          Your premier road travel companion for <strong>21+ years</strong>. Specializing in luxury Toyota Innova Crysta rentals for family outstation holidays, 24/7 airport pickups, corporate delegations, and weddings across Maharashtra & India.
+        </p>
+
+        <!-- 24/7 Service Badge -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold shadow-sm">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>24/7 Dedicated Chauffeur Service Active</span>
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links & Services -->
+      <div class="space-y-4">
+        <h4 class="text-base font-black uppercase tracking-wider text-amber-400 border-l-4 border-amber-400 pl-3">
+          Our Services
+        </h4>
+        <ul class="space-y-2.5 text-sm text-slate-300">
+          <li *ngFor="let s of quickServices">
+            <a [routerLink]="s.path" class="hover:text-amber-400 hover:translate-x-1.5 inline-flex items-center gap-2 transition-all">
+              <span class="material-icons-round text-sm text-amber-500/80">chevron_right</span>
+              <span>{{ s.title }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Top Routes -->
+      <div class="space-y-4">
+        <h4 class="text-base font-black uppercase tracking-wider text-amber-400 border-l-4 border-amber-400 pl-3">
+          Popular Outstation Routes
+        </h4>
+        <ul class="space-y-2.5 text-sm text-slate-300">
+          <li *ngFor="let route of popularDestinations" class="flex items-center gap-2">
+            <span class="material-icons-round text-sm text-blue-400">near_me</span>
+            <span>{{ route }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact & Social -->
+      <div class="space-y-4">
+        <h4 class="text-base font-black uppercase tracking-wider text-amber-400 border-l-4 border-amber-400 pl-3">
+          24/7 Direct Booking Hotline
+        </h4>
+        <div class="space-y-3.5 text-sm text-slate-300">
+          <!-- Dynamic Address -->
+          <div class="flex items-start gap-3">
+            <span class="material-icons-round text-amber-400 text-lg mt-0.5">location_on</span>
+            <span class="text-slate-300 leading-snug">{{ settingsService.settings().address }}</span>
+          </div>
+
+          <!-- Dynamic Primary Phone -->
+          <div class="flex items-center gap-3">
+            <span class="material-icons-round text-amber-400 text-lg">phone_in_talk</span>
+            <a [href]="'tel:' + settingsService.settings().contactPhone" class="font-bold text-white hover:text-amber-400 transition-colors text-base">
+              {{ settingsService.settings().contactPhone }}
+            </a>
+            <span class="text-[10px] uppercase font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">Primary</span>
+          </div>
+
+          <!-- Dynamic Secondary Phone -->
+          <div class="flex items-center gap-3">
+            <span class="material-icons-round text-blue-400 text-lg">call</span>
+            <a [href]="'tel:' + settingsService.settings().contactPhone2" class="font-bold text-white hover:text-amber-400 transition-colors text-base">
+              {{ settingsService.settings().contactPhone2 }}
+            </a>
+            <span class="text-[10px] uppercase font-bold bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Secondary</span>
+          </div>
+
+          <!-- Dynamic Email -->
+          <div class="flex items-center gap-3">
+            <span class="material-icons-round text-amber-400 text-lg">email</span>
+            <a [href]="'mailto:' + settingsService.settings().contactEmail" class="text-slate-300 hover:text-amber-400 transition-colors">
+              {{ settingsService.settings().contactEmail }}
+            </a>
+          </div>
+
+          <!-- Dynamic Hours -->
+          <div class="flex items-center gap-3">
+            <span class="material-icons-round text-amber-400 text-lg">schedule</span>
+            <span class="text-slate-300">{{ settingsService.settings().businessHours }}</span>
+          </div>
+        </div>
+
+        <!-- Dynamic WhatsApp Quick Actions -->
+        <div class="pt-2 flex flex-wrap items-center gap-2.5">
+          <a 
+            [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="glass-btn glass-btn-whatsapp !py-2 !px-3.5 text-xs font-bold shadow-md">
+            <span class="material-icons-round text-sm">chat</span>
+            <span>WA: {{ settingsService.settings().whatsappPhone }} (Primary)</span>
+          </a>
+          <a 
+            [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone2 || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="glass-btn glass-btn-outline !py-2 !px-3.5 text-xs font-bold shadow-md">
+            <span class="material-icons-round text-sm text-emerald-400">chat</span>
+            <span>WA: {{ settingsService.settings().whatsappPhone2 }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400">
+      <div>
+        © 2005 - {{ currentYear }} <strong class="text-white font-bold">Jai Sai Travels</strong>. 21+ Years of Travel Excellence. All rights reserved.
+      </div>
+      <div class="flex items-center gap-6">
+        <a routerLink="/privacy-policy" class="hover:text-slate-200 transition-colors">Privacy Policy</a>
+        <a routerLink="/terms-of-service" class="hover:text-slate-200 transition-colors">Terms of Service</a>
+        <a routerLink="/admin/login" class="text-amber-400 hover:underline flex items-center gap-1 font-semibold">
+          <span class="material-icons-round text-sm">lock</span>
+          Admin Portal
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

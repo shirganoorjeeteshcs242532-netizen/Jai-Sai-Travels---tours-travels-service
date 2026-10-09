@@ -1,0 +1,1366 @@
+<div class="min-h-screen pt-28 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
+  
+  <!-- Dashboard Top Bar -->
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+    <div>
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-auto bg-white rounded-xl p-0.5 shadow border border-amber-400/40 inline-flex items-center justify-center">
+          <img src="logo.jpg" alt="Jai Sai Travels Logo" class="h-8 w-auto object-contain rounded-lg">
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Admin Dashboard</h1>
+        <span class="bg-amber-500/20 border border-amber-400/30 text-amber-400 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+          Super Admin
+        </span>
+      </div>
+      <p class="text-xs text-slate-400 mt-1">Manage customer bookings, vehicle gallery, services, and live site settings.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a routerLink="/" class="glass-btn glass-btn-outline !py-2 !px-3 text-xs" title="View Public Website">
+        <span class="material-icons-round text-sm">visibility</span>
+        <span>View Site</span>
+      </a>
+
+      <button (click)="logout()" class="glass-btn glass-btn-outline !py-2 !px-3 text-xs !bg-rose-500/20 !border-rose-500/30 text-rose-300">
+        <span class="material-icons-round text-sm">logout</span>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Analytics KPI Cards -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="glass-panel p-5 rounded-2xl border border-white/10">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Total Inquiries</span>
+        <span class="material-icons-round text-blue-400">receipt_long</span>
+      </div>
+      <div class="text-2xl sm:text-3xl font-black text-white">
+        {{ stats()?.bookings?.total || bookings().length }}
+      </div>
+      <div class="text-[11px] text-amber-400 font-semibold mt-1">
+        {{ stats()?.bookings?.pending || 0 }} Pending Review
+      </div>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl border border-white/10">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Confirmed Trips</span>
+        <span class="material-icons-round text-emerald-400">check_circle</span>
+      </div>
+      <div class="text-2xl sm:text-3xl font-black text-emerald-400">
+        {{ stats()?.bookings?.confirmed || 0 }}
+      </div>
+      <div class="text-[11px] text-slate-400 mt-1">Active customer itineraries</div>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl border border-white/10">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Active Services</span>
+        <span class="material-icons-round text-amber-400">directions_car</span>
+      </div>
+      <div class="text-2xl sm:text-3xl font-black text-amber-400">
+        {{ stats()?.services?.active || services().length }}
+      </div>
+      <div class="text-[11px] text-slate-400 mt-1">Available for booking</div>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl border border-white/10">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider">Gallery Media</span>
+        <span class="material-icons-round text-purple-400">photo_library</span>
+      </div>
+      <div class="text-2xl sm:text-3xl font-black text-purple-400">
+        {{ stats()?.gallery?.total || gallery().length }}
+      </div>
+      <div class="text-[11px] text-slate-400 mt-1">Photos & Videos published</div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Tabs -->
+  <div class="flex items-center gap-2 border-b border-white/10 mb-6 overflow-x-auto pb-2">
+    <button 
+      (click)="setTab('bookings')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'bookings' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">assignment</span>
+      <span>Bookings ({{ bookings().length }})</span>
+    </button>
+
+    <button 
+      (click)="setTab('services')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'services' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">car_repair</span>
+      <span>Services ({{ services().length }})</span>
+    </button>
+
+    <button 
+      (click)="setTab('fleet')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'fleet' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">directions_car</span>
+      <span>Innova Fleet Showcase</span>
+    </button>
+
+    <button 
+      (click)="setTab('gallery')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'gallery' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">perm_media</span>
+      <span>Gallery ({{ gallery().length }})</span>
+    </button>
+
+    <button 
+      (click)="setTab('team')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'team' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">groups</span>
+      <span>Team Leadership ({{ teamMembers().length }})</span>
+    </button>
+
+    <button 
+      (click)="setTab('settings')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'settings' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">settings</span>
+      <span>Theme & Settings</span>
+    </button>
+
+    <button 
+      (click)="setTab('profile')"
+      class="px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2"
+      [ngClass]="activeTab() === 'profile' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-300 hover:bg-white/5'">
+      <span class="material-icons-round text-sm">person</span>
+      <span>Admin Profile</span>
+    </button>
+  </div>
+
+  <!-- ==================== TAB 1: BOOKINGS MANAGEMENT ==================== -->
+  <div *ngIf="activeTab() === 'bookings'" class="glass-card p-6 border border-white/10">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h3 class="text-lg font-bold text-white">Customer Booking Inquiries</h3>
+        <p class="text-xs text-slate-400">Review, update dispatch status, or contact passengers.</p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <select 
+          [ngModel]="bookingFilter()" 
+          (ngModelChange)="bookingFilter.set($event); loadBookings()"
+          class="bg-slate-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none">
+          <option value="all">All Inquiries</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <button (click)="loadBookings()" class="glass-btn glass-btn-outline !py-1.5 !px-2.5 text-xs" title="Refresh">
+          <span class="material-icons-round text-sm">refresh</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="text-[11px] uppercase tracking-wider text-slate-400 border-b border-white/10 bg-white/5">
+          <tr>
+            <th class="p-3">Customer</th>
+            <th class="p-3">Contact</th>
+            <th class="p-3">Service & Date</th>
+            <th class="p-3">Message / Itinerary</th>
+            <th class="p-3">Status</th>
+            <th class="p-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr *ngFor="let b of bookings()" class="hover:bg-white/5 transition-colors">
+            <td class="p-3">
+              <div class="font-bold text-white">{{ b.name }}</div>
+              <div class="text-[10px] text-slate-400">{{ b.createdAt | date:'mediumDate' }}</div>
+            </td>
+            <td class="p-3">
+              <div>
+                <a [href]="'tel:' + b.phone" class="text-amber-400 font-semibold hover:underline">{{ b.phone }}</a>
+              </div>
+              <div *ngIf="b.email && !b.email.includes('quickbooking.com')" class="text-[11px] text-slate-400">{{ b.email }}</div>
+            </td>
+            <td class="p-3">
+              <div class="font-bold text-white">{{ b.service }}</div>
+              <div class="text-[11px] text-blue-400 font-semibold">Travel: {{ b.date | date:'mediumDate' }}</div>
+            </td>
+            <td class="p-3 max-w-xs">
+              <p class="text-slate-300 line-clamp-2">{{ b.message || 'No special instructions' }}</p>
+            </td>
+            <td class="p-3">
+              <span 
+                class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block"
+                [ngClass]="{
+                  'bg-amber-500/20 text-amber-400 border border-amber-500/30': b.status === 'pending',
+                  'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30': b.status === 'confirmed',
+                  'bg-blue-500/20 text-blue-400 border border-blue-500/30': b.status === 'completed'
+                }">
+                {{ b.status }}
+              </span>
+            </td>
+            <td class="p-3 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <select 
+                  [ngModel]="b.status" 
+                  (ngModelChange)="updateBookingStatus(b._id, $event)"
+                  class="bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-[11px] text-white">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="completed">Completed</option>
+                </select>
+
+                <!-- WhatsApp Action -->
+                <a 
+                  *ngIf="b.status === 'completed'"
+                  [href]="getWhatsAppUrl(b)"
+                  target="_blank"
+                  class="flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/40 border border-amber-500/30 text-[11px] font-bold transition-all shadow-sm"
+                  title="Send Google Rating & Review Link via WhatsApp">
+                  <span class="material-icons-round text-xs">star</span>
+                  <span>Send Review Link</span>
+                </a>
+
+                <a 
+                  *ngIf="b.status !== 'completed'"
+                  [href]="getWhatsAppUrl(b)"
+                  target="_blank"
+                  class="p-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40"
+                  title="WhatsApp Passenger">
+                  <span class="material-icons-round text-sm">chat</span>
+                </a>
+
+                <button 
+                  (click)="deleteBooking(b._id)" 
+                  class="p-1 rounded bg-rose-500/20 text-rose-300 hover:bg-rose-500/40"
+                  title="Delete">
+                  <span class="material-icons-round text-sm">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="bookings().length === 0">
+            <td colspan="6" class="text-center py-8 text-slate-400">
+              No booking inquiries found.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: SERVICES CRUD ==================== -->
+  <div *ngIf="activeTab() === 'services'" class="glass-card p-6 border border-white/10">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-lg font-bold text-white">Travel Services Catalog</h3>
+        <p class="text-xs text-slate-400">Manage tariffs, offerings, feature lists, and active status.</p>
+      </div>
+
+      <button (click)="openCreateServiceModal()" class="glass-btn glass-btn-primary !py-2 !px-3.5 text-xs font-bold">
+        <span class="material-icons-round text-sm">add</span>
+        <span>Add New Service</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let s of services()" class="glass-panel p-5 rounded-2xl border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="material-icons-round text-2xl text-amber-400">{{ s.icon || 'directions_car' }}</span>
+            <span 
+              class="text-[10px] font-bold px-2 py-0.5 rounded-full"
+              [ngClass]="s.isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'">
+              {{ s.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+
+          <h4 class="font-bold text-white text-base mb-1">{{ s.title }}</h4>
+          <p class="text-xs text-slate-300 line-clamp-2 mb-3 font-light">{{ s.description }}</p>
+          <div class="text-xs font-bold text-amber-400 mb-4">{{ s.priceRange }}</div>
+        </div>
+
+        <div class="pt-3 border-t border-white/10 flex items-center justify-end gap-2">
+          <button (click)="openEditServiceModal(s)" class="glass-btn glass-btn-outline !py-1 !px-2.5 text-xs">
+            <span class="material-icons-round text-xs">edit</span>
+            <span>Edit</span>
+          </button>
+          <button (click)="deleteService(s._id)" class="glass-btn glass-btn-outline !py-1 !px-2.5 text-xs !text-rose-400 hover:!bg-rose-500/20">
+            <span class="material-icons-round text-xs">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: INNOVA FLEET SHOWCASE EDITOR ==================== -->
+  <div *ngIf="activeTab() === 'fleet'" class="space-y-8">
+    
+    <!-- Top Action Banner -->
+    <div class="glass-card p-6 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons-round text-amber-400 text-2xl">directions_car</span>
+          <h3 class="text-xl font-bold text-white">Toyota Innova Crysta Fleet Editor</h3>
+        </div>
+        <p class="text-xs text-slate-400 mt-1">
+          Upload showcase car photos, modify vehicle description, and customize the luxury highlight cards displayed on the public <a routerLink="/vehicles" target="_blank" class="text-amber-400 underline font-semibold">/vehicles</a> page.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a routerLink="/vehicles" target="_blank" class="glass-btn glass-btn-outline !py-2 !px-3.5 text-xs flex items-center gap-1.5" title="Preview public page">
+          <span class="material-icons-round text-sm">visibility</span>
+          <span>Preview Live Page</span>
+        </a>
+
+        <button 
+          (click)="saveFleet()" 
+          [disabled]="isSavingFleet()"
+          class="glass-btn glass-btn-primary !py-2.5 !px-5 text-xs font-bold flex items-center gap-2 shadow-xl disabled:opacity-50">
+          <span *ngIf="!isSavingFleet()" class="material-icons-round text-base">save</span>
+          <span *ngIf="!isSavingFleet()">Save & Publish Changes</span>
+          <span *ngIf="isSavingFleet()">Saving Changes...</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1: Vehicle Title, Tagline, Rating & Overview -->
+    <div class="glass-card p-6 border border-white/10 space-y-4">
+      <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+        <span class="material-icons-round text-amber-400 text-lg">edit_note</span>
+        <h4 class="text-base font-bold text-white">Vehicle Details & Description</h4>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Vehicle Name / Model</label>
+          <input 
+            type="text" 
+            [(ngModel)]="fleetForm.title" 
+            placeholder="Toyota Innova Crysta"
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tagline / Subheading</label>
+          <input 
+            type="text" 
+            [(ngModel)]="fleetForm.tagline" 
+            placeholder="Flagship Chauffeur Fleet • Since 2005"
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Customer Rating Badge Text</label>
+          <input 
+            type="text" 
+            [(ngModel)]="fleetForm.rating" 
+            placeholder="4.9/5 Customer Rating"
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Fleet Description Overview</label>
+        <textarea 
+          [(ngModel)]="fleetForm.description" 
+          rows="3" 
+          placeholder="Renowned worldwide for supreme ride stability, whisper-quiet cabin..."
+          class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+    </div>
+
+    <!-- Section 2: Vehicle Images Manager (Upload & Photos) -->
+    <div class="glass-card p-6 border border-white/10 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="material-icons-round text-amber-400 text-lg">photo_library</span>
+          <h4 class="text-base font-bold text-white">Showcase Photos ({{ fleetForm.photos?.length || 0 }} photos)</h4>
+        </div>
+        <p class="text-xs text-slate-400">The 1st photo is used as the primary hero image; the rest appear as interactive thumbnails.</p>
+      </div>
+
+      <!-- Add New Photo Box -->
+      <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+          <span class="material-icons-round text-sm">add_photo_alternate</span>
+          <span>Upload or Add New Car Photo</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+          <!-- File Upload Button -->
+          <div class="sm:col-span-4">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Upload Image File (from device)</label>
+            <label class="flex items-center justify-center gap-2 w-full bg-slate-900 border border-dashed border-amber-400/40 hover:border-amber-400 rounded-xl px-3 py-2 text-xs text-amber-300 cursor-pointer transition-all">
+              <span class="material-icons-round text-sm">cloud_upload</span>
+              <span>{{ isUploadingFleetPhoto() ? 'Uploading...' : 'Choose File to Upload' }}</span>
+              <input type="file" (change)="onFleetPhotoSelected($event)" accept="image/*" class="hidden">
+            </label>
+          </div>
+
+          <!-- OR URL -->
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Or Paste Image URL</label>
+            <input 
+              type="text" 
+              [(ngModel)]="newPhoto.url" 
+              placeholder="https://... or /uploads/..."
+              class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Title -->
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Photo Title / Caption</label>
+            <input 
+              type="text" 
+              [(ngModel)]="newPhoto.title" 
+              placeholder="e.g. Sleek Front Profile"
+              class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Category & Add Button -->
+          <div class="sm:col-span-2 flex items-center gap-2">
+            <div class="flex-1">
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Category</label>
+              <select 
+                [(ngModel)]="newPhoto.category" 
+                class="w-full bg-slate-900 border border-white/10 rounded-xl px-2 py-1.5 text-xs text-white focus:outline-none">
+                <option value="Exterior">Exterior</option>
+                <option value="Interior">Interior</option>
+                <option value="Dashboard">Dashboard</option>
+                <option value="Luggage">Luggage</option>
+              </select>
+            </div>
+
+            <button 
+              type="button" 
+              (click)="addPhotoToFleet()" 
+              class="glass-btn glass-btn-primary !py-2 !px-3 text-xs font-bold mt-5 shrink-0" 
+              title="Add to showcase">
+              <span class="material-icons-round text-sm">add</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview if uploaded or URL entered -->
+        <div *ngIf="newPhotoPreview || newPhoto.url" class="flex items-center gap-3 pt-2">
+          <img [src]="newPhotoPreview || resolveImageUrl(newPhoto.url)" alt="Preview" class="w-16 h-12 object-cover rounded-lg border border-amber-400/40 shadow bg-slate-900">
+          <span class="text-xs text-emerald-400 font-semibold">✓ Image ready to add. Click (+) to include in list.</span>
+        </div>
+      </div>
+
+      <!-- Current Photos Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div 
+          *ngFor="let photo of fleetForm.photos; let i = index" 
+          class="glass-panel p-3 rounded-2xl border border-white/10 relative group flex flex-col justify-between">
+          <div>
+            <div class="h-36 rounded-xl overflow-hidden mb-2 relative bg-slate-900">
+              <img [src]="resolveImageUrl(photo.url)" [alt]="photo.title" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-400/30">
+                #{{ i + 1 }} {{ photo.category }}
+              </span>
+              <button 
+                type="button" 
+                (click)="removePhotoFromFleet(i)" 
+                class="absolute top-2 right-2 w-7 h-7 rounded-full bg-rose-500/80 hover:bg-rose-500 text-white flex items-center justify-center transition-colors"
+                title="Remove photo">
+                <span class="material-icons-round text-sm">close</span>
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              <div>
+                <label class="block text-[10px] text-slate-400">Caption / Title</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="photo.title" 
+                  class="w-full bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+              </div>
+
+              <div>
+                <label class="block text-[10px] text-slate-400">Category</label>
+                <select 
+                  [(ngModel)]="photo.category" 
+                  class="w-full bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+                  <option value="Exterior">Exterior</option>
+                  <option value="Interior">Interior</option>
+                  <option value="Dashboard">Dashboard</option>
+                  <option value="Luggage">Luggage</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Vehicle Key Highlights & Features (Image 2 from request!) -->
+    <div class="glass-card p-6 border border-white/10 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="material-icons-round text-amber-400 text-lg">featured_play_list</span>
+          <h4 class="text-base font-bold text-white">Key Highlights & Luxury Features ({{ fleetForm.features?.length || 0 }})</h4>
+        </div>
+        <p class="text-xs text-slate-400">These 4 features appear prominently on the right-hand panel of the fleet page.</p>
+      </div>
+
+      <!-- Add New Feature Box -->
+      <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+          <span class="material-icons-round text-sm">add_circle</span>
+          <span>Add New Highlight Feature</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Feature Title</label>
+            <input 
+              type="text" 
+              [(ngModel)]="newFeature.title" 
+              placeholder="e.g. Ultra-Plush Captain Recliners"
+              class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div class="sm:col-span-4">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Description</label>
+            <input 
+              type="text" 
+              [(ngModel)]="newFeature.description" 
+              placeholder="e.g. Individual armrests and adjustable recline..."
+              class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+              <span>Feature Icon</span>
+              <span class="text-[10px] text-amber-400 font-mono flex items-center gap-1">
+                <span class="material-icons-round text-xs">{{ resolveIcon(newFeature.icon) }}</span>
+                <span>{{ resolveIcon(newFeature.icon) }}</span>
+              </span>
+            </label>
+            <select 
+              [(ngModel)]="newFeature.icon" 
+              class="w-full bg-slate-900 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option *ngFor="let opt of popularFeatureIcons" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="sm:col-span-2 flex items-center gap-2">
+            <div class="flex-1">
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Color Theme</label>
+              <select 
+                [(ngModel)]="newFeature.color" 
+                class="w-full bg-slate-900 border border-white/10 rounded-xl px-2 py-1.5 text-xs text-white focus:outline-none">
+                <option value="amber">Amber Gold</option>
+                <option value="blue">Sapphire Blue</option>
+                <option value="emerald">Emerald Green</option>
+                <option value="purple">Royal Purple</option>
+                <option value="rose">Rose Red</option>
+              </select>
+            </div>
+
+            <button 
+              type="button" 
+              (click)="addFeatureToFleet()" 
+              class="glass-btn glass-btn-primary !py-2 !px-3 text-xs font-bold mt-5 shrink-0" 
+              title="Add feature">
+              <span class="material-icons-round text-sm">add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Features List -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div 
+          *ngFor="let feat of fleetForm.features; let i = index" 
+          class="glass-panel p-4 rounded-2xl border border-white/10 relative space-y-3">
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div 
+                class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 overflow-hidden select-none"
+                [ngClass]="{
+                  'bg-amber-500/20 text-amber-400': feat.color === 'amber',
+                  'bg-blue-500/20 text-blue-400': feat.color === 'blue',
+                  'bg-emerald-500/20 text-emerald-400': feat.color === 'emerald',
+                  'bg-purple-500/20 text-purple-400': feat.color === 'purple',
+                  'bg-rose-500/20 text-rose-400': feat.color === 'rose'
+                }">
+                <span class="material-icons-round text-lg leading-none flex items-center justify-center w-full h-full text-center">{{ resolveIcon(feat.icon) }}</span>
+              </div>
+              <span class="text-xs font-bold text-white">#{{ i + 1 }} Feature Card</span>
+            </div>
+
+            <button 
+              type="button" 
+              (click)="removeFeatureFromFleet(i)" 
+              class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded-lg text-xs flex items-center gap-1 transition-colors"
+              title="Delete feature">
+              <span class="material-icons-round text-base">delete</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">Title</label>
+              <input 
+                type="text" 
+                [(ngModel)]="feat.title" 
+                class="w-full bg-slate-900 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-0.5 flex items-center justify-between">
+                  <span>Icon</span>
+                  <span class="text-[9px] text-amber-400/90 font-mono">{{ resolveIcon(feat.icon) }}</span>
+                </label>
+                <select 
+                  [(ngModel)]="feat.icon" 
+                  class="w-full bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+                  <option *ngFor="let opt of popularFeatureIcons" [value]="opt.value">{{ opt.label }}</option>
+                  <option *ngIf="!isPredefinedIcon(feat.icon)" [value]="feat.icon">Custom ({{ feat.icon }})</option>
+                </select>
+                <input 
+                  type="text" 
+                  [(ngModel)]="feat.icon" 
+                  placeholder="Or custom: ac_unit"
+                  class="w-full mt-1 bg-slate-950/70 border border-white/10 rounded px-2 py-0.5 text-[10px] text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-amber-400">
+              </div>
+
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-0.5">Color</label>
+                <select 
+                  [(ngModel)]="feat.color" 
+                  class="w-full bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-xs text-white">
+                  <option value="amber">Amber</option>
+                  <option value="blue">Blue</option>
+                  <option value="emerald">Emerald</option>
+                  <option value="purple">Purple</option>
+                  <option value="rose">Rose</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Description Text</label>
+            <textarea 
+              [(ngModel)]="feat.description" 
+              rows="2" 
+              class="w-full bg-slate-900 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Save Action Bar -->
+    <div class="glass-card p-6 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-slate-300">
+        All changes will update in real time on the live <strong class="text-amber-400">/vehicles</strong> page.
+      </p>
+
+      <button 
+        (click)="saveFleet()" 
+        [disabled]="isSavingFleet()"
+        class="glass-btn glass-btn-primary px-8 py-3 text-xs sm:text-sm font-black shadow-xl disabled:opacity-50">
+        <span *ngIf="!isSavingFleet()" class="material-icons-round text-base">save</span>
+        <span *ngIf="!isSavingFleet()">Save & Publish All Vehicle Changes</span>
+        <span *ngIf="isSavingFleet()">Saving Changes...</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 3: GALLERY CRUD ==================== -->
+  <div *ngIf="activeTab() === 'gallery'" class="glass-card p-6 border border-white/10">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h3 class="text-lg font-bold text-white">Gallery & Cover Photo Manager</h3>
+        <p class="text-xs text-slate-400">Upload media, designate featured Cover Photos with 1-click, and manage fleet visuals.</p>
+      </div>
+
+      <button (click)="openCreateGalleryModal()" class="glass-btn glass-btn-primary !py-2.5 !px-4 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+        <span class="material-icons-round text-sm">cloud_upload</span>
+        <span>Upload New Media</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div 
+        *ngFor="let g of gallery()" 
+        class="glass-panel rounded-2xl overflow-hidden border transition-all duration-300 relative group shadow-lg"
+        [ngClass]="{
+          'border-amber-400/80 ring-2 ring-amber-400/30 bg-amber-500/5': g.isCover,
+          'border-white/10 hover:border-white/30': !g.isCover
+        }">
+        
+        <!-- Media Preview Box -->
+        <div class="h-44 overflow-hidden relative">
+          <img [src]="g.thumbnail || g.url" [alt]="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+          
+          <!-- Cover Status Badge -->
+          <div *ngIf="g.isCover" class="absolute top-2.5 left-2.5 z-10 bg-amber-500 text-slate-950 font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1">
+            <span class="material-icons-round text-xs">star</span>
+            <span>Cover Photo</span>
+          </div>
+
+          <!-- Type Badge -->
+          <span class="absolute top-2.5 right-2.5 z-10 text-white bg-black/70 backdrop-blur-md px-2 py-0.5 rounded-full text-[10px] font-bold keep-text-white !text-white">
+            {{ g.type | uppercase }}
+          </span>
+
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="p-4">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded">
+              {{ g.category }}
+            </span>
+            <span *ngIf="g.isCover" class="text-[10px] text-amber-300 font-semibold">Featured on Site</span>
+          </div>
+
+          <h5 class="text-sm font-bold text-white line-clamp-1 mt-1">{{ g.title }}</h5>
+
+          <!-- Admin Action Buttons: Set as Cover + Edit + Delete -->
+          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+            <!-- 1-Click Toggle Cover Photo Button -->
+            <button 
+              (click)="toggleCoverStatus(g)" 
+              type="button"
+              class="text-xs font-bold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all"
+              [ngClass]="{
+                'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 font-black': g.isCover,
+                'bg-white/5 text-slate-300 hover:text-amber-400 hover:bg-white/10 border border-white/10': !g.isCover
+              }"
+              [title]="g.isCover ? 'Click to unset as Cover Photo' : 'Click to select this as Main Cover Photo'">
+              <span class="material-icons-round text-sm">{{ g.isCover ? 'star' : 'star_border' }}</span>
+              <span>{{ g.isCover ? 'Cover Active' : 'Set as Cover' }}</span>
+            </button>
+
+            <div class="flex items-center gap-1">
+              <!-- Edit Button -->
+              <button 
+                (click)="openEditGalleryModal(g)" 
+                type="button"
+                class="text-blue-400 hover:text-blue-300 hover:bg-blue-500/15 p-1.5 rounded-lg text-xs flex items-center gap-1 transition-colors border border-blue-500/20"
+                title="Edit this media item">
+                <span class="material-icons-round text-sm">edit</span>
+              </button>
+
+              <!-- Delete Button -->
+              <button 
+                (click)="deleteGalleryItem(g._id)" 
+                type="button"
+                class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded-lg text-xs flex items-center gap-1 transition-colors"
+                title="Delete this media">
+                <span class="material-icons-round text-sm">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 4: TEAM & LEADERSHIP MANAGEMENT ==================== -->
+  <div *ngIf="activeTab() === 'team'" class="glass-card p-6 border border-white/10">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h3 class="text-lg font-bold text-white">Leadership & Management Profiles</h3>
+        <p class="text-xs text-slate-400">Manage executive team profiles, photos, titles, and bios displayed on the public About page.</p>
+      </div>
+
+      <button (click)="openTeamModal()" class="glass-btn glass-btn-primary !py-2.5 !px-4 text-xs font-bold flex items-center gap-2 shadow-lg">
+        <span class="material-icons-round text-base">person_add</span>
+        <span>Add Team Member</span>
+      </button>
+    </div>
+
+    <!-- Team Members Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let member of teamMembers()" class="glass-panel p-5 rounded-2xl border border-white/10 flex flex-col justify-between group hover:border-amber-400/40 transition-all">
+        <div>
+          <div class="h-56 rounded-xl overflow-hidden mb-4 relative bg-slate-900 border border-white/10">
+            <img [src]="member.image" [alt]="member.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <span *ngIf="member.order" class="absolute top-2 left-2 bg-slate-950/80 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-400/30">
+              #{{ member.order }}
+            </span>
+          </div>
+
+          <div class="text-[11px] font-black text-amber-400 uppercase tracking-wider mb-1">{{ member.role }}</div>
+          <h4 class="text-base font-bold text-white mb-0.5">{{ member.name }}</h4>
+          <div class="text-xs font-semibold text-slate-400 mb-2">{{ member.experience }}</div>
+          <p class="text-xs text-slate-300 font-light line-clamp-3 leading-relaxed mb-4">{{ member.bio }}</p>
+        </div>
+
+        <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+          <button (click)="openTeamModal(member)" class="glass-btn glass-btn-outline !py-1.5 !px-3 text-xs flex items-center gap-1.5 hover:text-amber-400">
+            <span class="material-icons-round text-sm">edit</span>
+            <span>Edit Profile</span>
+          </button>
+
+          <button (click)="deleteTeamMember(member._id)" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded-lg text-xs flex items-center gap-1 transition-colors" title="Delete member">
+            <span class="material-icons-round text-base">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 5: THEME & SITE SETTINGS ==================== -->
+  <div *ngIf="activeTab() === 'settings'" class="glass-card p-8 border border-white/10 max-w-4xl">
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-white">Theme & Site Configuration</h3>
+      <p class="text-xs text-slate-400">Synchronize default palette, phone numbers, email, and address info across the platform.</p>
+    </div>
+
+    <form (ngSubmit)="saveSettings()" class="space-y-6">
+      <!-- Theme & Mode Selection -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <label class="block text-xs font-bold uppercase tracking-wider text-amber-400">Default Theme & Display Mode</label>
+          <div class="flex items-center gap-1 bg-black/20 p-1 rounded-xl border border-white/10">
+            <button
+              type="button"
+              (click)="themeService.setMode('light'); settings.theme = 'theme-light'"
+              class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all"
+              [ngClass]="themeService.currentMode() === 'light' ? 'bg-amber-500 text-slate-950 font-extrabold shadow' : 'text-slate-300 hover:text-white'">
+              <span class="material-icons-round text-xs">wb_sunny</span>
+              <span>White Mode</span>
+            </button>
+            <button
+              type="button"
+              (click)="themeService.setMode('dark'); settings.theme = themeService.currentTheme()"
+              class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all"
+              [ngClass]="themeService.currentMode() === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow' : 'text-slate-300 hover:text-white'">
+              <span class="material-icons-round text-xs">nightlight_round</span>
+              <span>Dark Mode</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div 
+            *ngFor="let t of themeService.themes"
+            (click)="settings.theme = t.id; themeService.setTheme(t.id)"
+            class="p-3 rounded-xl border cursor-pointer transition-all flex items-center gap-3"
+            [ngClass]="settings.theme === t.id ? 'bg-blue-600/25 border-blue-400 shadow-md font-bold' : 'glass-panel text-slate-300 hover:bg-white/5'">
+            <div class="w-8 h-8 rounded-lg shrink-0 border border-white/20 shadow-sm" [style.background]="t.bgPreview"></div>
+            <div>
+              <div class="text-xs font-bold flex items-center gap-1.5">
+                <span>{{ t.name }}</span>
+                <span *ngIf="t.mode === 'light'" class="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-400 rounded">LIGHT</span>
+              </div>
+              <div class="text-[10px] text-slate-400">{{ t.description }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Info -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Site Title</label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.siteTitle" 
+            name="siteTitle" 
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tagline</label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.tagline" 
+            name="tagline" 
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- Phone Numbers (Primary & Secondary) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            <span class="text-amber-400 font-bold">Primary Phone</span> (Calls & Top Bar)
+          </label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.contactPhone" 
+            name="contactPhone" 
+            placeholder="+91 98765 43210"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            <span class="text-blue-400 font-bold">Secondary Phone</span> (Alternate Helpline)
+          </label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.contactPhone2" 
+            name="contactPhone2" 
+            placeholder="+91 91234 56789"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- WhatsApp Numbers (Primary & Secondary) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            <span class="text-emerald-400 font-bold">Primary WhatsApp</span> (Main Chat)
+          </label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.whatsappPhone" 
+            name="whatsappPhone" 
+            placeholder="+91 98765 43210"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            <span class="text-emerald-400 font-bold">Secondary WhatsApp</span> (Backup Chat)
+          </label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.whatsappPhone2" 
+            name="whatsappPhone2" 
+            placeholder="+91 91234 56789"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- Email & Business Hours -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Contact Email</label>
+          <input 
+            type="email" 
+            [(ngModel)]="settings.contactEmail" 
+            name="contactEmail" 
+            placeholder="info@jaisaitravels.com"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Business Hours</label>
+          <input 
+            type="text" 
+            [(ngModel)]="settings.businessHours" 
+            name="businessHours" 
+            placeholder="Monday - Sunday: 24 Hours Open (24/7 Dispatch)"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Head Office Address</label>
+        <textarea 
+          [(ngModel)]="settings.address" 
+          name="address" 
+          rows="2" 
+          placeholder="1, New Link Rd, Bhagat Singh Nagar 1, Goregaon West, Mumbai, Maharashtra 400104"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+
+      <!-- Google Business Rating & Review Link -->
+      <div class="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 to-transparent border border-amber-400/20">
+        <label class="block text-xs font-bold text-amber-400 mb-1 flex items-center gap-1.5">
+          <span class="material-icons-round text-base">star</span>
+          <span>Google Business Rating & Review Link</span>
+        </label>
+        <p class="text-[11px] text-slate-300 mb-2">
+          This exact link and verified review badge will be sent automatically to customers via <strong>Email</strong> and <strong>WhatsApp</strong> when their trip is marked <strong>Completed</strong>.
+        </p>
+        <div class="relative">
+          <input 
+            type="url" 
+            [(ngModel)]="settings.googleReviewUrl" 
+            name="googleReviewUrl" 
+            placeholder="https://www.google.com/search?q=JAI+SAI+TRAVELS+%7B+Rent-A-Car%7D+Harmony+Mall+Goregaon+West+Mumbai#lrd=0x0:0x0,3"
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 pl-10 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400">
+          <span class="material-icons-round absolute left-3 top-2.5 text-amber-400 text-lg">rate_review</span>
+        </div>
+        <div class="mt-2 flex items-center gap-2">
+          <a [href]="settings.googleReviewUrl" target="_blank" class="text-[11px] text-amber-400 hover:underline flex items-center gap-1 font-semibold">
+            <span class="material-icons-round text-xs">open_in_new</span>
+            <span>Test Google Review Link</span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="glass-btn glass-btn-primary px-8 py-3 text-xs sm:text-sm font-black shadow-lg">
+          <span class="material-icons-round text-base">save</span>
+          <span>Save & Apply Settings Everywhere</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ==================== TAB 5: ADMIN PROFILE ==================== -->
+  <div *ngIf="activeTab() === 'profile'" class="glass-card p-8 border border-white/10 max-w-xl">
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-white">Admin Account Credentials</h3>
+      <p class="text-xs text-slate-400">Update your username, email, or change access password.</p>
+    </div>
+
+    <form (ngSubmit)="updateProfile()" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Username</label>
+        <input 
+          type="text" 
+          [(ngModel)]="profileForm.username" 
+          name="username" 
+          required 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+        <input 
+          type="email" 
+          [(ngModel)]="profileForm.email" 
+          name="email" 
+          required 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">New Password (leave blank to keep current)</label>
+        <input 
+          type="password" 
+          [(ngModel)]="profileForm.password" 
+          name="password" 
+          placeholder="••••••••" 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="glass-btn glass-btn-primary px-8 py-2.5 text-xs font-bold">
+          Update Profile
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== SERVICE CRUD MODAL ==================== -->
+<div *ngIf="isServiceModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in">
+  <div class="glass-card max-w-lg w-full p-6 border border-white/20 relative shadow-2xl">
+    <button (click)="closeServiceModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
+      <span class="material-icons-round">close</span>
+    </button>
+
+    <h3 class="text-lg font-bold text-white mb-4">
+      {{ isEditingService() ? 'Edit Service' : 'Add New Service' }}
+    </h3>
+
+    <form (ngSubmit)="saveService()" class="space-y-3">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Service Title *</label>
+        <input 
+          type="text" 
+          [(ngModel)]="serviceForm.title" 
+          name="srvTitle" 
+          required 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Description *</label>
+        <textarea 
+          [(ngModel)]="serviceForm.description" 
+          name="srvDesc" 
+          rows="2" 
+          required 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Material Icon</label>
+          <input 
+            type="text" 
+            [(ngModel)]="serviceForm.icon" 
+            name="srvIcon" 
+            placeholder="directions_car" 
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Price Range</label>
+          <input 
+            type="text" 
+            [(ngModel)]="serviceForm.priceRange" 
+            name="srvPrice" 
+            placeholder="₹14 / KM" 
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Features (comma separated)</label>
+        <input 
+          type="text" 
+          [(ngModel)]="featuresText" 
+          name="srvFeatures" 
+          placeholder="24/7 Available, Sanitized Cars, AC Clean" 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <input 
+          type="checkbox" 
+          [(ngModel)]="serviceForm.isActive" 
+          name="srvActive" 
+          id="srvActive"
+          class="rounded border-white/20 bg-white/5 text-amber-500 focus:ring-0">
+        <label for="srvActive" class="text-xs text-slate-300 cursor-pointer">Active Service (visible to public)</label>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="glass-btn glass-btn-primary w-full py-2.5 text-xs font-bold">
+          Save Service
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== GALLERY CRUD MODAL ==================== -->
+<div *ngIf="isGalleryModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in">
+  <div class="glass-card max-w-md w-full p-6 border border-white/20 relative shadow-2xl">
+    <button (click)="closeGalleryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
+      <span class="material-icons-round">close</span>
+    </button>
+
+    <div class="flex items-center gap-2.5 mb-4">
+      <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+        <span class="material-icons-round text-lg">{{ isEditingGallery() ? 'edit' : 'add_photo_alternate' }}</span>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white">{{ isEditingGallery() ? 'Edit Gallery Media' : 'Add Media to Gallery' }}</h3>
+        <p class="text-[11px] text-slate-400">{{ isEditingGallery() ? 'Update title, category, cover status, or replace media file' : 'Add new photos or videos to showcase on your website' }}</p>
+      </div>
+    </div>
+
+    <!-- Media Preview (if available) -->
+    <div *ngIf="galleryUploadPreview || galleryForm.url" class="mb-4 rounded-xl overflow-hidden border border-white/10 relative h-36 bg-black/40 flex items-center justify-center">
+      <img *ngIf="galleryForm.type !== 'video' || galleryUploadPreview" [src]="galleryUploadPreview || galleryForm.url" [alt]="galleryForm.title" class="w-full h-full object-cover">
+      <div *ngIf="galleryForm.type === 'video' && !galleryUploadPreview" class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-icons-round text-3xl text-amber-400">play_circle_filled</span>
+        <span class="text-xs">Video URL Linked</span>
+      </div>
+      <span class="absolute bottom-2 left-2 text-[10px] bg-black/75 backdrop-blur-md text-amber-300 px-2 py-0.5 rounded font-semibold">
+        {{ isEditingGallery() ? 'Current / Selected Media' : 'Preview' }}
+      </span>
+    </div>
+
+    <form (ngSubmit)="saveGalleryItem()" class="space-y-3">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Title *</label>
+        <input 
+          type="text" 
+          [(ngModel)]="galleryForm.title" 
+          name="galTitle" 
+          required 
+          placeholder="e.g. Innova Crysta Front View"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+          <select 
+            [(ngModel)]="galleryForm.category" 
+            name="galCat" 
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="Fleet">Fleet</option>
+            <option value="Interior">Interior</option>
+            <option value="Tours">Tours</option>
+            <option value="Events">Events</option>
+            <option value="Airport">Airport</option>
+            <option value="Videos">Videos</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Media Type</label>
+          <select 
+            [(ngModel)]="galleryForm.type" 
+            name="galType" 
+            class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <label class="block text-xs font-semibold text-slate-300">{{ isEditingGallery() ? 'Replace File (Optional)' : 'Upload File' }}</label>
+          <span *ngIf="isEditingGallery()" class="text-[10px] text-slate-400">Leave blank to keep existing file</span>
+        </div>
+        <input 
+          type="file" 
+          (change)="onGalleryFileSelect($event)" 
+          accept="image/*,video/*"
+          class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-blue-600/30 file:text-blue-300">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Or Media URL</label>
+        <input 
+          type="url" 
+          [(ngModel)]="galleryForm.url" 
+          (input)="onGalleryUrlChange()"
+          name="galUrl" 
+          placeholder="https://..." 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="flex items-center gap-2 pt-1">
+        <input 
+          type="checkbox" 
+          [(ngModel)]="galleryForm.isCover" 
+          name="galCover" 
+          id="galCover"
+          class="rounded border-white/20 bg-white/5 text-amber-500 focus:ring-0">
+        <label for="galCover" class="text-xs text-slate-300 cursor-pointer">Set as Cover Media</label>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="glass-btn glass-btn-primary w-full py-2.5 text-xs font-bold flex items-center justify-center gap-2">
+          <span class="material-icons-round text-sm">{{ isEditingGallery() ? 'save' : 'add_photo_alternate' }}</span>
+          <span>{{ isEditingGallery() ? 'Update Media' : 'Save Media' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== TEAM MEMBER MODAL ==================== -->
+<div *ngIf="isTeamModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+  <div class="glass-card max-w-lg w-full p-6 border border-white/20 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+    <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+      <h3 class="text-base font-bold text-white flex items-center gap-2">
+        <span class="material-icons-round text-amber-400">badge</span>
+        <span>{{ isEditingTeamMember() ? 'Edit Team Member Profile' : 'Add New Team Member' }}</span>
+      </h3>
+      <button (click)="closeTeamModal()" class="text-slate-400 hover:text-white p-1">
+        <span class="material-icons-round">close</span>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveTeamMember()" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name *</label>
+        <input 
+          type="text" 
+          [(ngModel)]="teamForm.name" 
+          name="tmName" 
+          required 
+          placeholder="e.g. Jaykumar Sharma"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Role / Designation *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="teamForm.role" 
+            name="tmRole" 
+            required 
+            placeholder="e.g. Founder & Managing Director"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Experience *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="teamForm.experience" 
+            name="tmExp" 
+            required 
+            placeholder="e.g. 21+ Years Experience (Since 2005)"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Bio / Profile Description</label>
+        <textarea 
+          [(ngModel)]="teamForm.bio" 
+          name="tmBio" 
+          rows="3" 
+          placeholder="Brief professional background and role description..."
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Photo Upload (from Computer)</label>
+        <input 
+          type="file" 
+          (change)="onTeamFileSelected($event)" 
+          accept="image/*"
+          class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-blue-600/30 file:text-blue-300">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Or Photo URL</label>
+        <input 
+          type="url" 
+          [(ngModel)]="teamForm.image" 
+          name="tmUrl" 
+          placeholder="https://images.unsplash.com/..." 
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div *ngIf="teamImagePreview || teamForm.image" class="flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/10">
+        <img [src]="teamImagePreview || teamForm.image" alt="Preview" class="w-12 h-12 object-cover rounded-lg">
+        <span class="text-xs text-slate-400">Photo Preview</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Display Order</label>
+          <input 
+            type="number" 
+            [(ngModel)]="teamForm.order" 
+            name="tmOrder" 
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div class="flex items-center gap-2 pt-5">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="teamForm.isActive" 
+            name="tmActive" 
+            id="tmActive"
+            class="rounded border-white/20 bg-white/5 text-amber-500 focus:ring-0">
+          <label for="tmActive" class="text-xs text-slate-300 cursor-pointer">Visible on Website</label>
+        </div>
+      </div>
+
+      <div class="pt-3">
+        <button type="submit" class="glass-btn glass-btn-primary w-full py-2.5 text-xs font-bold">
+          {{ isEditingTeamMember() ? 'Update Team Member' : 'Add Team Member' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

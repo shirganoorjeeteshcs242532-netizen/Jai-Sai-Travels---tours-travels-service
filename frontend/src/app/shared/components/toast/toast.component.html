@@ -1,0 +1,29 @@
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 max-w-md w-full pointer-events-none px-4 md:px-0">
+  <div 
+    *ngFor="let toast of notificationService.toasts()"
+    class="pointer-events-auto toast-box transition-all duration-300 transform translate-y-0"
+    [ngClass]="'toast-' + toast.type">
+    
+    <!-- Icon -->
+    <div class="mt-0.5 shrink-0">
+      <span *ngIf="toast.type === 'success'" class="material-icons-round text-2xl toast-icon">check_circle</span>
+      <span *ngIf="toast.type === 'error'" class="material-icons-round text-2xl toast-icon">error</span>
+      <span *ngIf="toast.type === 'warning'" class="material-icons-round text-2xl toast-icon">warning</span>
+      <span *ngIf="toast.type === 'info'" class="material-icons-round text-2xl toast-icon">info</span>
+    </div>
+
+    <!-- Message Body -->
+    <div class="flex-1 pr-2">
+      <h4 *ngIf="toast.title" class="text-sm leading-tight toast-title mb-1">{{ toast.title }}</h4>
+      <p class="text-xs leading-relaxed toast-desc">{{ toast.message }}</p>
+    </div>
+
+    <!-- Dismiss Button -->
+    <button 
+      (click)="notificationService.remove(toast.id)"
+      class="toast-close-btn transition-colors p-1 rounded-lg shrink-0"
+      title="Close notification">
+      <span class="material-icons-round text-base">close</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,450 @@
+<!-- Ambient Full Page Dynamic Cover Background Layer -->
+<div class="fixed inset-0 pointer-events-none z-0 opacity-20 overflow-hidden">
+  <img 
+    [src]="coverPhotoUrl()" 
+    alt="Jai Sai Travels Luxury Cover Ambient" 
+    class="w-full h-full object-cover blur-md scale-110">
+  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-3xl"></div>
+</div>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="relative min-h-[92vh] flex items-center justify-center pt-32 pb-24 overflow-hidden z-10">
+  <!-- Dynamic Background Image with Depth Gradient -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      [src]="coverPhotoUrl()" 
+      alt="Toyota Innova Crysta Jai Sai Travels Cover" 
+      class="w-full h-full object-cover object-center opacity-35 scale-105 transform hover:scale-100 transition-transform duration-1000">
+    <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/85 to-[var(--bg-primary)]/60"></div>
+  </div>
+
+  <!-- Decorative Glowing Ambient Lights -->
+  <div class="absolute top-1/4 -left-20 w-96 h-96 rounded-full bg-blue-600/15 blur-3xl pointer-events-none animate-pulse"></div>
+  <div class="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
+
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10 text-center">
+    <!-- Premium Badge -->
+    <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-black tracking-widest uppercase mb-6 backdrop-blur-md shadow-lg shadow-amber-500/10">
+      <span class="material-icons-round text-base text-amber-400">stars</span>
+      <span>Premier Luxury Tours & Travels • Since 2005</span>
+    </div>
+
+    <!-- Main Title with Massive Executive Font -->
+    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.1] max-w-6xl mx-auto">
+      Every Journey, A Premium Experience with <br class="hidden sm:inline" />
+      <span class="gold-gradient-text">Jai Sai Travels</span>
+    </h1>
+
+    <!-- Dynamic Typing Subtitle -->
+    <div class="mt-5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-100 min-h-[48px] flex items-center justify-center">
+      <span>Dedicated to </span>
+      <span class="text-blue-400 ml-3 font-extrabold">{{ typedText() }}</span>
+      <span class="cursor-blink ml-1"></span>
+    </div>
+
+    <p class="mt-6 text-base sm:text-lg md:text-xl text-slate-200 max-w-4xl mx-auto font-normal leading-relaxed">
+      Your trusted partner for <strong>21+ years</strong> in comfortable, safe, and luxurious road travel. Premium Toyota Innova Crysta fleet with experienced chauffeurs for outstation trips, 24/7 airport transfers & corporate rentals.
+    </p>
+
+    <!-- Glassmorphic CTA Buttons -->
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+      <!-- Call Primary -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone" 
+        class="glass-btn glass-btn-accent text-base sm:text-lg font-bold !py-3.5 !px-8 shadow-2xl">
+        <span class="material-icons-round text-xl">phone_in_talk</span>
+        <span>Call Primary: {{ settingsService.settings().contactPhone }}</span>
+      </a>
+
+      <!-- Call Secondary -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone2" 
+        class="glass-btn glass-btn-outline text-base sm:text-lg font-bold !py-3.5 !px-8 border-amber-400/40">
+        <span class="material-icons-round text-amber-400 text-xl">call</span>
+        <span>Call: {{ settingsService.settings().contactPhone2 }}</span>
+      </a>
+
+      <!-- WhatsApp Booking Primary -->
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-btn glass-btn-whatsapp text-base sm:text-lg font-bold !py-3.5 !px-8 shadow-2xl">
+        <span class="material-icons-round text-xl">chat</span>
+        <span>WhatsApp Booking</span>
+      </a>
+
+      <!-- View Fleet -->
+      <a 
+        routerLink="/vehicles" 
+        class="glass-btn glass-btn-outline text-base sm:text-lg font-semibold !py-3.5 !px-7">
+        <span class="material-icons-round text-xl">directions_car</span>
+        <span>Explore Fleet</span>
+      </a>
+    </div>
+
+    <!-- Quick Features Strip with Generous Spacing -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto text-left">
+      <div class="glass-panel p-5 rounded-2xl flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
+          <span class="material-icons-round text-2xl">verified_user</span>
+        </div>
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">Verified Drivers</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-light">Polite & Experienced</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+          <span class="material-icons-round text-2xl">schedule</span>
+        </div>
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">24/7 Availability</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-light">Instant Dispatch</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+          <span class="material-icons-round text-2xl">sanitizer</span>
+        </div>
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">Clean & Sanitized</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-light">100% Hygienic Cars</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+          <span class="material-icons-round text-2xl">workspace_premium</span>
+        </div>
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">Since 2005</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-light">21+ Yrs Excellence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ANIMATED STATISTICS SECTION ==================== -->
+<section class="py-16 border-y border-white/10 bg-slate-950/60 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="p-6 glass-panel rounded-2xl border border-white/5">
+        <div class="text-4xl sm:text-5xl md:text-6xl font-black text-amber-400 tracking-tight">
+          {{ statYears() }}+
+        </div>
+        <div class="text-sm sm:text-base font-bold text-slate-200 uppercase tracking-wider mt-2">
+          Years of Excellence (Since 2005)
+        </div>
+      </div>
+
+      <div class="p-6 glass-panel rounded-2xl border border-white/5">
+        <div class="text-4xl sm:text-5xl md:text-6xl font-black text-blue-400 tracking-tight">
+          {{ statTrips() | number }}+
+        </div>
+        <div class="text-sm sm:text-base font-bold text-slate-200 uppercase tracking-wider mt-2">
+          Successful Trips Completed
+        </div>
+      </div>
+
+      <div class="p-6 glass-panel rounded-2xl border border-white/5">
+        <div class="text-4xl sm:text-5xl md:text-6xl font-black text-emerald-400 tracking-tight">
+          {{ statClients() }}+
+        </div>
+        <div class="text-sm sm:text-base font-bold text-slate-200 uppercase tracking-wider mt-2">
+          Corporate & VIP Clients
+        </div>
+      </div>
+
+      <div class="p-6 glass-panel rounded-2xl border border-white/5">
+        <div class="text-4xl sm:text-5xl md:text-6xl font-black text-yellow-400 tracking-tight flex items-center justify-center gap-2">
+          <span>{{ statRating() }}</span>
+          <span class="material-icons-round text-3xl sm:text-4xl text-yellow-400">star</span>
+        </div>
+        <div class="text-sm sm:text-base font-bold text-slate-200 uppercase tracking-wider mt-2">
+          Customer Rating
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== QUICK BOOKING INQUIRY STRIP ==================== -->
+<section class="py-16 relative">
+  <div class="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+    <div class="glass-card p-8 md:p-10 border border-white/20 relative overflow-hidden shadow-2xl">
+      <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Fast Reservation</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">Book Your Innova Crysta Instantly</h3>
+          <p class="text-sm sm:text-base text-slate-300 font-light mt-1">Fill in the quick details below for instant confirmation and best quotation.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a [href]="'tel:' + settingsService.settings().contactPhone" class="glass-btn glass-btn-accent !py-2 !px-4 text-xs font-bold" title="Primary">
+            <span class="material-icons-round text-sm">phone</span>
+            <span>{{ settingsService.settings().contactPhone }}</span>
+          </a>
+          <a [href]="'tel:' + settingsService.settings().contactPhone2" class="glass-btn glass-btn-outline !py-2 !px-4 text-xs font-bold" title="Secondary">
+            <span class="material-icons-round text-sm text-amber-400">call</span>
+            <span>{{ settingsService.settings().contactPhone2 }}</span>
+          </a>
+        </div>
+      </div>
+
+      <form (ngSubmit)="submitQuickInquiry()" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 items-end">
+        <div>
+          <label class="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Your Full Name</label>
+          <input 
+            type="text" 
+            [(ngModel)]="quickBooking.name" 
+            name="name" 
+            placeholder="e.g. Amit Patil" 
+            required 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400 transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Mobile Number</label>
+          <input 
+            type="tel" 
+            [(ngModel)]="quickBooking.phone" 
+            name="phone" 
+            placeholder="+91 98765 43210" 
+            required 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400 transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Email ID (for notification)</label>
+          <input 
+            type="email" 
+            [(ngModel)]="quickBooking.email" 
+            name="email" 
+            placeholder="e.g. amit@gmail.com" 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400 transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Travel Service</label>
+          <select 
+            [(ngModel)]="quickBooking.service" 
+            name="service" 
+            class="w-full bg-slate-900 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400 transition-colors">
+            <option value="Toyota Innova Crysta - Outstation">Innova Crysta - Outstation</option>
+            <option value="Toyota Innova Crysta - Airport Transfer">Innova Crysta - Airport Drop/Pickup</option>
+            <option value="Toyota Innova Crysta - Local 8Hr/80KM">Local 8h / 80km Package</option>
+            <option value="Corporate Executive Rental">Corporate Executive Rental</option>
+            <option value="Wedding & Event Fleet">Wedding & Event Convoy</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Travel Date</label>
+          <input 
+            type="date" 
+            [(ngModel)]="quickBooking.date" 
+            name="date" 
+            required 
+            class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400 transition-colors">
+        </div>
+
+        <div>
+          <button 
+            type="submit" 
+            [disabled]="isSubmitting()"
+            class="glass-btn glass-btn-primary w-full !py-3.5 text-sm sm:text-base font-bold disabled:opacity-50">
+            <span *ngIf="!isSubmitting()" class="material-icons-round text-base">send</span>
+            <span *ngIf="!isSubmitting()">Get Quote</span>
+            <span *ngIf="isSubmitting()">Sending...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FEATURED SERVICES SECTION ==================== -->
+<section class="py-24 bg-slate-950/50 border-y border-white/10 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="text-center max-w-4xl mx-auto mb-16">
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">What We Offer</span>
+      <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
+        Comprehensive Travel & Rental Services
+      </h2>
+      <p class="text-base sm:text-lg text-slate-300 mt-3 font-light leading-relaxed">
+        Punctual, professional, and tailor-made travel services for tourists, families, and business delegations.
+      </p>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div *ngIf="isLoadingServices()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton h-80 rounded-2xl"></div>
+    </div>
+
+    <!-- Services Grid -->
+    <div *ngIf="!isLoadingServices()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div 
+        *ngFor="let s of featuredServices()" 
+        class="glass-card p-8 flex flex-col justify-between hover:border-amber-400/50 transition-all duration-300 group">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+              <span class="material-icons-round text-3xl">{{ s.icon || 'directions_car' }}</span>
+            </div>
+            <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/30">
+              {{ s.priceRange }}
+            </span>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
+            {{ s.title }}
+          </h3>
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-light mb-6">
+            {{ s.description }}
+          </p>
+
+          <div class="space-y-2.5 mb-8">
+            <div *ngFor="let feat of s.features" class="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
+              <span class="material-icons-round text-amber-400 text-base">verified</span>
+              <span>{{ feat }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-white/10 flex items-center gap-3">
+          <a 
+            routerLink="/services" 
+            class="glass-btn glass-btn-primary flex-1 text-xs sm:text-sm font-bold text-center !py-2.5">
+            <span>Book Service</span>
+          </a>
+          <a 
+            [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20want%20to%20inquire%20about%20' + s.title" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="glass-btn glass-btn-whatsapp !p-2.5 !rounded-full"
+            [title]="'Chat on WhatsApp: ' + settingsService.settings().whatsappPhone">
+            <span class="material-icons-round text-base">chat</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-14">
+      <a routerLink="/services" class="glass-btn glass-btn-outline text-base font-bold !py-3.5 !px-8">
+        <span>View All 6 Travel Services</span>
+        <span class="material-icons-round text-lg">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS SECTION ==================== -->
+<section class="py-24 relative overflow-hidden">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="text-center max-w-4xl mx-auto mb-16">
+      <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Client Reviews</span>
+      <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
+        Trusted by Thousands of Travelers
+      </h2>
+      <p class="text-base sm:text-lg text-slate-300 mt-3 font-light leading-relaxed">
+        Real stories and feedback from families, corporate executives, and tourists who travel with us regularly.
+      </p>
+
+      <!-- Google Reviews Verified Badge & Action -->
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6">
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white/5 border border-amber-400/30 backdrop-blur-md shadow-lg">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.25C.45 8.16 0 9.99 0 12s.45 3.84 1.25 5.43l4.03-3.14z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.57l4.03 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
+          </svg>
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="font-black text-amber-400 text-sm">4.8</span>
+            <div class="flex text-amber-400">
+              <span class="material-icons-round text-sm">star</span>
+              <span class="material-icons-round text-sm">star</span>
+              <span class="material-icons-round text-sm">star</span>
+              <span class="material-icons-round text-sm">star</span>
+              <span class="material-icons-round text-sm">star_half</span>
+            </div>
+            <span class="text-slate-300 font-semibold">(26 Google Reviews)</span>
+          </div>
+        </div>
+
+        <a 
+          href="https://share.google/Al7nlldXLMbIoH9Ih" 
+          target="_blank" 
+          class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-400/30 hover:bg-amber-500/20 transition-all shadow-md">
+          <span class="material-icons-round text-sm">rate_review</span>
+          <span>Review Us on Google</span>
+          <span class="material-icons-round text-xs">open_in_new</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div *ngFor="let t of testimonials" class="glass-card p-8 flex flex-col justify-between">
+        <div>
+          <!-- Star Rating -->
+          <div class="flex text-amber-400 mb-4">
+            <span *ngFor="let s of [1,2,3,4,5]" class="material-icons-round text-lg">star</span>
+          </div>
+
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-light italic mb-6">
+            "{{ t.comment }}"
+          </p>
+        </div>
+
+        <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+          <img [src]="t.avatar" [alt]="t.name" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400/40">
+          <div>
+            <h4 class="text-sm sm:text-base font-bold text-white">{{ t.name }}</h4>
+            <p class="text-xs text-slate-400">{{ t.role }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CALL TO ACTION BANNER ==================== -->
+<section class="py-20 cta-banner-section bg-gradient-to-r from-blue-950 via-slate-900 to-slate-950 border-t border-white/10 relative overflow-hidden">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12 text-center relative z-10">
+    <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-amber-400">24/7 Road Travel Support</span>
+    <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white mt-2 mb-4 tracking-tight">
+      Ready for a Memorable Journey?
+    </h2>
+    <p class="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-light mb-10 leading-relaxed">
+      Call our direct helpline or chat on WhatsApp for instant booking confirmation with Toyota Innova Crysta.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+      <a [href]="'tel:' + settingsService.settings().contactPhone" class="glass-btn glass-btn-accent text-base sm:text-lg font-bold !py-3.5 !px-8 shadow-2xl">
+        <span class="material-icons-round text-xl">phone_in_talk</span>
+        <span>Call Primary: {{ settingsService.settings().contactPhone }}</span>
+      </a>
+
+      <a [href]="'tel:' + settingsService.settings().contactPhone2" class="glass-btn glass-btn-outline text-base sm:text-lg font-bold !py-3.5 !px-8 border-amber-400/40">
+        <span class="material-icons-round text-amber-400 text-xl">call</span>
+        <span>Call: {{ settingsService.settings().contactPhone2 }}</span>
+      </a>
+
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="glass-btn glass-btn-whatsapp text-base sm:text-lg font-bold !py-3.5 !px-8 shadow-2xl">
+        <span class="material-icons-round text-xl">chat</span>
+        <span>WhatsApp: {{ settingsService.settings().whatsappPhone }}</span>
+      </a>
+    </div>
+  </div>
+</section>

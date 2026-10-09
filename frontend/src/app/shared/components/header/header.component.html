@@ -1,0 +1,195 @@
+<header 
+  class="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+  [ngClass]="{
+    'bg-slate-950/85 backdrop-blur-xl border-b border-white/10 shadow-2xl py-3.5': isScrolled(),
+    'bg-slate-950/40 backdrop-blur-md border-b border-white/5 py-5': !isScrolled()
+  }">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a routerLink="/" (click)="closeMobileMenu()" class="flex items-center gap-3.5 group">
+      <div class="h-13 w-auto bg-white rounded-2xl p-1 shadow-lg shadow-amber-500/15 group-hover:scale-105 transition-transform flex items-center justify-center border border-amber-400/50">
+        <img src="logo.jpg" alt="Jai Sai Travels Official Logo" class="h-11 w-auto object-contain rounded-xl">
+      </div>
+      <div>
+        <div class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-1.5 leading-none">
+          JAI SAI <span class="gold-gradient-text">TRAVELS</span>
+        </div>
+        <div class="text-[11px] font-bold text-slate-400 tracking-widest uppercase mt-1 flex items-center gap-2">
+          <span>Rent - A - Car</span>
+          <span class="w-1 h-1 rounded-full bg-amber-400"></span>
+          <span class="text-amber-400 font-semibold">Since 2005</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden xl:flex items-center gap-2 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-2 rounded-full shadow-inner">
+      <a 
+        *ngFor="let link of navLinks" 
+        [routerLink]="link.path"
+        routerLinkActive="active-nav-link"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+        class="nav-pill-link text-sm font-semibold">
+        {{ link.label }}
+      </a>
+    </nav>
+
+    <!-- Right Controls -->
+    <div class="hidden lg:flex items-center gap-3">
+      <!-- Theme Switcher -->
+      <app-theme-switcher></app-theme-switcher>
+
+      <!-- Primary Call Button -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone" 
+        class="glass-btn glass-btn-outline !py-2.5 !px-4 text-xs sm:text-sm font-bold flex items-center gap-2 border-amber-400/40"
+        [title]="'Call Primary: ' + settingsService.settings().contactPhone">
+        <span class="material-icons-round text-amber-400 text-base">phone_in_talk</span>
+        <span class="hidden 2xl:inline text-white">{{ settingsService.settings().contactPhone }}</span>
+        <span class="2xl:hidden">Call Now</span>
+      </a>
+
+      <!-- Primary WhatsApp CTA -->
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
+        target="_blank"
+        rel="noopener noreferrer" 
+        class="glass-btn glass-btn-whatsapp !py-2.5 !px-5 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg"
+        [title]="'WhatsApp Primary: ' + settingsService.settings().whatsappPhone">
+        <span class="material-icons-round text-base">chat</span>
+        <span>WhatsApp</span>
+      </a>
+
+      <!-- Admin Dashboard Shortcut -->
+      <a 
+        *ngIf="authService.isAuthenticated()"
+        routerLink="/admin/dashboard"
+        class="glass-btn glass-btn-primary !py-2.5 !px-3 text-sm"
+        title="Admin Dashboard">
+        <span class="material-icons-round text-base">dashboard</span>
+      </a>
+    </div>
+
+    <!-- Mobile Controls & Hamburger Button -->
+    <div class="flex lg:hidden items-center gap-2">
+      <app-theme-switcher></app-theme-switcher>
+
+      <button 
+        (click)="toggleMobileMenu()"
+        type="button" 
+        class="glass-btn glass-btn-outline !p-2.5 !rounded-xl"
+        aria-label="Toggle navigation menu">
+        <span class="material-icons-round text-2xl">{{ mobileMenuOpen() ? 'close' : 'menu' }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer Overlay (Placed outside <header> so backdrop-filter never traps it) -->
+<div 
+  *ngIf="mobileMenuOpen()" 
+  class="lg:hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-md transition-opacity duration-300"
+  (click)="closeMobileMenu()">
+</div>
+
+<!-- Mobile Navigation Drawer Menu Container -->
+<div 
+  *ngIf="mobileMenuOpen()" 
+  class="mobile-nav-drawer lg:hidden fixed inset-y-0 right-0 w-full sm:w-[420px] max-w-full z-50 bg-slate-950 text-white flex flex-col justify-between shadow-2xl border-l border-white/10 animate-in slide-in-from-right duration-300">
+  
+  <!-- Mobile Drawer Top Header -->
+  <div class="px-5 py-4 flex items-center justify-between border-b border-white/10 bg-slate-900/90 backdrop-blur-xl shrink-0">
+    <a routerLink="/" (click)="closeMobileMenu()" class="flex items-center gap-3">
+      <div class="h-10 w-auto bg-white rounded-xl p-1 shadow-md border border-amber-400/50 flex items-center justify-center">
+        <img src="logo.jpg" alt="Jai Sai Travels Official Logo" class="h-8 w-auto object-contain rounded-lg">
+      </div>
+      <div>
+        <div class="text-lg font-black tracking-tight text-white flex items-center gap-1 leading-none">
+          JAI SAI <span class="gold-gradient-text">TRAVELS</span>
+        </div>
+        <div class="text-[10px] font-bold text-amber-400 tracking-wider uppercase mt-1">
+          Since 2005 • 21+ Years
+        </div>
+      </div>
+    </a>
+    
+    <div class="flex items-center gap-2">
+      <app-theme-switcher></app-theme-switcher>
+      <button 
+        (click)="closeMobileMenu()"
+        type="button" 
+        class="glass-btn glass-btn-outline !p-2 !rounded-xl text-white hover:text-amber-400"
+        aria-label="Close navigation menu">
+        <span class="material-icons-round text-2xl">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Scrollable Content -->
+  <div class="p-6 space-y-6 overflow-y-auto flex-1">
+    <!-- Subtitle Strip -->
+    <div class="flex items-center justify-between text-xs font-bold uppercase tracking-widest text-slate-400 px-1">
+      <span>Menu Navigation</span>
+      <span class="text-amber-400 font-semibold">Toyota Innova Crysta</span>
+    </div>
+
+    <!-- Links List -->
+    <nav class="space-y-2">
+      <a 
+        *ngFor="let link of navLinks" 
+        [routerLink]="link.path"
+        (click)="closeMobileMenu()"
+        routerLinkActive="!bg-amber-500/20 !border-amber-400/60 !text-amber-300 font-bold shadow-lg"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+        class="flex items-center justify-between px-4 py-3.5 rounded-2xl text-base font-semibold text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200">
+        <span class="flex items-center gap-3">
+          <span class="material-icons-round text-amber-400 text-xl">{{ getLinkIcon(link.path) }}</span>
+          <span>{{ link.label }}</span>
+        </span>
+        <span class="material-icons-round text-sm text-slate-400">chevron_right</span>
+      </a>
+    </nav>
+
+    <!-- Instant Helpline & WhatsApp Action Block -->
+    <div class="pt-4 border-t border-white/10 space-y-3">
+      <div class="text-xs font-bold uppercase tracking-widest text-slate-400 px-1">
+        Instant Booking Helpline
+      </div>
+
+      <!-- Call Primary -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone"
+        class="glass-btn glass-btn-primary w-full text-center py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg">
+        <span class="material-icons-round text-lg">phone_in_talk</span>
+        <span>Call Primary: {{ settingsService.settings().contactPhone }}</span>
+      </a>
+
+      <!-- Call Secondary -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone2"
+        class="glass-btn glass-btn-outline w-full text-center py-3 text-sm font-bold flex items-center justify-center gap-2 border-amber-400/40 text-amber-300">
+        <span class="material-icons-round text-amber-400 text-lg">call</span>
+        <span>Call Secondary: {{ settingsService.settings().contactPhone2 }}</span>
+      </a>
+
+      <!-- WhatsApp Booking -->
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-btn glass-btn-whatsapp w-full text-center py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg">
+        <span class="material-icons-round text-lg">chat</span>
+        <span>WhatsApp: {{ settingsService.settings().whatsappPhone }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Footer -->
+  <div class="p-5 border-t border-white/10 bg-slate-900/60 flex items-center justify-between text-xs text-slate-400 shrink-0">
+    <div>© 2005 - 2026 Jai Sai Travels</div>
+    <a routerLink="/admin/login" (click)="closeMobileMenu()" class="text-amber-400 hover:underline font-semibold flex items-center gap-1">
+      <span class="material-icons-round text-sm">lock</span>
+      <span>Admin Portal</span>
+    </a>
+  </div>
+</div>

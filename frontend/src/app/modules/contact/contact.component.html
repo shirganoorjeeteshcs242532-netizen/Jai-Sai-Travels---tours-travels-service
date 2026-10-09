@@ -1,0 +1,246 @@
+<app-breadcrumb 
+  pageTitle="Contact Jai Sai Travels" 
+  subtitle="We are available 24 hours a day, 7 days a week for inquiries, instant fare quotes, and car bookings • Since 2005" 
+  [items]="breadcrumbItems">
+</app-breadcrumb>
+
+<!-- ==================== CONTACT CARDS ==================== -->
+<section class="py-20 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <!-- Contact Info Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      
+      <!-- Card 1: Primary Call -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone" 
+        class="glass-card p-7 flex flex-col items-center text-center hover:border-amber-400/50 transition-all group shadow-lg">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <span class="material-icons-round text-3xl">phone_in_talk</span>
+        </div>
+        <h4 class="text-lg font-bold text-white mb-1">Primary Call Desk</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">Main 24/7 booking helpline</p>
+        <span class="text-base sm:text-lg font-black text-amber-400">{{ settingsService.settings().contactPhone }}</span>
+        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full">Primary Hotline</span>
+      </a>
+
+      <!-- Card 2: Secondary Call -->
+      <a 
+        [href]="'tel:' + settingsService.settings().contactPhone2" 
+        class="glass-card p-7 flex flex-col items-center text-center hover:border-blue-400/50 transition-all group shadow-lg">
+        <div class="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <span class="material-icons-round text-3xl">call</span>
+        </div>
+        <h4 class="text-lg font-bold text-white mb-1">Secondary Helpline</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">24/7 Alternate dispatch line</p>
+        <span class="text-base sm:text-lg font-black text-blue-400">{{ settingsService.settings().contactPhone2 }}</span>
+        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-blue-300 bg-blue-500/20 px-3 py-1 rounded-full">Secondary Line</span>
+      </a>
+
+      <!-- Card 3: Primary WhatsApp -->
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-card p-7 flex flex-col items-center text-center hover:border-emerald-400/50 transition-all group shadow-lg">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <span class="material-icons-round text-3xl">chat</span>
+        </div>
+        <h4 class="text-lg font-bold text-white mb-1">WhatsApp Primary</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">Instant chat & quotation</p>
+        <span class="text-base sm:text-lg font-black text-emerald-400">{{ settingsService.settings().whatsappPhone }}</span>
+        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">Chat on WhatsApp</span>
+      </a>
+
+      <!-- Card 4: Secondary WhatsApp -->
+      <a 
+        [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone2 || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glass-card p-7 flex flex-col items-center text-center hover:border-emerald-400/50 transition-all group shadow-lg">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <span class="material-icons-round text-3xl">chat</span>
+        </div>
+        <h4 class="text-lg font-bold text-white mb-1">WhatsApp Secondary</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mb-2 font-light">24/7 Route support</p>
+        <span class="text-base sm:text-lg font-black text-emerald-400">{{ settingsService.settings().whatsappPhone2 }}</span>
+        <span class="mt-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">Chat on WhatsApp</span>
+      </a>
+    </div>
+
+    <!-- Main Grid: Form & Google Maps (2 cols) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <!-- Contact Form (7 cols) -->
+      <div class="lg:col-span-7 glass-card p-8 sm:p-10 border border-white/20 shadow-2xl">
+        <div class="mb-8">
+          <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-amber-400">Quick Response Guaranteed</span>
+          <h3 class="text-2xl sm:text-4xl font-black text-white mt-1">Send Us a Direct Message</h3>
+          <p class="text-sm sm:text-base text-slate-300 mt-2 font-light">Fill in your requirements below and our team will revert with exact fare quotes in minutes.</p>
+        </div>
+
+        <form (ngSubmit)="submitForm()" class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Your Full Name *</label>
+              <input 
+                type="text" 
+                [(ngModel)]="contactForm.name" 
+                name="name" 
+                required 
+                placeholder="e.g. Anand Shinde" 
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Email Address *</label>
+              <input 
+                type="email" 
+                [(ngModel)]="contactForm.email" 
+                name="email" 
+                required 
+                placeholder="anand@example.com" 
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Phone / WhatsApp Number *</label>
+              <input 
+                type="tel" 
+                [(ngModel)]="contactForm.phone" 
+                name="phone" 
+                required 
+                placeholder="+91 98765 43210" 
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Preferred Travel Date</label>
+              <input 
+                type="date" 
+                [(ngModel)]="contactForm.date" 
+                name="date" 
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Select Service</label>
+            <select 
+              [(ngModel)]="contactForm.service" 
+              name="service" 
+              class="w-full bg-slate-900 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400">
+              <option value="Toyota Innova Crysta Rental">Toyota Innova Crysta Rental</option>
+              <option value="Outstation Tour Package">Outstation Tour Package</option>
+              <option value="24/7 Airport Transfer">24/7 Airport Transfer</option>
+              <option value="Local 8Hr/80KM Package">Local 8Hr / 80KM Package</option>
+              <option value="Corporate Executive Rental">Corporate Executive Rental</option>
+              <option value="Wedding Convoy Service">Wedding Convoy Service</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-bold text-slate-300 mb-2">Your Trip Details & Route Itinerary</label>
+            <textarea 
+              [(ngModel)]="contactForm.message" 
+              name="message" 
+              rows="4" 
+              placeholder="Tell us your pickup address, destination, number of passengers, or any special requests..." 
+              class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="isSubmitting()"
+            class="glass-btn glass-btn-primary w-full py-4 text-base sm:text-lg font-black disabled:opacity-50 shadow-2xl">
+            <span *ngIf="!isSubmitting()" class="material-icons-round text-xl">send</span>
+            <span *ngIf="!isSubmitting()">Send Booking Message</span>
+            <span *ngIf="isSubmitting()">Sending Inquiry...</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Google Maps Embed & Office Details (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        <!-- Map Card -->
+        <div class="glass-card overflow-hidden border border-white/20 p-3 shadow-xl">
+          <div class="w-full h-80 rounded-2xl overflow-hidden relative group">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15075.27!2d72.83671!3d19.15945!2m3!1f0!2f0!3f0!3m2!1i1024!2i786!4f13.1!3m3!1m2!1s0x3be7b638920194db%3A0xbb54a72d326c59aa!2sGoregaon%20West%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              class="opacity-90 contrast-125 w-full h-full">
+            </iframe>
+
+            <!-- Quick Direct Link to Verified Google Business Listing -->
+            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between p-2.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/15 shadow-xl">
+              <div class="flex items-center gap-2 text-xs text-white">
+                <span class="material-icons-round text-amber-400 text-base">place</span>
+                <span class="font-medium truncate">Harmony Mall, Goregaon West, Mumbai</span>
+              </div>
+              <a 
+                [href]="settingsService.settings().googleReviewUrl || 'https://share.google/Al7nlldXLMbIoH9Ih'" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition-colors shadow">
+                <span>Open in Maps</span>
+                <span class="material-icons-round text-sm">open_in_new</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Office Address Details -->
+        <div class="glass-panel p-8 rounded-2xl border border-white/10 space-y-5 shadow-xl">
+          <div class="flex items-center justify-between">
+            <h4 class="text-lg font-black text-white border-l-4 border-amber-400 pl-3">Head Office & Dispatch</h4>
+            <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">Since 2005</span>
+          </div>
+          
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+            {{ settingsService.settings().address }}
+          </p>
+
+          <div class="space-y-3 pt-2 text-sm text-slate-300">
+            <div class="flex items-center gap-3">
+              <span class="material-icons-round text-amber-400 text-lg">phone_in_talk</span>
+              <a [href]="'tel:' + settingsService.settings().contactPhone" class="font-bold text-white hover:text-amber-400 transition-colors">
+                {{ settingsService.settings().contactPhone }} (Primary)
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="material-icons-round text-blue-400 text-lg">call</span>
+              <a [href]="'tel:' + settingsService.settings().contactPhone2" class="font-bold text-white hover:text-amber-400 transition-colors">
+                {{ settingsService.settings().contactPhone2 }} (Secondary)
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="material-icons-round text-amber-400 text-lg">schedule</span>
+              <span>{{ settingsService.settings().businessHours }}</span>
+            </div>
+          </div>
+
+          <div class="pt-3 flex flex-wrap items-center gap-3">
+            <a [href]="'tel:' + settingsService.settings().contactPhone" class="glass-btn glass-btn-accent text-xs sm:text-sm font-bold !py-2.5 !px-5">
+              <span class="material-icons-round text-sm">phone</span>
+              <span>Call Primary</span>
+            </a>
+
+            <a 
+              [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="glass-btn glass-btn-whatsapp text-xs sm:text-sm font-bold !py-2.5 !px-5">
+              <span class="material-icons-round text-sm">chat</span>
+              <span>WhatsApp Primary</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

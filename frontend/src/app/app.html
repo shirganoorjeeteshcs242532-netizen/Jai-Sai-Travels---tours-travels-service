@@ -1,0 +1,41 @@
+<!-- App Shell Layout -->
+<div class="flex flex-col min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] relative selection:bg-amber-500 selection:text-slate-950">
+  
+  <!-- Global Header -->
+  <app-header></app-header>
+
+  <!-- Dynamic Router View -->
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Global Footer -->
+  <app-footer></app-footer>
+
+  <!-- Toast Notification Container -->
+  <app-toast></app-toast>
+
+  <!-- Back to Top Float Button (Bottom Left) -->
+  <app-back-to-top></app-back-to-top>
+
+  <!-- Persistent Floating Quick Action Dock (Bottom Right) -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-end">
+    <!-- Call Quick Button (Primary) -->
+    <a 
+      [href]="'tel:' + settingsService.settings().contactPhone"
+      class="glass-btn glass-btn-accent !p-3.5 !rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 active:scale-95 group flex items-center justify-center border-amber-400/50"
+      [title]="'Call Primary: ' + settingsService.settings().contactPhone">
+      <span class="material-icons-round text-xl">phone_in_talk</span>
+    </a>
+
+    <!-- WhatsApp Quick Button (Primary) -->
+    <a 
+      [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="glass-btn glass-btn-whatsapp !p-3.5 !rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 active:scale-95 group flex items-center justify-center"
+      [title]="'WhatsApp Primary: ' + settingsService.settings().whatsappPhone">
+      <span class="material-icons-round text-2xl">chat</span>
+    </a>
+  </div>
+</div>

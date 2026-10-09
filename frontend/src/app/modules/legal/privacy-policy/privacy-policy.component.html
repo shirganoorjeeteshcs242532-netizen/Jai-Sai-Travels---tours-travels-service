@@ -1,0 +1,158 @@
+<app-breadcrumb 
+  pageTitle="Privacy Policy" 
+  subtitle="How we protect your personal information and trip data at Jai Sai Travels • Since 2005" 
+  [items]="breadcrumbItems">
+</app-breadcrumb>
+
+<section class="py-16 sm:py-24 relative">
+  <div class="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Document Header Badge -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-8 mb-10 border-b border-white/10">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+          <span class="material-icons-round text-sm">lock</span>
+          <span>Customer Data Protection</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+          Privacy Policy & Data Security
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">
+          Effective Date & Last Updated: <strong class="text-slate-200">{{ lastUpdated }}</strong> • Zero Third-Party Data Selling
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="mailto:jaisaitravels@rocketmail.com" class="glass-btn glass-btn-outline text-xs sm:text-sm font-bold !py-2.5 !px-4 shadow-md">
+          <span class="material-icons-round text-base text-amber-400">email</span>
+          <span>jaisaitravels@rocketmail.com</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content Container with Glassmorphism -->
+    <div class="space-y-10 text-slate-300 leading-relaxed text-sm sm:text-base">
+
+      <!-- 1. Introduction -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">privacy_tip</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">1. Our Commitment to Your Privacy</h2>
+        </div>
+        <p>
+          At <strong class="text-white">Jai Sai Travels</strong>, your privacy is of paramount importance to us. This Privacy Policy outlines our transparent practices regarding the collection, handling, storage, and protection of information gathered through our website, phone booking lines, WhatsApp dispatch desks, and in-person reservations.
+        </p>
+        <p>
+          We treat all personal passenger details with the utmost confidentiality and adhere to applicable data protection guidelines and privacy best practices.
+        </p>
+      </div>
+
+      <!-- 2. Information Collected -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">folder_shared</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">2. Information We Collect</h2>
+        </div>
+        <p>To provide seamless chauffeur-driven tour and car rental reservations, we collect the following details:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+            <h3 class="text-white font-semibold flex items-center gap-2">
+              <span class="material-icons-round text-emerald-400 text-sm">badge</span>
+              Personal Identification Details
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300">
+              Primary passenger name, primary contact mobile number, alternate phone number, and email address for dispatch confirmations and GST invoices.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+            <h3 class="text-white font-semibold flex items-center gap-2">
+              <span class="material-icons-round text-emerald-400 text-sm">place</span>
+              Trip & Transit Information
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300">
+              Pickup address, destination or outstation itinerary, departure date & time, passenger count, luggage requirements, and flight numbers (for 24/7 airport pickups).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. How We Use Your Data -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">sync_alt</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">3. How Your Information is Used</h2>
+        </div>
+        <ul class="list-disc pl-5 space-y-2 text-slate-300">
+          <li><strong>Booking Fulfillment:</strong> Allocating the vehicle (e.g. Toyota Innova Crysta), coordinating with designated chauffeurs, and sharing driver contact cards prior to pickup.</li>
+          <li><strong>Flight Monitoring:</strong> Tracking delayed flights for airport pickups to adjust chauffeur reporting times without inconvenience to passengers.</li>
+          <li><strong>Customer Support & Dispatch:</strong> Answering queries, accommodating emergency itinerary changes, and providing real-time trip coordination.</li>
+          <li><strong>Invoicing & GST Billing:</strong> Generating transparent bills and corporate expense receipts upon trip completion.</li>
+        </ul>
+      </div>
+
+      <!-- 4. Zero Data Selling Guarantee -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4 bg-emerald-950/20">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">verified</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">4. Strict Zero Data Selling Guarantee</h2>
+        </div>
+        <p class="text-white font-medium">
+          We strictly pledge that <strong class="text-emerald-400">Jai Sai Travels never sells, rents, leases, or trades</strong> your personal contact information or trip history to third-party telemarketers, brokers, or external advertising companies.
+        </p>
+        <p>
+          Assigned drivers are only provided with the passenger's name, pickup landmark, and direct mobile number solely for the purpose of meeting and completing the scheduled journey.
+        </p>
+      </div>
+
+      <!-- 5. Cookies & Local Browser Storage -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">cookie</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">5. Cookies & Local Browser Preferences</h2>
+        </div>
+        <p>
+          Our web application utilizes basic browser <code class="px-2 py-0.5 rounded bg-white/10 text-amber-300 text-xs">localStorage</code> solely to remember your chosen visual theme (e.g., Light Mode, Royal Blue, Cyber Dark, Sunset Warm Amber). We do not deploy intrusive third-party cross-site tracking cookies.
+        </p>
+      </div>
+
+      <!-- 6. WhatsApp & SMS Communications -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">chat</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">6. WhatsApp & SMS Communication Consent</h2>
+        </div>
+        <p>
+          When you submit an online booking form, click-to-call, or click-to-WhatsApp link, you consent to receive direct travel-related notifications, driver details, fare estimates, and emergency dispatch updates from our official numbers ({{ settingsService.settings().contactPhone }} / {{ settingsService.settings().contactPhone2 }}). We do not send spam promotional broadcasts.
+        </p>
+      </div>
+
+      <!-- 7. Data Protection Officer Contact -->
+      <div class="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl space-y-4">
+        <div class="flex items-center gap-3 text-emerald-400">
+          <span class="material-icons-round text-2xl">shield</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">7. Data Privacy Inquiries & Contact</h2>
+        </div>
+        <p>
+          If you have questions regarding this Privacy Policy, wish to update your records, or request deletion of past booking details, please contact us:
+        </p>
+        <div class="pt-2 text-sm text-slate-300">
+          <p><strong>Jai Sai Travels — Data Privacy Desk</strong></p>
+          <p>{{ settingsService.settings().address }}</p>
+          <p>Email: <a [href]="'mailto:' + settingsService.settings().contactEmail" class="text-emerald-400 underline">{{ settingsService.settings().contactEmail }}</a></p>
+          <p>Helpline: {{ settingsService.settings().contactPhone }} / {{ settingsService.settings().contactPhone2 }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Back to Home Button -->
+    <div class="pt-12 text-center">
+      <a routerLink="/" class="glass-btn glass-btn-outline text-sm font-bold !py-3 !px-8 inline-flex items-center gap-2">
+        <span class="material-icons-round text-base">arrow_back</span>
+        <span>Back to Homepage</span>
+      </a>
+    </div>
+
+  </div>
+</section>

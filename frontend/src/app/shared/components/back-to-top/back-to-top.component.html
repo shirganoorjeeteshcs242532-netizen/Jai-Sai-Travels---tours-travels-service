@@ -1,0 +1,8 @@
+<button 
+  *ngIf="isVisible()"
+  (click)="scrollToTop()"
+  type="button"
+  class="fixed bottom-6 left-6 z-40 glass-btn glass-btn-primary !p-3 !rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 active:scale-95 animate-in fade-in zoom-in"
+  title="Back to top">
+  <span class="material-icons-round text-lg">arrow_upward</span>
+</button>

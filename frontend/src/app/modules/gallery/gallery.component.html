@@ -1,0 +1,174 @@
+<app-breadcrumb 
+  pageTitle="Fleet & Tour Gallery" 
+  subtitle="Glimpses of our luxury Toyota Innova Crysta cars, executive interiors, and happy journey memories • Since 2005" 
+  [items]="breadcrumbItems">
+</app-breadcrumb>
+
+<!-- ==================== GALLERY TOOLBAR & CONTROLS ==================== -->
+<section class="pt-14 pb-8 border-b border-white/10 bg-slate-950/40">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Category Tabs -->
+      <div class="gallery-category-tabs flex flex-wrap items-center gap-2.5">
+        <button 
+          *ngFor="let cat of categories"
+          (click)="filterByCategory(cat)"
+          type="button"
+          class="px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200"
+          [ngClass]="{
+            'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25 scale-105': selectedCategory() === cat,
+            'glass-panel text-slate-300 hover:text-white hover:bg-white/10': selectedCategory() !== cat
+          }">
+          {{ cat }}
+        </button>
+      </div>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center gap-3.5">
+        <!-- View Mode Switcher -->
+        <div class="gallery-view-switcher glass-panel p-1.5 rounded-xl flex items-center gap-1.5 border border-white/10">
+          <button 
+            (click)="setViewMode('grid')" 
+            class="p-2 rounded-lg text-xs" 
+            [ngClass]="viewMode() === 'grid' ? 'bg-white/20 text-white' : 'text-slate-400 hover:text-white'"
+            title="Grid View">
+            <span class="material-icons-round text-lg">grid_view</span>
+          </button>
+          <button 
+            (click)="setViewMode('list')" 
+            class="p-2 rounded-lg text-xs" 
+            [ngClass]="viewMode() === 'list' ? 'bg-white/20 text-white' : 'text-slate-400 hover:text-white'"
+            title="List View">
+            <span class="material-icons-round text-lg">view_list</span>
+          </button>
+        </div>
+
+        <!-- Admin Portal Management Shortcut (Only visible if logged in) -->
+        <a 
+          *ngIf="authService.isAuthenticated()"
+          routerLink="/admin/dashboard"
+          class="glass-btn glass-btn-primary !py-2.5 !px-5 text-xs sm:text-sm font-bold shadow-lg flex items-center gap-2"
+          title="Go to Admin Dashboard to add/delete media">
+          <span class="material-icons-round text-base">admin_panel_settings</span>
+          <span>Admin Gallery Manager</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== GALLERY DISPLAY SECTION ==================== -->
+<section class="py-20 relative">
+  <div class="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+    
+    <!-- Skeleton loader -->
+    <div *ngIf="isLoading()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton h-80 rounded-2xl"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && galleryItems().length === 0" class="text-center py-24">
+      <span class="material-icons-round text-6xl text-slate-500 mb-4">photo_library</span>
+      <h3 class="text-2xl font-bold text-white">No media found in this category</h3>
+      <p class="text-sm text-slate-400 mt-2 font-light">Try selecting another filter tab or browse other categories.</p>
+    </div>
+
+    <!-- GRID VIEW (Public View-Only) -->
+    <div *ngIf="!isLoading() && viewMode() === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div 
+        *ngFor="let item of galleryItems(); let i = index"
+        class="glass-card overflow-hidden group relative border border-white/10 hover:border-amber-400/50 transition-all duration-300 shadow-xl cursor-pointer"
+        (click)="openLightbox(i)">
+        
+        <!-- Media Container -->
+        <div class="relative h-72 sm:h-84 overflow-hidden">
+          <!-- Cover Badge -->
+          <span *ngIf="item.isCover" class="absolute top-4 left-4 z-20 bg-amber-500 text-slate-950 font-black text-[11px] uppercase tracking-wider px-3 py-1 rounded-md shadow-md">
+            Featured
+          </span>
+
+          <!-- Type Badge (Video / Image) -->
+          <span class="absolute top-4 right-4 z-20 !p-2 !rounded-full bg-slate-950/85 text-white text-xs border border-white/25 backdrop-blur-md shadow-lg flex items-center justify-center">
+            <span class="material-icons-round text-base text-white">{{ item.type === 'video' ? 'play_circle' : 'image' }}</span>
+          </span>
+
+          <!-- Image or Thumbnail -->
+          <img 
+            [src]="item.thumbnail || item.url" 
+            [alt]="item.title" 
+            class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent opacity-85 group-hover:opacity-95 transition-opacity"></div>
+
+          <!-- Zoom Hint On Hover -->
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <div class="!p-3.5 !rounded-full bg-slate-950/85 text-amber-400 border border-amber-400/40 shadow-2xl scale-90 group-hover:scale-100 transition-transform flex items-center justify-center">
+              <span class="material-icons-round text-2xl text-amber-400">zoom_in</span>
+            </div>
+          </div>
+
+          <!-- Bottom Info -->
+          <div class="absolute bottom-5 left-5 right-5 text-white keep-text-white">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30">
+              {{ item.category }}
+            </span>
+            <h4 class="text-base sm:text-lg font-bold text-white mt-2 line-clamp-1 !text-white">{{ item.title }}</h4>
+            <div class="text-xs text-slate-300 font-light mt-1 flex items-center gap-1.5 !text-slate-200">
+              <span class="material-icons-round text-xs text-amber-400">touch_app</span>
+              <span>Click to view full preview</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST VIEW (Public View-Only) -->
+    <div *ngIf="!isLoading() && viewMode() === 'list'" class="space-y-4">
+      <div 
+        *ngFor="let item of galleryItems(); let i = index"
+        class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 hover:border-amber-400/40 transition-all shadow-lg cursor-pointer group"
+        (click)="openLightbox(i)">
+        <div class="flex items-center gap-5 w-full sm:w-auto">
+          <div class="relative w-32 h-24 shrink-0 overflow-hidden rounded-xl border border-white/10">
+            <img 
+              [src]="item.thumbnail || item.url" 
+              [alt]="item.title" 
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <span *ngIf="item.type === 'video'" class="absolute inset-0 flex items-center justify-center bg-black/40 text-white">
+              <span class="material-icons-round text-xl">play_circle</span>
+            </span>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2.5">
+              <span class="text-xs font-bold text-amber-400 bg-amber-500/20 px-2.5 py-0.5 rounded-full">
+                {{ item.category }}
+              </span>
+              <span *ngIf="item.isCover" class="text-xs bg-amber-500 text-slate-950 font-bold px-2 py-0.5 rounded">
+                Featured
+              </span>
+            </div>
+            <h4 class="text-base sm:text-lg font-bold text-white mt-1.5 group-hover:text-amber-400 transition-colors">{{ item.title }}</h4>
+            <div class="text-xs text-slate-400 mt-0.5">Media: {{ item.type | uppercase }}</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <button type="button" class="glass-btn glass-btn-primary !py-2 !px-5 text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+            <span class="material-icons-round text-base">visibility</span>
+            <span>View Fullscreen</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LIGHTBOX MODAL ==================== -->
+<app-lightbox-modal 
+  [items]="galleryItems()" 
+  [activeIndex]="lightboxActiveIndex()" 
+  [isOpen]="isLightboxOpen()" 
+  (close)="closeLightbox()">
+</app-lightbox-modal>

@@ -1,0 +1,105 @@
+<div *ngIf="isOpen && currentItem" class="lightbox-modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-in fade-in duration-200">
+  <!-- Top Bar Controls -->
+  <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-white z-50 pointer-events-auto">
+    <div class="flex items-center gap-3">
+      <span class="bg-blue-600/30 border border-blue-400/40 text-blue-400 text-xs px-3 py-1 rounded-full font-semibold">
+        {{ currentItem.category }}
+      </span>
+      <span class="text-xs text-slate-300 font-medium hidden sm:inline">
+        {{ activeIndex + 1 }} / {{ items.length }}
+      </span>
+    </div>
+
+    <!-- Zoom and Close buttons -->
+    <div class="flex items-center gap-2">
+      <button 
+        *ngIf="currentItem.type === 'image'"
+        (click)="zoomIn()" 
+        class="glass-btn glass-btn-outline !p-2 !rounded-full !bg-white/10 hover:!bg-white/20 !border-white/20 text-white shadow-lg" 
+        title="Zoom In (+ or Mouse Wheel Up)">
+        <span class="material-icons-round text-base !text-white">zoom_in</span>
+      </button>
+      <span *ngIf="currentItem.type === 'image'" class="text-xs font-bold text-amber-300 bg-black/60 px-2.5 py-1 rounded-full border border-amber-400/30">
+        {{ (zoomLevel * 100).toFixed(0) }}%
+      </span>
+      <button 
+        *ngIf="currentItem.type === 'image'"
+        (click)="zoomOut()" 
+        class="glass-btn glass-btn-outline !p-2 !rounded-full !bg-white/10 hover:!bg-white/20 !border-white/20 text-white shadow-lg" 
+        title="Zoom Out (- or Mouse Wheel Down)">
+        <span class="material-icons-round text-base !text-white">zoom_out</span>
+      </button>
+      <button 
+        *ngIf="currentItem.type === 'image' && (zoomLevel !== 1 || panX !== 0 || panY !== 0)"
+        (click)="resetZoom()" 
+        class="glass-btn glass-btn-outline !px-3 !py-1 !rounded-full text-xs font-semibold !bg-amber-500/20 text-amber-300 border-amber-400/40">
+        Reset
+      </button>
+      <button 
+        (click)="closeModal()" 
+        class="glass-btn glass-btn-outline !p-2 !rounded-full !bg-rose-500/30 hover:!bg-rose-500/50 !border-rose-400/40 text-rose-200 shadow-xl" 
+        title="Close (Esc)">
+        <span class="material-icons-round text-base !text-rose-200">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Previous button -->
+  <button 
+    (click)="prev()" 
+    class="absolute left-4 top-1/2 -translate-y-1/2 glass-btn glass-btn-outline !p-3 !rounded-full z-40 hidden sm:flex !bg-black/60 hover:!bg-black/90 !border-white/20 text-white shadow-2xl"
+    title="Previous (Left Arrow)">
+    <span class="material-icons-round text-lg !text-white">chevron_left</span>
+  </button>
+
+  <!-- Media Viewer Container -->
+  <div 
+    class="max-w-5xl max-h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden relative"
+    (wheel)="currentItem.type === 'image' && onWheelZoom($event)">
+    <div 
+      *ngIf="currentItem.type === 'image'"
+      class="flex items-center justify-center select-none"
+      (mousedown)="startDrag($event)"
+      (mousemove)="onDrag($event)"
+      (mouseup)="endDrag()"
+      (mouseleave)="endDrag()"
+      (touchstart)="startTouchDrag($event)"
+      (touchmove)="onTouchDrag($event)"
+      (touchend)="endDrag()"
+      (dblclick)="toggleDoubleZoom($event)"
+      [style.cursor]="zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in'"
+      [style.transform]="'translate(' + panX + 'px, ' + panY + 'px) scale(' + zoomLevel + ')'"
+      [style.transition]="isDragging ? 'none' : 'transform 0.22s cubic-bezier(0.2, 0, 0, 1)'">
+      <img 
+        [src]="currentItem.url" 
+        [alt]="currentItem.title" 
+        class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl border border-white/10 select-none"
+        draggable="false">
+    </div>
+
+    <!-- Video Player -->
+    <div *ngIf="currentItem.type === 'video'" class="w-full max-h-[72vh] flex items-center justify-center">
+      <video 
+        [src]="currentItem.url" 
+        controls 
+        autoplay 
+        class="max-h-[72vh] max-w-full rounded-xl shadow-2xl border border-white/10">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Caption -->
+    <div class="mt-4 text-center px-4">
+      <h3 class="text-lg font-bold text-white tracking-wide">{{ currentItem.title }}</h3>
+      <p class="text-xs text-slate-400 mt-1">Jai Sai Travels Premium Fleet & Tour Experience</p>
+    </div>
+  </div>
+
+  <!-- Next button -->
+  <button 
+    (click)="next()" 
+    class="absolute right-4 top-1/2 -translate-y-1/2 glass-btn glass-btn-outline !p-3 !rounded-full z-40 hidden sm:flex !bg-black/60 hover:!bg-black/90 !border-white/20 text-white shadow-2xl"
+    title="Next (Right Arrow)">
+    <span class="material-icons-round text-lg !text-white">chevron_right</span>
+  </button>
+</div>
