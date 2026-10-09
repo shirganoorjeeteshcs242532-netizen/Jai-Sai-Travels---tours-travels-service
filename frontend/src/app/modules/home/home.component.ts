@@ -61,30 +61,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
   isSubmitting = signal<boolean>(false);
 
-  // Testimonials
-  testimonials = [
-    {
-      name: 'Vikram Joshi',
-      role: 'Business Executive',
-      comment: 'Superb Innova Crysta ride from Mumbai to Pune! The driver was 15 minutes early, extremely courteous, and the car was spotless.',
-      rating: 5,
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
-    },
-    {
-      name: 'Ananya Sharma',
-      role: 'Family Vacation',
-      comment: 'Booked Jai Sai Travels for our 4-day Mahabaleshwar family tour. The captain seats in the Innova Crysta made long journey comfortable for elderly parents.',
-      rating: 5,
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80'
-    },
-    {
-      name: 'Rajesh Kulkarni',
-      role: 'Event Organizer',
-      comment: 'Managed all our VIP wedding convoy with 5 Innova Crystas. Highly disciplined drivers and 100% punctual coordination. Truly commendable service!',
-      rating: 5,
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'
-    }
-  ];
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
