@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   company = environment.company;
 
   // Dynamic Cover Photo from Gallery Admin
-  coverPhotoUrl = signal<string>(`${environment.backendBaseUrl}/uploads/photo-1791458143672-606816611.jpeg`);
+  coverPhotoUrl = signal<string>('/uploads/photo-1791458143672-606816611.jpeg');
 
   // Typing animation properties with initial default text
   typedText = signal<string>('Luxury Toyota Innova Crysta');
@@ -108,14 +108,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   resolveImageUrl(url?: string): string {
     if (!url) return '';
+    if (url.includes('/uploads/')) {
+      const filename = url.split('/uploads/')[1];
+      return `/uploads/${filename}`;
+    }
     if (url.includes('localhost:5000') || url.includes('127.0.0.1:5000')) {
       return url.replace(/https?:\/\/(localhost|127\.0\.0\.1):5000/, environment.backendBaseUrl);
-    }
-    if (url.startsWith('data:') || url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    if (url.startsWith('/uploads/')) {
-      return `${environment.backendBaseUrl}${url}`;
     }
     return url;
   }

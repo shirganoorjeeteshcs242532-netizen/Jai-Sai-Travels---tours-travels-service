@@ -41,11 +41,12 @@ export class GalleryComponent implements OnInit {
 
   resolveImageUrl(url?: string): string {
     if (!url) return '';
+    if (url.includes('/uploads/')) {
+      const filename = url.split('/uploads/')[1];
+      return `/uploads/${filename}`;
+    }
     if (url.includes('localhost:5000') || url.includes('127.0.0.1:5000')) {
       return url.replace(/https?:\/\/(localhost|127\.0\.0\.1):5000/, environment.backendBaseUrl);
-    }
-    if (url.startsWith('/uploads/')) {
-      return `${environment.backendBaseUrl}${url}`;
     }
     return url;
   }
