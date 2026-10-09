@@ -48,24 +48,24 @@ export class VehiclesComponent implements OnInit, OnDestroy {
 
   defaultVehiclePhotos: FleetPhoto[] = [
     {
-      url: 'http://localhost:5000/uploads/photo-1791458143672-606816611.jpeg',
-      title: 'Toyota Innova Crysta - Sleek Front Luxury Profile',
+      url: '/uploads/photo-1791458143672-606816611.jpeg',
+      title: 'Toyota Innova Crysta - Premium Wedding Convoy',
       category: 'Exterior'
     },
     {
-      url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80',
-      title: 'Luxury Captain Seats & Executive Armrests',
-      category: 'Interior'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=80',
-      title: 'Ergonomic Cockpit & Smart Infotainment Touchscreen',
+      url: '/uploads/photo-1791534170531-29535222.jpeg',
+      title: 'Toyota Innova Crysta - Sleek Front Profile',
       category: 'Dashboard'
     },
     {
-      url: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1400&q=80',
-      title: 'Massive Boot Space for Luggage & Suitcases',
-      category: 'Luggage'
+      url: '/uploads/photo-1791534244480-961044775.jpeg',
+      title: 'Toyota Innova Crysta - Hill Station Outstation Tour',
+      category: 'Exterior'
+    },
+    {
+      url: '/uploads/photo-1791534367128-460654916.jpeg',
+      title: 'Toyota Innova Crysta - Side Luxury Profile',
+      category: 'Dashboard'
     }
   ];
 

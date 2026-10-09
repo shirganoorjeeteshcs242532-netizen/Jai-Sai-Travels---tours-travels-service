@@ -30,22 +30,22 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   defaultPhotos: FleetPhoto[] = [
     {
-      url: 'http://localhost:5000/uploads/photo-1791458143672-606816611.jpeg',
+      url: '/uploads/photo-1791458143672-606816611.jpeg',
       title: 'Toyota Innova Crysta - Premium Wedding Convoy',
       category: 'Exterior'
     },
     {
-      url: 'http://localhost:5000/uploads/photo-1791534170531-29535222.jpeg',
+      url: '/uploads/photo-1791534170531-29535222.jpeg',
       title: 'Toyota Innova Crysta - Sleek Front Profile',
       category: 'Fleet Profile'
     },
     {
-      url: 'http://localhost:5000/uploads/photo-1791534244480-961044775.jpeg',
+      url: '/uploads/photo-1791534244480-961044775.jpeg',
       title: 'Toyota Innova Crysta - Hill Station Outstation Tour',
       category: 'Tour Fleet'
     },
     {
-      url: 'http://localhost:5000/uploads/photo-1791534367128-460654916.jpeg',
+      url: '/uploads/photo-1791534367128-460654916.jpeg',
       title: 'Toyota Innova Crysta - Side Luxury Profile',
       category: 'Executive Fleet'
     }

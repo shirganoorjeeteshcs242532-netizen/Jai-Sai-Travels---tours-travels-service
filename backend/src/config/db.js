@@ -46,8 +46,8 @@ const seedDatabaseIfEmpty = async () => {
         {
           title: 'Toyota Innova Crysta Luxury Fleet',
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
-          thumbnail: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80',
+          url: '/uploads/photo-1791458143672-606816611.jpeg',
+          thumbnail: '/uploads/photo-1791458143672-606816611.jpeg',
           category: 'Fleet',
           order: 1,
           isCover: true
@@ -55,8 +55,8 @@ const seedDatabaseIfEmpty = async () => {
         {
           title: 'Spacious Captain Seats Interior',
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
-          thumbnail: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80',
+          url: '/uploads/mediaFile-1791533753450-102575456.jpeg',
+          thumbnail: '/uploads/mediaFile-1791533753450-102575456.jpeg',
           category: 'Interior',
           order: 2,
           isCover: false
@@ -64,8 +64,8 @@ const seedDatabaseIfEmpty = async () => {
         {
           title: 'Scenic Hill Station Outstation Tour',
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80',
-          thumbnail: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=400&q=80',
+          url: '/uploads/mediaFile-1791533848304-759768466.jpeg',
+          thumbnail: '/uploads/mediaFile-1791533848304-759768466.jpeg',
           category: 'Tours',
           order: 3,
           isCover: false
@@ -73,8 +73,8 @@ const seedDatabaseIfEmpty = async () => {
         {
           title: 'Premium Wedding Convoy Experience',
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-          thumbnail: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80',
+          url: '/uploads/mediaFile-1791533808495-47979531.jpeg',
+          thumbnail: '/uploads/mediaFile-1791533808495-47979531.jpeg',
           category: 'Events',
           order: 4,
           isCover: false
@@ -82,8 +82,8 @@ const seedDatabaseIfEmpty = async () => {
         {
           title: 'Airport Transfer On-Time Service',
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80',
-          thumbnail: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=400&q=80',
+          url: '/uploads/mediaFile-1791533000897-234390317.jpeg',
+          thumbnail: '/uploads/mediaFile-1791533000897-234390317.jpeg',
           category: 'Airport',
           order: 5,
           isCover: false
