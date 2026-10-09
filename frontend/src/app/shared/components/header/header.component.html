@@ -23,26 +23,26 @@
     </a>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden xl:flex items-center gap-2 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-2 rounded-full shadow-inner">
+    <nav class="hidden lg:flex items-center gap-1 xl:gap-2 bg-white/5 border border-white/10 backdrop-blur-md px-2.5 xl:px-4 py-1.5 xl:py-2 rounded-full shadow-inner">
       <a 
         *ngFor="let link of navLinks" 
         [routerLink]="link.path"
         routerLinkActive="active-nav-link"
         [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-        class="nav-pill-link text-sm font-semibold">
+        class="nav-pill-link text-xs xl:text-sm font-semibold !px-2.5 xl:!px-4 !py-1.5 xl:!py-2">
         {{ link.label }}
       </a>
     </nav>
 
     <!-- Right Controls -->
-    <div class="hidden lg:flex items-center gap-3">
+    <div class="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
       <!-- Theme Switcher -->
       <app-theme-switcher></app-theme-switcher>
 
       <!-- Primary Call Button -->
       <a 
         [href]="'tel:' + settingsService.settings().contactPhone" 
-        class="glass-btn glass-btn-outline !py-2.5 !px-4 text-xs sm:text-sm font-bold flex items-center gap-2 border-amber-400/40"
+        class="glass-btn glass-btn-outline !py-2 xl:!py-2.5 !px-3 xl:!px-4 text-xs xl:text-sm font-bold flex items-center gap-1.5 xl:gap-2 border-amber-400/40"
         [title]="'Call Primary: ' + settingsService.settings().contactPhone">
         <span class="material-icons-round text-amber-400 text-base">phone_in_talk</span>
         <span class="hidden 2xl:inline text-white">{{ settingsService.settings().contactPhone }}</span>
@@ -54,7 +54,7 @@
         [href]="'https://wa.me/' + (settingsService.settings().whatsappPhone || '').replace('+', '').replace(' ', '') + '?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20enquire%20about%20your%20car%20rental%20and%20tour%20packages.'"
         target="_blank"
         rel="noopener noreferrer" 
-        class="glass-btn glass-btn-whatsapp !py-2.5 !px-5 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg"
+        class="glass-btn glass-btn-whatsapp !py-2 xl:!py-2.5 !px-3.5 xl:!px-5 text-xs xl:text-sm font-bold flex items-center gap-1.5 xl:gap-2 shadow-lg"
         [title]="'WhatsApp Primary: ' + settingsService.settings().whatsappPhone">
         <span class="material-icons-round text-base">chat</span>
         <span>WhatsApp</span>
@@ -64,7 +64,7 @@
       <a 
         *ngIf="authService.isAuthenticated()"
         routerLink="/admin/dashboard"
-        class="glass-btn glass-btn-primary !py-2.5 !px-3 text-sm"
+        class="glass-btn glass-btn-primary !py-2 xl:!py-2.5 !px-2.5 xl:!px-3 text-sm"
         title="Admin Dashboard">
         <span class="material-icons-round text-base">dashboard</span>
       </a>
