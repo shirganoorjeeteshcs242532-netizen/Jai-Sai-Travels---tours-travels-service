@@ -2,14 +2,10 @@
   <button 
     (click)="toggleMenu()"
     type="button" 
-    class="glass-btn glass-btn-outline !p-2.5 !rounded-full text-sm font-medium focus:outline-none flex items-center gap-1.5"
+    class="glass-btn glass-btn-outline !w-10 !h-10 !p-0 !rounded-full text-sm font-medium focus:outline-none flex items-center justify-center transition-all hover:scale-105 shadow-md"
     title="Change Theme & Mode">
-    <span class="material-icons-round text-amber-400" *ngIf="themeService.currentMode() === 'dark'">dark_mode</span>
-    <span class="material-icons-round text-amber-500" *ngIf="themeService.currentMode() === 'light'">light_mode</span>
-    <span class="hidden md:inline text-xs font-bold uppercase tracking-wider">
-      {{ themeService.currentMode() === 'light' ? 'Light Mode' : 'Themes' }}
-    </span>
-    <span class="material-icons-round text-xs transition-transform duration-200" [class.rotate-180]="isOpen()">expand_more</span>
+    <span class="material-icons-round text-amber-400 text-xl" *ngIf="themeService.currentMode() === 'dark'">dark_mode</span>
+    <span class="material-icons-round text-amber-500 text-xl" *ngIf="themeService.currentMode() === 'light'">light_mode</span>
   </button>
 
   <!-- Backdrop for click outside -->
@@ -18,36 +14,36 @@
   <!-- Themes Dropdown Menu -->
   <div 
     *ngIf="isOpen()" 
-    class="theme-switcher-menu absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-sm origin-top-right rounded-2xl p-3.5 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+    class="theme-switcher-menu absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-72 max-w-sm origin-top-right rounded-2xl p-3 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
     
     <!-- MODE SELECTOR (White / Light Mode vs Dark Mode) -->
-    <div class="mode-toggle-bar mb-3 p-1 rounded-xl flex items-center gap-1">
+    <div class="mode-toggle-bar mb-2.5 p-1 rounded-xl flex items-center gap-1">
       <button
         type="button"
         (click)="setMode('light')"
-        class="mode-btn mode-btn-light flex-1 py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+        class="mode-btn mode-btn-light flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
         [class.active]="themeService.currentMode() === 'light'">
         <span class="material-icons-round text-sm">wb_sunny</span>
-        <span>White Mode</span>
+        <span>White</span>
       </button>
       <button
         type="button"
         (click)="setMode('dark')"
-        class="mode-btn mode-btn-dark flex-1 py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+        class="mode-btn mode-btn-dark flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
         [class.active]="themeService.currentMode() === 'dark'">
         <span class="material-icons-round text-sm">nightlight_round</span>
-        <span>Dark Mode</span>
+        <span>Dark</span>
       </button>
     </div>
 
     <!-- Section Header -->
-    <div class="palette-header px-2 py-1.5 border-b mb-2 flex items-center justify-between">
-      <div class="palette-title text-[11px] font-extrabold uppercase tracking-wider">All Theme Palettes</div>
-      <span class="palette-badge text-[10px] px-2 py-0.5 rounded-full font-bold">6 Themes</span>
+    <div class="palette-header px-2 py-1 border-b mb-1.5 flex items-center justify-between">
+      <div class="palette-title text-[11px] font-extrabold uppercase tracking-wider">Themes</div>
+      <span class="palette-badge text-[10px] px-2 py-0.5 rounded-full font-bold">6 Colors</span>
     </div>
 
     <!-- Themes List -->
-    <div class="space-y-1.5 max-h-72 overflow-y-auto pr-1 pb-1">
+    <div class="space-y-1 max-h-72 overflow-y-auto pr-1 pb-1">
       <button 
         *ngFor="let t of themeService.themes"
         (click)="selectTheme(t.id)"
@@ -56,16 +52,15 @@
         [class.selected]="themeService.currentTheme() === t.id">
         <div class="flex items-center gap-2.5">
           <div 
-            class="w-7 h-7 rounded-lg shadow-sm border border-white/30 flex items-center justify-center transition-transform group-hover:scale-105 shrink-0"
+            class="w-6 h-6 rounded-lg shadow-sm border border-white/30 flex items-center justify-center transition-transform group-hover:scale-105 shrink-0"
             [style.background]="t.bgPreview">
-            <span class="w-2 h-2 rounded-full" [style.backgroundColor]="t.accentColor"></span>
+            <span class="w-1.5 h-1.5 rounded-full" [style.backgroundColor]="t.accentColor"></span>
           </div>
           <div>
-            <div class="theme-row-name text-xs font-bold leading-tight flex items-center gap-1.5">
+            <div class="theme-row-name text-xs sm:text-sm font-bold leading-tight flex items-center gap-1.5">
               <span>{{ t.name }}</span>
               <span *ngIf="t.mode === 'light'" class="theme-mode-tag text-[9px] px-1.5 py-0.5 rounded font-bold">LIGHT</span>
             </div>
-            <div class="theme-row-desc text-[10px] leading-snug">{{ t.description }}</div>
           </div>
         </div>
 

@@ -20,57 +20,57 @@ export class ThemeService {
   readonly themes: ThemeOption[] = [
     {
       id: 'theme-default',
-      name: 'Obsidian & Gold (Executive Dark)',
+      name: 'Obsidian & Gold',
       mode: 'dark',
       primaryColor: '#1d4ed8',
       accentColor: '#d4af37',
       bgPreview: 'linear-gradient(135deg, #070b14, #1e3a8a)',
-      description: 'Default executive luxury midnight & champagne gold'
+      description: ''
     },
     {
       id: 'theme-dark',
-      name: 'Titanium & Sapphire (Executive Dark)',
+      name: 'Titanium & Sapphire',
       mode: 'dark',
       primaryColor: '#0284c7',
       accentColor: '#38bdf8',
       bgPreview: 'linear-gradient(135deg, #050608, #1e293b)',
-      description: 'Polished charcoal obsidian with ice sapphire'
+      description: ''
     },
     {
       id: 'theme-light',
-      name: 'Pearl White (Executive Light)',
+      name: 'Pearl White',
       mode: 'light',
       primaryColor: '#1d4ed8',
       accentColor: '#b45309',
       bgPreview: 'linear-gradient(135deg, #ffffff, #f1f5f9)',
-      description: 'Pristine luxury porcelain executive light mode'
+      description: ''
     },
     {
       id: 'theme-green',
-      name: 'Racing Emerald (Executive Dark)',
+      name: 'Racing Emerald',
       mode: 'dark',
       primaryColor: '#047857',
       accentColor: '#d4af37',
       bgPreview: 'linear-gradient(135deg, #03140e, #064e3b)',
-      description: 'Classic British Racing green & gold bronze'
+      description: ''
     },
     {
       id: 'theme-purple',
-      name: 'Imperial Sapphire (Executive Dark)',
+      name: 'Imperial Sapphire',
       mode: 'dark',
       primaryColor: '#4338ca',
       accentColor: '#d4af37',
       bgPreview: 'linear-gradient(135deg, #050713, #312e81)',
-      description: 'Deep midnight navy blue with champagne gold'
+      description: ''
     },
     {
       id: 'theme-orange',
-      name: 'Cognac & Bronze (Executive Dark)',
+      name: 'Cognac & Bronze',
       mode: 'dark',
       primaryColor: '#c2410c',
       accentColor: '#d4af37',
       bgPreview: 'linear-gradient(135deg, #0d0603, #431407)',
-      description: 'Warm executive cognac leather & amber bronze'
+      description: ''
     }
   ];
 
