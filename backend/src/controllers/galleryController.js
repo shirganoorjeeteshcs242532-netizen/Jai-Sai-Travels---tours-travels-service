@@ -118,7 +118,12 @@ const getGallery = async (req, res, next) => {
       data: normalizedItems
     });
   } catch (error) {
-    next(error);
+    console.warn('⚠️ getGallery DB note:', error.message, '- falling back to defaultGalleryItems');
+    res.status(200).json({
+      success: true,
+      count: defaultGalleryItems.length,
+      data: defaultGalleryItems
+    });
   }
 };
 

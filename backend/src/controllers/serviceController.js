@@ -84,7 +84,12 @@ const getServices = async (req, res, next) => {
       data: services
     });
   } catch (error) {
-    next(error);
+    console.warn('⚠️ getServices DB note:', error.message, '- falling back to defaultServices');
+    res.status(200).json({
+      success: true,
+      count: defaultServices.length,
+      data: defaultServices
+    });
   }
 };
 

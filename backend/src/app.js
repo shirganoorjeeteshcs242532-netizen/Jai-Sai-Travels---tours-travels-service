@@ -18,6 +18,9 @@ const fleetRoutes = require('./routes/fleetRoutes');
 
 const app = express();
 
+// Trust reverse proxy (Render, Heroku, etc.) for rate limiter & client IP
+app.set('trust proxy', 1);
+
 // Security HTTP headers
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -59,6 +62,7 @@ const apiLimiter = rateLimit({
   max: 500,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many requests from this IP, please try again after 15 minutes.'
