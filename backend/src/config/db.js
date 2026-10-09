@@ -107,15 +107,25 @@ const seedDatabaseIfEmpty = async () => {
 
 const connectDB = async () => {
   const mongoURI = process.env.MONGODB_URI;
-  try {
-    const conn = await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 4000
-    });
-    console.log(`🚀 MongoDB Connected: ${conn.connection.host}`);
-    await seedDatabaseIfEmpty();
-  } catch (error) {
-    console.warn(`⚠️ MongoDB connection note (${error.message}). Running in resilient mode with built-in fallbacks.`);
+  if (!mongoURI) {
+    console.warn('⚠️ MONGODB_URI is not defined in environment variables.');
+    return;
   }
+
+  const tryConnect = async () => {
+    try {
+      const conn = await mongoose.connect(mongoURI, {
+        serverSelectionTimeoutMS: 5000
+      });
+      console.log(`🚀 MongoDB Connected: ${conn.connection.host}`);
+      await seedDatabaseIfEmpty();
+    } catch (error) {
+      console.warn(`⚠️ MongoDB connection note (${error.message}). Retrying in 5s...`);
+      setTimeout(tryConnect, 5000);
+    }
+  };
+
+  await tryConnect();
 };
 
 module.exports = connectDB;
