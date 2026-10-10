@@ -36,6 +36,16 @@ export class GalleryComponent implements OnInit {
   lightboxActiveIndex = signal<number>(0);
 
   ngOnInit(): void {
+    try {
+      const cached = localStorage.getItem('jst_cached_gallery');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.galleryItems.set(parsed);
+        }
+      }
+    } catch {}
+
     this.loadGallery();
   }
 
@@ -52,7 +62,7 @@ export class GalleryComponent implements OnInit {
   }
 
   loadGallery(): void {
-    this.isLoading.set(true);
+    this.isLoading.set(this.galleryItems().length === 0);
     const cat = this.selectedCategory() === 'All' ? undefined : this.selectedCategory();
     const type = this.selectedCategory() === 'Videos' ? 'video' : undefined;
 
@@ -65,6 +75,11 @@ export class GalleryComponent implements OnInit {
             thumbnail: this.resolveImageUrl(i.thumbnail || i.url)
           }));
           this.galleryItems.set(items);
+          if (this.selectedCategory() === 'All' && !type) {
+            try {
+              localStorage.setItem('jst_cached_gallery', JSON.stringify(items));
+            } catch {}
+          }
         }
         this.isLoading.set(false);
       },

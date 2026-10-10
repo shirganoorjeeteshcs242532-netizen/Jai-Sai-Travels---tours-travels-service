@@ -13,20 +13,22 @@
       <div class="lg:col-span-7 space-y-5">
         <!-- Main Image Preview with Zoom Action & 3s Slideshow -->
         <div 
-          class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 group cursor-pointer" 
+          *ngIf="getActivePhoto(); else loadingOrEmptyPhotos"
+          class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 group cursor-pointer bg-slate-900" 
           (click)="openZoom()"
           (mouseenter)="onGalleryMouseEnter()"
           (mouseleave)="onGalleryMouseLeave()">
           
           <img 
-            [src]="getActivePhoto().url" 
-            [alt]="getActivePhoto().title" 
+            [src]="getActivePhoto()!.url" 
+            [alt]="getActivePhoto()!.title" 
             class="w-full h-88 sm:h-[500px] object-cover transition-all duration-700 ease-out group-hover:scale-105">
           
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none"></div>
 
           <!-- Left Prev Button (on hover) -->
           <button 
+            *ngIf="getPhotos().length > 1"
             type="button"
             (click)="$event.stopPropagation(); prevPhoto()"
             class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-amber-500 text-white hover:text-slate-950 border border-white/25 hover:border-amber-400 backdrop-blur-md shadow-2xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0"
@@ -36,6 +38,7 @@
 
           <!-- Right Next Button (on hover) -->
           <button 
+            *ngIf="getPhotos().length > 1"
             type="button"
             (click)="$event.stopPropagation(); nextPhoto()"
             class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-slate-950/70 hover:bg-amber-500 text-white hover:text-slate-950 border border-white/25 hover:border-amber-400 backdrop-blur-md shadow-2xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
@@ -49,7 +52,7 @@
           </div>
 
           <!-- Top-Left: Live 3-Second Slideshow Indicator Badge -->
-          <div class="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/30 backdrop-blur-md text-xs font-bold text-amber-400 flex items-center gap-2 shadow-xl select-none">
+          <div *ngIf="getPhotos().length > 1" class="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/30 backdrop-blur-md text-xs font-bold text-amber-400 flex items-center gap-2 shadow-xl select-none">
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping inline-block"></span>
             <span>Auto Slideshow (3s)</span>
           </div>
@@ -58,9 +61,9 @@
           <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white keep-text-white pointer-events-none">
             <div>
               <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/30 backdrop-blur-md">
-                {{ getActivePhoto().category || 'Showcase' }}
+                {{ getActivePhoto()!.category || 'Showcase' }}
               </span>
-              <h3 class="text-lg sm:text-xl font-bold mt-2 text-white !text-white drop-shadow-md">{{ getActivePhoto().title }}</h3>
+              <h3 class="text-lg sm:text-xl font-bold mt-2 text-white !text-white drop-shadow-md">{{ getActivePhoto()!.title }}</h3>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-xs sm:text-sm text-slate-200 font-semibold bg-black/75 px-3 py-1.5 rounded-full backdrop-blur-md !text-white border border-white/10 shadow-lg">
@@ -73,7 +76,7 @@
           </div>
 
           <!-- Bottom 3s Animated Progress Line -->
-          <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/15 overflow-hidden">
+          <div *ngIf="getPhotos().length > 1" class="absolute bottom-0 left-0 right-0 h-1 bg-white/15 overflow-hidden">
             <div 
               class="h-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-300"
               [style.width.%]="((activePhotoIndex() + 1) / getPhotos().length) * 100">
@@ -81,8 +84,17 @@
           </div>
         </div>
 
-        <!-- Dynamic Thumbnails for existing and newly uploaded photos -->
-        <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none sm:grid sm:grid-flow-col sm:auto-cols-fr">
+        <!-- Loading / Empty Photos Fallback Template -->
+        <ng-template #loadingOrEmptyPhotos>
+          <div class="h-88 sm:h-[500px] rounded-3xl bg-slate-900/80 border border-white/10 flex flex-col items-center justify-center p-8 text-center animate-pulse">
+            <span class="material-icons-round text-6xl text-amber-400/50 mb-4">directions_car</span>
+            <h4 class="text-lg font-bold text-white mb-1">Toyota Innova Crysta Fleet</h4>
+            <p class="text-xs sm:text-sm text-slate-400 max-w-sm">Loading latest uploaded vehicle photos...</p>
+          </div>
+        </ng-template>
+
+        <!-- Dynamic Thumbnails for uploaded photos -->
+        <div *ngIf="getPhotos().length > 1" class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none sm:grid sm:grid-flow-col sm:auto-cols-fr">
           <button 
             *ngFor="let photo of getPhotos(); let i = index"
             (click)="selectPhoto(i)"
@@ -443,8 +455,9 @@
       [style.cursor]="zoomScale() > 1 ? (isDragging() ? 'grabbing' : 'grab') : 'zoom-in'">
       
       <img 
-        [src]="getActivePhoto().url" 
-        [alt]="getActivePhoto().title" 
+        *ngIf="getActivePhoto()"
+        [src]="getActivePhoto()!.url" 
+        [alt]="getActivePhoto()!.title" 
         class="max-h-[70vh] sm:max-h-[74vh] max-w-[92vw] object-contain rounded-2xl shadow-2xl border border-white/20 will-change-transform"
         [style.transform]="'translate(' + panX() + 'px, ' + panY() + 'px) scale(' + zoomScale() + ')'"
         [style.transition]="isDragging() ? 'none' : 'transform 0.22s cubic-bezier(0.2, 0, 0, 1)'"

@@ -25,31 +25,9 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   // Dynamic Real Fleet Slideshow (Innova Crysta)
   fleetPhotos = signal<FleetPhoto[]>([]);
+  isLoadingFleet = signal<boolean>(true);
   activePhotoIndex = signal<number>(0);
   private slideshowTimer: any = null;
-
-  defaultPhotos: FleetPhoto[] = [
-    {
-      url: '/uploads/photo-1791458143672-606816611.jpeg',
-      title: 'Toyota Innova Crysta - Premium Wedding Convoy',
-      category: 'Exterior'
-    },
-    {
-      url: '/uploads/photo-1791534170531-29535222.jpeg',
-      title: 'Toyota Innova Crysta - Sleek Front Profile',
-      category: 'Fleet Profile'
-    },
-    {
-      url: '/uploads/photo-1791534244480-961044775.jpeg',
-      title: 'Toyota Innova Crysta - Hill Station Outstation Tour',
-      category: 'Tour Fleet'
-    },
-    {
-      url: '/uploads/photo-1791534367128-460654916.jpeg',
-      title: 'Toyota Innova Crysta - Side Luxury Profile',
-      category: 'Executive Fleet'
-    }
-  ];
 
   timelineEvents = [
     {
@@ -74,40 +52,27 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   ];
 
-  teamMembers = signal<TeamMember[]>([
-    {
-      name: 'Jaykumar Sharma',
-      role: 'Founder & Director',
-      experience: '21+ Years Experience (Since 2005)',
-      bio: 'Started Jai Sai Travels in 2005. Passionate about customer safety, clean cars, and making every journey comfortable and memorable.',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      name: 'Sangeeta Jaykumar',
-      role: 'Head of Customer Relations',
-      experience: '16+ Years Experience',
-      bio: 'Manages daily bookings and customer support to ensure our cars arrive on time and every guest enjoys a hassle-free trip.',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      name: 'Rajendra Verma',
-      role: 'Fleet & Safety Manager',
-      experience: '18+ Years Experience',
-      bio: 'Inspects every Toyota Innova before and after trips, ensuring regular mechanical servicing, clean interiors, and full passenger safety.',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      name: 'Sunil Gaikwad',
-      role: 'Senior Driver & Route Expert',
-      experience: '15+ Years Experience',
-      bio: 'Expert highway driver with over 15 years behind the wheel. Known for gentle driving, polite manners, and deep route knowledge.',
-      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80'
-    }
-  ]);
-
-  isLoadingTeam = signal<boolean>(false);
+  teamMembers = signal<TeamMember[]>([]);
+  isLoadingTeam = signal<boolean>(true);
 
   ngOnInit(): void {
+    try {
+      const cachedFleet = localStorage.getItem('jst_about_fleet');
+      if (cachedFleet) {
+        const parsed = JSON.parse(cachedFleet);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.fleetPhotos.set(parsed);
+        }
+      }
+      const cachedTeam = localStorage.getItem('jst_about_team');
+      if (cachedTeam) {
+        const parsedTeam = JSON.parse(cachedTeam);
+        if (Array.isArray(parsedTeam) && parsedTeam.length > 0) {
+          this.teamMembers.set(parsedTeam);
+        }
+      }
+    } catch {}
+
     this.loadTeamMembers();
     this.loadFleetPhotos();
   }
@@ -137,23 +102,27 @@ export class AboutComponent implements OnInit, OnDestroy {
             url: this.resolveImageUrl(p.url)
           }));
           this.fleetPhotos.set(mapped);
+          try {
+            localStorage.setItem('jst_about_fleet', JSON.stringify(mapped));
+          } catch {}
         }
+        this.isLoadingFleet.set(false);
         this.startSlideshow();
       },
       error: () => {
+        this.isLoadingFleet.set(false);
         this.startSlideshow();
       }
     });
   }
 
   getPhotos(): FleetPhoto[] {
-    const p = this.fleetPhotos();
-    return p && p.length > 0 ? p : this.defaultPhotos;
+    return this.fleetPhotos();
   }
 
   getActivePhoto(): FleetPhoto {
     const photos = this.getPhotos();
-    const photo = photos[this.activePhotoIndex()] || photos[0] || this.defaultPhotos[0];
+    const photo = photos[this.activePhotoIndex()] || photos[0] || { url: '', title: '', category: '' };
     return {
       ...photo,
       url: this.resolveImageUrl(photo.url)
@@ -188,6 +157,9 @@ export class AboutComponent implements OnInit, OnDestroy {
             image: this.resolveImageUrl(m.image)
           }));
           this.teamMembers.set(mapped);
+          try {
+            localStorage.setItem('jst_about_team', JSON.stringify(mapped));
+          } catch {}
         }
       },
       error: () => {

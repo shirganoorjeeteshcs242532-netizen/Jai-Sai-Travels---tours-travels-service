@@ -77,16 +77,18 @@
 
       <!-- Right: Real Innova Crysta Fleet Showcase Slideshow (5 cols) -->
       <div class="lg:col-span-5 relative">
-        <div class="rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group bg-slate-900">
+        <div 
+          *ngIf="getActivePhoto(); else loadingOrEmptyAboutFleet"
+          class="rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group bg-slate-900">
           <img 
-            [src]="getActivePhoto().url" 
-            [alt]="getActivePhoto().title" 
+            [src]="getActivePhoto()!.url" 
+            [alt]="getActivePhoto()!.title" 
             class="w-full h-[480px] object-cover transition-all duration-700 ease-out group-hover:scale-105">
           
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent pointer-events-none"></div>
 
           <!-- Live 3-Second Slideshow Indicator Badge -->
-          <div class="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/30 backdrop-blur-md text-xs font-bold text-amber-400 flex items-center gap-2 shadow-xl select-none">
+          <div *ngIf="getPhotos().length > 1" class="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-amber-400/30 backdrop-blur-md text-xs font-bold text-amber-400 flex items-center gap-2 shadow-xl select-none">
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping inline-block"></span>
             <span>Innova Crysta Fleet (3s)</span>
           </div>
@@ -95,23 +97,31 @@
           <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white keep-text-white pointer-events-none">
             <div>
               <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 backdrop-blur-md">
-                {{ getActivePhoto().category || 'Innova Fleet' }}
+                {{ getActivePhoto()!.category || 'Innova Fleet' }}
               </span>
-              <h4 class="text-base sm:text-lg font-bold mt-1 text-white !text-white drop-shadow-md line-clamp-1">{{ getActivePhoto().title }}</h4>
+              <h4 class="text-base sm:text-lg font-bold mt-1 text-white !text-white drop-shadow-md line-clamp-1">{{ getActivePhoto()!.title }}</h4>
             </div>
-            <span class="text-xs font-semibold bg-black/75 px-3 py-1.5 rounded-full backdrop-blur-md !text-white border border-white/10 shadow-lg shrink-0">
+            <span *ngIf="getPhotos().length > 1" class="text-xs font-semibold bg-black/75 px-3 py-1.5 rounded-full backdrop-blur-md !text-white border border-white/10 shadow-lg shrink-0">
               {{ activePhotoIndex() + 1 }} / {{ getPhotos().length }}
             </span>
           </div>
 
           <!-- Bottom 3s Animated Progress Line -->
-          <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/15 overflow-hidden">
+          <div *ngIf="getPhotos().length > 1" class="absolute bottom-0 left-0 right-0 h-1 bg-white/15 overflow-hidden">
             <div 
               class="h-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-300"
               [style.width.%]="((activePhotoIndex() + 1) / getPhotos().length) * 100">
             </div>
           </div>
         </div>
+
+        <ng-template #loadingOrEmptyAboutFleet>
+          <div class="h-[480px] rounded-3xl bg-slate-900/90 border border-white/10 flex flex-col items-center justify-center p-8 text-center">
+            <span class="material-icons-round text-6xl text-amber-400/50 mb-3 animate-pulse">directions_car</span>
+            <h4 class="text-lg font-bold text-white mb-1">Toyota Innova Crysta Fleet</h4>
+            <p class="text-xs text-slate-400 max-w-xs">Comfortable, sanitized, and ready for your next journey.</p>
+          </div>
+        </ng-template>
 
         <!-- Floating Experience Card -->
         <div class="absolute -bottom-8 -left-6 glass-panel p-6 rounded-2xl shadow-2xl border border-amber-400/40 max-w-sm animate-float hidden sm:block z-30">
@@ -170,14 +180,25 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto gap-8">
+    <!-- Loading Skeletons -->
+    <div *ngIf="isLoadingTeam() && teamMembers().length === 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto gap-8">
+      <div *ngFor="let s of [1,2,3]" class="glass-card overflow-hidden h-96 animate-pulse bg-slate-900/60 border border-white/10"></div>
+    </div>
+
+    <!-- Team Cards (Only renders real uploaded team members) -->
+    <div *ngIf="teamMembers().length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto gap-8">
       <div *ngFor="let m of teamMembers()" class="glass-card overflow-hidden group">
-        <div class="h-64 overflow-hidden relative">
+        <div class="h-64 overflow-hidden relative bg-slate-900 flex items-center justify-center">
           <img 
+            *ngIf="m.image"
             [src]="m.image" 
             [alt]="m.name" 
             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+          <div *ngIf="!m.image" class="w-full h-full flex flex-col items-center justify-center bg-slate-900/90 text-amber-400">
+            <span class="material-icons-round text-6xl opacity-70">person</span>
+            <span class="text-xs text-slate-400 mt-2 font-medium">Jai Sai Chauffeur</span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none"></div>
         </div>
 
         <div class="p-6">

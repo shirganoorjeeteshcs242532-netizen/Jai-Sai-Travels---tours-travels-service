@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   company = environment.company;
 
-  // Dynamic Cover Photo from Gallery Admin
-  coverPhotoUrl = signal<string>('/uploads/photo-1791458143672-606816611.jpeg');
+  // Dynamic Cover Photo from Gallery Admin (loaded from uploaded database photos with zero-flash cache)
+  coverPhotoUrl = signal<string>('');
 
   // Typing animation properties with initial default text
   typedText = signal<string>('Luxury Toyota Innova Crysta');
@@ -64,6 +64,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      try {
+        const cachedCover = localStorage.getItem('jst_cached_cover_url');
+        if (cachedCover) {
+          this.coverPhotoUrl.set(cachedCover);
+        }
+      } catch {}
+
       this.ngZone.runOutsideAngular(() => {
         this.startTypingEffect();
         this.animateCounters();
@@ -99,10 +106,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.success && res.data && res.data.length > 0) {
           const coverItem = res.data.find(item => item.isCover);
+          let finalUrl = '';
           if (coverItem && coverItem.url) {
-            this.coverPhotoUrl.set(this.resolveImageUrl(coverItem.url));
+            finalUrl = this.resolveImageUrl(coverItem.url);
           } else if (res.data[0]?.url) {
-            this.coverPhotoUrl.set(this.resolveImageUrl(res.data[0].url));
+            finalUrl = this.resolveImageUrl(res.data[0].url);
+          }
+          if (finalUrl) {
+            this.coverPhotoUrl.set(finalUrl);
+            if (isPlatformBrowser(this.platformId)) {
+              try {
+                localStorage.setItem('jst_cached_cover_url', finalUrl);
+              } catch {}
+            }
           }
         }
       }

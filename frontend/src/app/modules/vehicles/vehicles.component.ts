@@ -29,6 +29,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   ];
 
   fleet = signal<FleetShowcase | null>(null);
+  isLoadingFleet = signal<boolean>(true);
   activePhotoIndex = signal<number>(0);
   isZoomModalOpen = signal<boolean>(false);
 
@@ -45,29 +46,6 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   dragStartY = 0;
   initialPanX = 0;
   initialPanY = 0;
-
-  defaultVehiclePhotos: FleetPhoto[] = [
-    {
-      url: '/uploads/photo-1791458143672-606816611.jpeg',
-      title: 'Toyota Innova Crysta - Premium Wedding Convoy',
-      category: 'Exterior'
-    },
-    {
-      url: '/uploads/photo-1791534170531-29535222.jpeg',
-      title: 'Toyota Innova Crysta - Sleek Front Profile',
-      category: 'Dashboard'
-    },
-    {
-      url: '/uploads/photo-1791534244480-961044775.jpeg',
-      title: 'Toyota Innova Crysta - Hill Station Outstation Tour',
-      category: 'Exterior'
-    },
-    {
-      url: '/uploads/photo-1791534367128-460654916.jpeg',
-      title: 'Toyota Innova Crysta - Side Luxury Profile',
-      category: 'Dashboard'
-    }
-  ];
 
   defaultFeatures: FleetFeature[] = [
     {
@@ -97,6 +75,16 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    try {
+      const cached = localStorage.getItem('jst_fleet_cache');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.photos) {
+          this.fleet.set(parsed);
+        }
+      }
+    } catch {}
+
     this.loadFleet();
     this.startSlideshow();
   }
@@ -214,17 +202,21 @@ export class VehiclesComponent implements OnInit, OnDestroy {
             }));
           }
           this.fleet.set(fleetData);
+          try {
+            localStorage.setItem('jst_fleet_cache', JSON.stringify(fleetData));
+          } catch {}
         }
+        this.isLoadingFleet.set(false);
       },
       error: () => {
-        // Fallback to defaults
+        this.isLoadingFleet.set(false);
       }
     });
   }
 
   getPhotos(): FleetPhoto[] {
     const f = this.fleet();
-    return f && f.photos && f.photos.length > 0 ? f.photos : this.defaultVehiclePhotos;
+    return f && f.photos && Array.isArray(f.photos) ? f.photos : [];
   }
 
   getActivePhoto(): FleetPhoto {
