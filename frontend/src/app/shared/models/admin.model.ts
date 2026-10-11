@@ -18,6 +18,7 @@ export interface DashboardStats {
     pending: number;
     confirmed: number;
     completed: number;
+    cancelled?: number;
   };
   services: {
     total: number;

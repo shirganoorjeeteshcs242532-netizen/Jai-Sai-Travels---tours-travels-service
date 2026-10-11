@@ -6,6 +6,6 @@ export interface Booking {
   service: string;
   date: string | Date;
   message?: string;
-  status: 'pending' | 'confirmed' | 'completed';
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   createdAt?: string | Date;
 }

@@ -274,6 +274,7 @@ const getDashboardStats = async (req, res, next) => {
     const pendingBookings = await Booking.countDocuments({ status: 'pending' });
     const confirmedBookings = await Booking.countDocuments({ status: 'confirmed' });
     const completedBookings = await Booking.countDocuments({ status: 'completed' });
+    const cancelledBookings = await Booking.countDocuments({ status: 'cancelled' });
 
     const totalServices = await Service.countDocuments();
     const activeServices = await Service.countDocuments({ isActive: true });
@@ -291,7 +292,8 @@ const getDashboardStats = async (req, res, next) => {
           total: totalBookings,
           pending: pendingBookings,
           confirmed: confirmedBookings,
-          completed: completedBookings
+          completed: completedBookings,
+          cancelled: cancelledBookings
         },
         services: {
           total: totalServices,

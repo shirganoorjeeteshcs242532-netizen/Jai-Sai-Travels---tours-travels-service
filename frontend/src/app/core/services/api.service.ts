@@ -89,7 +89,7 @@ export class ApiService {
     return this.http.get<{ success: boolean; count: number; data: Booking[] }>(`${this.apiUrl}/bookings`, { params });
   }
 
-  updateBookingStatus(id: string, status: 'pending' | 'confirmed' | 'completed'): Observable<{ success: boolean; message: string; data: Booking }> {
+  updateBookingStatus(id: string, status: 'pending' | 'confirmed' | 'completed' | 'cancelled'): Observable<{ success: boolean; message: string; data: Booking }> {
     return this.http.put<{ success: boolean; message: string; data: Booking }>(`${this.apiUrl}/bookings/${id}`, { status });
   }
 

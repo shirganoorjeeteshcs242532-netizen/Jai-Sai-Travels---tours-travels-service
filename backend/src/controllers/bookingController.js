@@ -139,10 +139,10 @@ const updateBooking = async (req, res, next) => {
   try {
     const { status } = req.body;
 
-    if (!['pending', 'confirmed', 'completed'].includes(status)) {
+    if (!['pending', 'confirmed', 'completed', 'cancelled'].includes(status)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid status value. Must be pending, confirmed, or completed.'
+        message: 'Invalid status value. Must be pending, confirmed, completed, or cancelled.'
       });
     }
 
@@ -154,8 +154,8 @@ const updateBooking = async (req, res, next) => {
       );
 
       if (booking) {
-        // Send status email asynchronously to customer (confirmed, completed with greet, or pending)
-        if (booking.email) {
+        // Send status email asynchronously to customer & admin alert for cancellations
+        if (booking.email || status === 'cancelled') {
           sendBookingStatusEmail(booking, status).catch(mailErr => {
             console.error('📧 [StatusEmail] Error:', mailErr.message);
           });
@@ -175,7 +175,7 @@ const updateBooking = async (req, res, next) => {
     if (item) {
       item.status = status;
 
-      if (item.email) {
+      if (item.email || status === 'cancelled') {
         sendBookingStatusEmail(item, status).catch(mailErr => {
           console.error('📧 [StatusEmail] Error:', mailErr.message);
         });

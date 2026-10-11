@@ -247,14 +247,14 @@ const sendBookingNotification = async (booking) => {
 const sendBookingStatusEmail = async (booking, status) => {
   const customerEmail = booking.email ? booking.email.trim() : null;
 
-  if (!customerEmail) {
+  if (!customerEmail && status !== 'cancelled') {
     console.log(`ℹ️ [EmailService] No email for booking #${booking._id}. Skipping status email.`);
     return { success: false, reason: 'no_email' };
   }
 
   const transporter = createTransporter();
   if (!transporter) {
-    console.warn(`⚠️ [EmailService] SMTP not configured. Cannot send status email to ${customerEmail}.`);
+    console.warn(`⚠️ [EmailService] SMTP not configured. Cannot send status email to ${customerEmail || 'admin'}.`);
     return { success: false, reason: 'smtp_not_configured' };
   }
 
@@ -350,7 +350,7 @@ const sendBookingStatusEmail = async (booking, status) => {
       </div>
 
       <div style="background-color: rgba(245, 158, 11, 0.08); border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 6px; margin: 20px 0; color: #fde68a; font-size: 13px; line-height: 1.5;">
-        <strong>Plan Your Next Journey With Us:</strong> Save our helplines <strong>+91 9224395804 / +91 9702295804</strong> for your upcoming holiday tours, outstation trips, airport pickups, or family events!
+        <strong>Plan Your Next Journey With Us:</strong> Save our helplines <strong>+91 9224395804 / +91 7349521107</strong> for your upcoming holiday tours, outstation trips, airport pickups, or family events!
       </div>
     `;
     actionButtons = `
@@ -359,6 +359,37 @@ const sendBookingStatusEmail = async (booking, status) => {
       </a>
       <a href="https://wa.me/919224395804?text=Hello%20Jai%20Sai%20Travels,%20I%20would%20like%20to%20share%20my%20feedback%20for%20trip%20#JST-${bookingRef}" style="display: inline-block; background-color: #10b981; color: #ffffff; font-size: 14px; font-weight: 800; text-decoration: none; padding: 12px 24px; border-radius: 8px; margin: 5px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
         💬 Share on WhatsApp
+      </a>
+    `;
+  } else if (status === 'cancelled') {
+    subject = `❌ Booking Cancellation Confirmation (#JST-${bookingRef}) - Jai Sai Travels`;
+    badgeBg = 'rgba(244, 63, 94, 0.15)';
+    badgeBorder = '#f43f5e';
+    badgeColor = '#fb7185';
+    badgeText = '✕ TRIP CANCELLED AS REQUESTED';
+    headline = 'Your Booking Has Been Cancelled';
+    mainMessage = `
+      <p style="color: #94a3b8; font-size: 15px; line-height: 1.6; margin: 0 0 12px 0;">
+        Dear <strong>${booking.name}</strong>,
+      </p>
+      <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6; margin: 0 0 12px 0;">
+        This email confirms that your booking inquiry (#JST-${bookingRef}) for <strong style="color: #f59e0b;">${booking.service}</strong> scheduled on <strong style="color: #ffffff;">${formattedDate}</strong> has been <strong style="color: #fb7185;">CANCELLED</strong> as per your request / telephonic discussion.
+      </p>
+      <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6; margin: 0;">
+        No cancellation charges apply. We completely understand that plans and schedules can change. Whenever you plan your next outstation or city trip, our luxury Toyota Innova Crysta fleet is always ready for you!
+      </p>
+    `;
+    extraNotice = `
+      <div style="background-color: rgba(244, 63, 94, 0.1); border-left: 4px solid #f43f5e; padding: 14px 18px; border-radius: 6px; margin: 20px 0; color: #fecdd3; font-size: 14px; line-height: 1.5;">
+        <strong>Need to Re-Book or Reschedule?</strong> If you cancelled by mistake or have updated travel dates, simply call our 24/7 reservation team directly at <strong>+91 9224395804 / +91 7349521107</strong> or chat with us on WhatsApp.
+      </div>
+    `;
+    actionButtons = `
+      <a href="tel:+919224395804" style="display: inline-block; background-color: #f59e0b; color: #0f172a; font-size: 14px; font-weight: 800; text-decoration: none; padding: 12px 24px; border-radius: 8px; margin: 5px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+        📞 Call Helpline: +91 9224395804
+      </a>
+      <a href="https://wa.me/919224395804?text=Hello%20Jai%20Sai%20Travels,%20regarding%20my%20cancelled%20booking%20#JST-${bookingRef},%20I%20would%20like%20to%20rebook" style="display: inline-block; background-color: #10b981; color: #ffffff; font-size: 14px; font-weight: 800; text-decoration: none; padding: 12px 24px; border-radius: 8px; margin: 5px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+        💬 Re-book on WhatsApp
       </a>
     `;
   } else {
@@ -488,7 +519,7 @@ const sendBookingStatusEmail = async (booking, status) => {
                   Goregaon West, Mumbai 400104, Maharashtra, India
                 </p>
                 <p style="margin: 0;">
-                  Helplines: +91 9224395804 / +91 9702295804 • Email: jaisaitravels@rocketmail.com
+                  Helplines: +91 9224395804 / +91 7349521107 • Email: jaisaitravels@rocketmail.com
                 </p>
               </td>
             </tr>
@@ -502,19 +533,64 @@ const sendBookingStatusEmail = async (booking, status) => {
   `;
 
   try {
-    console.log(`📤 [EmailService] Sending [${status.toUpperCase()}] status update to customer: ${customerEmail}...`);
-    
-    const mailOptions = {
-      from: fromAddress,
-      replyTo: process.env.EMAIL_USER,
-      to: customerEmail,
-      subject,
-      html: statusHtml
-    };
+    if (customerEmail) {
+      console.log(`📤 [EmailService] Sending [${status.toUpperCase()}] status update to customer: ${customerEmail}...`);
+      
+      const mailOptions = {
+        from: fromAddress,
+        replyTo: process.env.EMAIL_USER,
+        to: customerEmail,
+        subject,
+        html: statusHtml
+      };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`✅ [EmailService] Status email (${status}) sent successfully! MessageId: ${info.messageId}`);
-    return { success: true, messageId: info.messageId };
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`✅ [EmailService] Status email (${status}) sent successfully to customer! MessageId: ${info.messageId}`);
+    }
+
+    // When status is cancelled, also send an alert to admin email (jaisaitravels@rocketmail.com)
+    if (status === 'cancelled') {
+      const adminRecipients = Array.from(new Set([
+        'jaisaitravels@rocketmail.com',
+        process.env.ADMIN_NOTIFICATION_EMAIL,
+        process.env.EMAIL_USER
+      ].filter(Boolean))).join(', ');
+
+      const adminCancelHtml = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f1f5f9; color: #1e293b;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; border-left: 6px solid #f43f5e; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <h2 style="color: #991b1b; margin-top: 0;">❌ Booking Cancelled Notification</h2>
+          <p style="font-size: 15px;">A booking inquiry has been marked as <strong>CANCELLED</strong> in the system:</p>
+          
+          <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+            <tr><td style="padding: 8px 0; font-weight: bold; width: 35%;">Booking Ref:</td><td style="padding: 8px 0; font-weight: bold; color: #0284c7;">#JST-${bookingRef}</td></tr>
+            <tr><td style="padding: 8px 0; font-weight: bold;">Customer Name:</td><td style="padding: 8px 0;">${booking.name}</td></tr>
+            <tr><td style="padding: 8px 0; font-weight: bold;">Contact Phone:</td><td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #0284c7; font-weight: bold;">${booking.phone}</a></td></tr>
+            <tr><td style="padding: 8px 0; font-weight: bold;">Customer Email:</td><td style="padding: 8px 0;">${customerEmail || 'Not provided by customer'}</td></tr>
+            <tr><td style="padding: 8px 0; font-weight: bold;">Service Package:</td><td style="padding: 8px 0; font-weight: bold; color: #d97706;">${booking.service}</td></tr>
+            <tr><td style="padding: 8px 0; font-weight: bold;">Scheduled Date:</td><td style="padding: 8px 0;">${formattedDate}</td></tr>
+            ${booking.message ? `<tr><td style="padding: 8px 0; font-weight: bold;">Original Notes:</td><td style="padding: 8px 0;">${booking.message}</td></tr>` : ''}
+          </table>
+
+          <div style="margin-top: 20px; padding: 12px; background-color: #fee2e2; border-radius: 6px; color: #991b1b; font-size: 13px;">
+            ℹ️ Trip cancelled on calls/admin. Customer notification has been dispatched to ${customerEmail || 'N/A'}.
+          </div>
+        </div>
+      </div>
+      `;
+
+      console.log(`📤 [EmailService] Sending cancellation alert to admin: ${adminRecipients}...`);
+      await transporter.sendMail({
+        from: fromAddress,
+        replyTo: customerEmail || process.env.EMAIL_USER,
+        to: adminRecipients,
+        subject: `❌ [Booking Cancelled] ${booking.name} (#JST-${bookingRef}) - Jai Sai Travels`,
+        html: adminCancelHtml
+      });
+      console.log(`✅ [EmailService] Admin cancellation alert sent successfully to ${adminRecipients}!`);
+    }
+
+    return { success: true };
   } catch (err) {
     console.error(`❌ [EmailService] Failed to send status update email: ${err.message}`);
     return { success: false, error: err.message };

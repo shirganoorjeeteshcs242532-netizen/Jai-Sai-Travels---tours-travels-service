@@ -38,8 +38,9 @@
       <div class="text-2xl sm:text-3xl font-black text-white">
         {{ stats()?.bookings?.total || bookings().length }}
       </div>
-      <div class="text-[11px] text-amber-400 font-semibold mt-1">
-        {{ stats()?.bookings?.pending || 0 }} Pending Review
+      <div class="text-[11px] text-amber-400 font-semibold mt-1 flex items-center gap-1.5 flex-wrap">
+        <span>{{ stats()?.bookings?.pending || 0 }} Pending Review</span>
+        <span *ngIf="stats()?.bookings?.cancelled" class="text-rose-400 font-medium">• {{ stats()?.bookings?.cancelled }} Cancelled</span>
       </div>
     </div>
 
@@ -153,6 +154,7 @@
           <option value="pending">Pending</option>
           <option value="confirmed">Confirmed</option>
           <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
         </select>
 
         <button (click)="loadBookings()" class="glass-btn glass-btn-outline !py-1.5 !px-2.5 text-xs" title="Refresh">
@@ -199,7 +201,8 @@
                 [ngClass]="{
                   'bg-amber-500/20 text-amber-400 border border-amber-500/30': b.status === 'pending',
                   'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30': b.status === 'confirmed',
-                  'bg-blue-500/20 text-blue-400 border border-blue-500/30': b.status === 'completed'
+                  'bg-blue-500/20 text-blue-400 border border-blue-500/30': b.status === 'completed',
+                  'bg-rose-500/20 text-rose-400 border border-rose-500/30': b.status === 'cancelled'
                 }">
                 {{ b.status }}
               </span>
@@ -213,7 +216,18 @@
                   <option value="pending">Pending</option>
                   <option value="confirmed">Confirmed</option>
                   <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
                 </select>
+
+                <!-- Quick Cancel Action Button -->
+                <button 
+                  *ngIf="b.status !== 'cancelled'"
+                  (click)="cancelBooking(b._id, b.name)" 
+                  class="flex items-center gap-1 px-2 py-1 rounded bg-rose-500/15 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 text-[11px] font-semibold transition-all"
+                  title="Cancel this booking (Sends cancellation email)">
+                  <span class="material-icons-round text-xs">close</span>
+                  <span>Cancel</span>
+                </button>
 
                 <!-- WhatsApp Action -->
                 <a 
@@ -231,14 +245,14 @@
                   [href]="getWhatsAppUrl(b)"
                   target="_blank"
                   class="p-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40"
-                  title="WhatsApp Passenger">
+                  [title]="b.status === 'cancelled' ? 'WhatsApp Cancellation Message' : 'WhatsApp Passenger'">
                   <span class="material-icons-round text-sm">chat</span>
                 </a>
 
                 <button 
                   (click)="deleteBooking(b._id)" 
                   class="p-1 rounded bg-rose-500/20 text-rose-300 hover:bg-rose-500/40"
-                  title="Delete">
+                  title="Delete Record">
                   <span class="material-icons-round text-sm">delete</span>
                 </button>
               </div>

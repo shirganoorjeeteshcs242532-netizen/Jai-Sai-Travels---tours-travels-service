@@ -190,16 +190,26 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  updateBookingStatus(id?: string, status?: 'pending' | 'confirmed' | 'completed'): void {
+  updateBookingStatus(id?: string, status?: 'pending' | 'confirmed' | 'completed' | 'cancelled'): void {
     if (!id || !status) return;
     this.apiService.updateBookingStatus(id, status).subscribe({
       next: () => {
-        this.notificationService.success(`Status updated to ${status}. Email notification sent to customer!`);
+        if (status === 'cancelled') {
+          this.notificationService.success('Booking marked as CANCELLED. Cancellation email sent to customer and jaisaitravels@rocketmail.com!');
+        } else {
+          this.notificationService.success(`Status updated to ${status}. Email notification sent!`);
+        }
         this.loadBookings();
         this.loadStats();
       },
       error: () => this.notificationService.error('Failed to update status.')
     });
+  }
+
+  cancelBooking(id?: string, name?: string): void {
+    if (!id) return;
+    if (!confirm(`Are you sure you want to cancel the booking for "${name || 'this customer'}"? A cancellation email will be sent immediately to the customer and jaisaitravels@rocketmail.com.`)) return;
+    this.updateBookingStatus(id, 'cancelled');
   }
 
   deleteBooking(id?: string): void {
@@ -226,6 +236,8 @@ export class AdminDashboardComponent implements OnInit {
     } else if (b.status === 'confirmed') {
       const travelDateStr = b.date ? new Date(b.date).toLocaleDateString('en-IN') : 'Scheduled Date';
       text = `Hello ${b.name}, your booking with Jai Sai Travels for ${b.service} on ${travelDateStr} is CONFIRMED! Chauffeur and vehicle details will be shared prior to pickup. For questions call: ${phones}.`;
+    } else if (b.status === 'cancelled') {
+      text = `Hello ${b.name}, your booking inquiry with Jai Sai Travels for ${b.service} has been CANCELLED as per your request. No cancellation charges apply. If you plan to travel again in the future, please contact us at ${phones}. Thank you!`;
     } else {
       text = `Hello ${b.name}, thank you for your booking inquiry with Jai Sai Travels for ${b.service}. How can we assist you with your travel details?`;
     }
