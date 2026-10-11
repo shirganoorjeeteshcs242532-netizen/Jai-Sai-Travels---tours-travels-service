@@ -11,8 +11,8 @@ const createTransporter = () => {
 
   const host = process.env.EMAIL_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.EMAIL_PORT, 10) || 587;
-  const user = process.env.EMAIL_USER;
-  const rawPass = process.env.EMAIL_PASS || '';
+  const user = process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com';
+  const rawPass = process.env.EMAIL_PASS || 'ndrrqedoyizpsbwv';
   const pass = rawPass.replace(/\s+/g, '');
 
   if (user && pass) {
@@ -61,7 +61,8 @@ const sendBookingNotification = async (booking) => {
   }) : 'To be confirmed';
 
   const bookingRef = booking._id ? String(booking._id).slice(-6).toUpperCase() : 'PENDING';
-  const fromAddress = process.env.EMAIL_FROM || `"Jai Sai Travels" <${process.env.EMAIL_USER}>`;
+  const senderUser = process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com';
+  const fromAddress = process.env.EMAIL_FROM || `"Jai Sai Travels" <${senderUser}>`;
 
   // HTML Template for Customer
   const customerHtml = `
@@ -211,7 +212,7 @@ const sendBookingNotification = async (booking) => {
     console.log(`📤 [EmailService] Sending confirmation to customer: ${customerEmail}...`);
     const customerInfo = await transporter.sendMail({
       from: fromAddress,
-      replyTo: process.env.EMAIL_USER,
+      replyTo: process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com',
       to: customerEmail,
       subject: `Booking Inquiry Confirmed (#JST-${bookingRef}) - Jai Sai Travels`,
       html: customerHtml
@@ -259,7 +260,8 @@ const sendBookingStatusEmail = async (booking, status) => {
   }
 
   const bookingRef = booking._id ? String(booking._id).slice(-6).toUpperCase() : 'BOOKING';
-  const fromAddress = process.env.EMAIL_FROM || `"Jai Sai Travels" <${process.env.EMAIL_USER}>`;
+  const senderUser = process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com';
+  const fromAddress = process.env.EMAIL_FROM || `"Jai Sai Travels" <${senderUser}>`;
   const formattedDate = booking.date ? new Date(booking.date).toLocaleDateString('en-IN', {
     weekday: 'long',
     year: 'numeric',
@@ -538,7 +540,7 @@ const sendBookingStatusEmail = async (booking, status) => {
       
       const mailOptions = {
         from: fromAddress,
-        replyTo: process.env.EMAIL_USER,
+        replyTo: process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com',
         to: customerEmail,
         subject,
         html: statusHtml
@@ -582,7 +584,7 @@ const sendBookingStatusEmail = async (booking, status) => {
       console.log(`📤 [EmailService] Sending cancellation alert to admin: ${adminRecipients}...`);
       await transporter.sendMail({
         from: fromAddress,
-        replyTo: customerEmail || process.env.EMAIL_USER,
+        replyTo: customerEmail || process.env.EMAIL_USER || 'jeeteshshirganoor1829@gmail.com',
         to: adminRecipients,
         subject: `❌ [Booking Cancelled] ${booking.name} (#JST-${bookingRef}) - Jai Sai Travels`,
         html: adminCancelHtml
