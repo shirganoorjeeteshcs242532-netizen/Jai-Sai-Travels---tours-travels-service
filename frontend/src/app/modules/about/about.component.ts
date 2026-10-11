@@ -62,6 +62,7 @@ export class AboutComponent implements OnInit, OnDestroy {
         const parsed = JSON.parse(cachedFleet);
         if (Array.isArray(parsed) && parsed.length > 0) {
           this.fleetPhotos.set(parsed);
+          this.isLoadingFleet.set(false);
         }
       }
       const cachedTeam = localStorage.getItem('jst_about_team');
@@ -69,6 +70,7 @@ export class AboutComponent implements OnInit, OnDestroy {
         const parsedTeam = JSON.parse(cachedTeam);
         if (Array.isArray(parsedTeam) && parsedTeam.length > 0) {
           this.teamMembers.set(parsedTeam);
+          this.isLoadingTeam.set(false);
         }
       }
     } catch {}

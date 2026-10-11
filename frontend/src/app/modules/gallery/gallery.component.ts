@@ -42,6 +42,7 @@ export class GalleryComponent implements OnInit {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
           this.galleryItems.set(parsed);
+          this.isLoading.set(false);
         }
       }
     } catch {}

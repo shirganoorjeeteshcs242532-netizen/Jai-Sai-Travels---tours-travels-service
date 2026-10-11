@@ -6,7 +6,7 @@ import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcru
 import { EncodeUriPipe } from '../../shared/pipes/encode-uri.pipe';
 import { ApiService } from '../../core/services/api.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { TravelService } from '../../shared/models/service.model';
+import { TravelService, DEFAULT_SERVICES } from '../../shared/models/service.model';
 import { SettingsService } from '../../core/services/settings.service';
 import { environment } from '../../../environments/environment';
 
@@ -27,8 +27,8 @@ export class ServicesComponent implements OnInit {
     { label: 'Our Services' }
   ];
 
-  services = signal<TravelService[]>([]);
-  isLoading = signal<boolean>(true);
+  services = signal<TravelService[]>(DEFAULT_SERVICES);
+  isLoading = signal<boolean>(false);
 
   // Service Booking Modal
   isModalOpen = signal<boolean>(false);
@@ -44,15 +44,27 @@ export class ServicesComponent implements OnInit {
   isSubmitting = signal<boolean>(false);
 
   ngOnInit(): void {
+    try {
+      const cached = localStorage.getItem('jst_services_cache');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.services.set(parsed);
+        }
+      }
+    } catch {}
+
     this.loadServices();
   }
 
   loadServices(): void {
-    this.isLoading.set(true);
     this.apiService.getServices().subscribe({
       next: (res) => {
-        if (res.success && res.data) {
+        if (res.success && res.data && res.data.length > 0) {
           this.services.set(res.data);
+          try {
+            localStorage.setItem('jst_services_cache', JSON.stringify(res.data));
+          } catch {}
         }
         this.isLoading.set(false);
       },

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { TravelService } from '../../shared/models/service.model';
+import { TravelService, DEFAULT_SERVICES } from '../../shared/models/service.model';
 import { SettingsService } from '../../core/services/settings.service';
 import { environment } from '../../../environments/environment';
 
@@ -46,9 +46,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   statClients = signal<number>(250);
   statRating = signal<string>('4.9');
 
-  // Featured services
-  featuredServices = signal<TravelService[]>([]);
-  isLoadingServices = signal<boolean>(true);
+  // Featured services initialized with default services for instant 0ms render
+  featuredServices = signal<TravelService[]>(DEFAULT_SERVICES);
+  isLoadingServices = signal<boolean>(false);
 
   // Quick inquiry form
   quickBooking = {
@@ -68,6 +68,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         const cachedCover = localStorage.getItem('jst_cached_cover_url');
         if (cachedCover) {
           this.coverPhotoUrl.set(cachedCover);
+        }
+        const cachedServices = localStorage.getItem('jst_services_cache');
+        if (cachedServices) {
+          const parsedServices = JSON.parse(cachedServices);
+          if (Array.isArray(parsedServices) && parsedServices.length > 0) {
+            this.featuredServices.set(parsedServices.slice(0, 6));
+          }
         }
       } catch {}
 
@@ -179,8 +186,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadFeaturedServices(): void {
     this.apiService.getServices().subscribe({
       next: (res) => {
-        if (res.success && res.data) {
+        if (res.success && res.data && res.data.length > 0) {
           this.featuredServices.set(res.data.slice(0, 6));
+          if (isPlatformBrowser(this.platformId)) {
+            try {
+              localStorage.setItem('jst_services_cache', JSON.stringify(res.data));
+            } catch {}
+          }
         }
         this.isLoadingServices.set(false);
       },
